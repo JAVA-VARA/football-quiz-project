@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"><head>
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+<body>
+
+<div th:each="team : ${teamCategories}">
+
+
+    <div>
+        <img th:src="${team.getTeamEmblem()}" style="max-width: 400px; max-height: 400px;" alt="지원하지 않는 파일">
+        <div th:text="${team.getTeamName() }"></div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
