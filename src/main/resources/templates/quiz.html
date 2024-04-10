@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+여기에 퀴즈를 낼겁니다
+
+<div th:each="question : ${quiz}">
+    <div>
+        <img th:src="${question.getQuestion()}" style="max-width: 400px; max-height: 400px;" alt="지원하지 않는 파일">
+        <div th:text="${question.getAnswer()}"></div>
+
+    </div>
+
+
+</div>
+</body>
+</html>
