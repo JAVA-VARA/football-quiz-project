@@ -1,6 +1,5 @@
 package com.example.footballquizproject.controller;
 
-import com.example.footballquizproject.domain.TeamCategory;
 import com.example.footballquizproject.dto.GameCategoryDto;
 import com.example.footballquizproject.dto.TeamCategoryDto;
 import com.example.footballquizproject.service.GameCategoryService;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller

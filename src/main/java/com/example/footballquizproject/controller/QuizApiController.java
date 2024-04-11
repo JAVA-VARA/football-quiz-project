@@ -16,10 +16,9 @@ public class QuizApiController {
     private final QuizService quizService;
 
     @GetMapping("/quiz")
-    public String showQuiz(@RequestParam String teamName, Model model) {
-
-        List<QuizDto> quiz =  quizService.pick20PlayersByTeamName(teamName);
-        model.addAttribute("quiz", quiz);
+    public String showQuiz(@RequestParam String teamName, Model model){
+        List<QuizDto> quizList =  quizService.pick20PlayersByTeamName(teamName);
+        model.addAttribute("quizListSet", quizList);
 
         return "quiz";
     }

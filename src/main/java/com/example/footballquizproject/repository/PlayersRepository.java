@@ -2,11 +2,12 @@ package com.example.footballquizproject.repository;
 
 import com.example.footballquizproject.domain.Players;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
 public interface PlayersRepository extends JpaRepository<Players, Long> {
-    List<Players> findByTeamTeamName(String teamName);
-
-
+    @Query(value = "SELECT * FROM players WHERE team_name = :teamName ORDER BY RAND() LIMIT 20", nativeQuery = true)
+    List<Players> findRandomPlayersByTeamName(@Param("teamName") String teamName);
 }
