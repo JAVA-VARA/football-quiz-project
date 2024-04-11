@@ -1,20 +1,96 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-여기에 퀴즈를 낼겁니다
-
-<div th:each="question : ${quiz}">
-    <div>
-        <img th:src="${question.getQuestion()}" style="max-width: 400px; max-height: 400px;" alt="지원하지 않는 파일">
-        <div th:text="${question.getAnswer()}"></div>
-
+<div class="quiz-container">
+    <div class="question-number">문제
+        <span id="questionNumber"></span>
     </div>
 
 
+    <img id="quizImage" class="quiz-image" src="" alt="Quiz Image">
+    <div>
+        <input id="answerInput" class="answer-input" type="text" placeholder="Enter your answer">
+    </div>
+
+    <div>
+        <button id="submitBtn" class="submit-btn" onclick="checkAnswer()">Submit</button>
+    </div>
+
+
+    <div>
+        <div id="result" class="result"></div>
+    </div>
+
+    <div>
+        <button id="nextBtn" class="next-btn" onclick="nextQuestion()" style="display: none;">다음</button>
+    </div>
+
+
+
 </div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var currentQuestionIndex = 0;
+    let countCorrectAnswer = 0;
+    var quizList = /*[[${quizListSet}]]*/ null;
+
+    function displayQuestion() {
+        document.getElementById("questionNumber").textContent = currentQuestionIndex + 1;
+        document.getElementById("quizImage").src = quizList[currentQuestionIndex].question;
+    }
+
+    function checkAnswer() {
+
+        let answer = document.getElementById("answerInput").value;
+        let correctAnswer = quizList[currentQuestionIndex].answer;
+
+
+        //정답 확인
+        let isCorrect = answer === correctAnswer;
+
+        let resultMsg;
+        if(isCorrect){
+            countCorrectAnswer++;
+            resultMsg = "정답";
+        }else {
+            resultMsg = "오답" +  correctAnswer;
+
+        }
+
+        document.getElementById("result").textContent = resultMsg;
+        document.getElementById("submitBtn").style.display = "none"; // submit 버튼 숨기기
+        document.getElementById("nextBtn").style.display = "block"; // next 버튼 보이기
+    }
+
+    function nextQuestion(){
+        //다음문제로 넘어가기
+        if (currentQuestionIndex < quizList.length - 1) {
+            currentQuestionIndex++;
+
+            displayQuestion();
+            document.getElementById("result").textContent = ""; // 결과 메시지 초기화
+            document.getElementById("answerInput").value = ""; // 입력 필드 초기화
+            document.getElementById("submitBtn").style.display = "block"; // submit 버튼 보이기
+            document.getElementById("nextBtn").style.display = "none"; // next 버튼 숨기기
+        }else {
+
+            //TO-DO: 퀴즈 끝나면 RESULT PAGE로 FECTCH 요청 countCorrectAnswer 도 함께 보내 유저의 퀴즈 결과에 대한 안내를 한다.
+            alert("퀴즈 끝")
+            console.log(countCorrectAnswer);
+        }
+    }
+
+    // 페이지 로드 시 첫번째 문제 표시
+    window.onload = function () {
+        displayQuestion();
+    };
+
+    /*]]>*/
+</script>
 </body>
 </html>
