@@ -30,7 +30,6 @@
     </div>
 
 
-
 </div>
 
 <script th:inline="javascript">
@@ -54,11 +53,11 @@
         let isCorrect = answer === correctAnswer;
 
         let resultMsg;
-        if(isCorrect){
+        if (isCorrect) {
             countCorrectAnswer++;
             resultMsg = "정답";
-        }else {
-            resultMsg = "오답" +  correctAnswer;
+        } else {
+            resultMsg = "오답" + correctAnswer;
 
         }
 
@@ -67,7 +66,7 @@
         document.getElementById("nextBtn").style.display = "block"; // next 버튼 보이기
     }
 
-    function nextQuestion(){
+    function nextQuestion() {
         //다음문제로 넘어가기
         if (currentQuestionIndex < quizList.length - 1) {
             currentQuestionIndex++;
@@ -77,12 +76,39 @@
             document.getElementById("answerInput").value = ""; // 입력 필드 초기화
             document.getElementById("submitBtn").style.display = "block"; // submit 버튼 보이기
             document.getElementById("nextBtn").style.display = "none"; // next 버튼 숨기기
-        }else {
+
+        } else {
+            alert("퀴즈 끝");
 
             //TO-DO: 퀴즈 끝나면 RESULT PAGE로 FECTCH 요청 countCorrectAnswer 도 함께 보내 유저의 퀴즈 결과에 대한 안내를 한다.
-            alert("퀴즈 끝")
-            console.log(countCorrectAnswer);
+            sendQuizResult(countCorrectAnswer);
         }
+    }
+
+    function sendQuizResult(correctAnswers) {
+        fetch('/result', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({correctAnswers: correctAnswers}),
+        })
+
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text(); // 결과 페이지 HTML 내용을 받음
+            })
+            .then(html => {
+                // 결과 페이지를 현재 창에 렌더링
+                document.body.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+
+
     }
 
     // 페이지 로드 시 첫번째 문제 표시

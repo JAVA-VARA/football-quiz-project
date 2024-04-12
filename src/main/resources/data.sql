@@ -35,11 +35,11 @@ INSERT INTO players(name, image_url, team_name) values
 INSERT INTO game_category(category_id,category_name, category_description, category_thumbnail ) values
 (1, '축구 선수 사진 보고 이름 맞추기', '축구 선수 사진을 보고 이름을 맞춰봐' , 'http://dummyimage.com/238x100.png/ff4444/ffffff');
 
-INSERT INTO alias_category(alias, corrected_answer) values
-('뉴비' , 0),
-('패션' , 5),
-('애매' , 10),
-('썩은물' , 15),
-('폐인' , 20);
+INSERT INTO alias_category(alias, min_correct_answers, max_correct_answers) values
+('뉴비' , 0 , 5),
+('패션' , 6 , 10),
+('라이트팬',11 , 15),
+('고인물', 16, 19),
+('썩은물', 20, 20);
 
 
