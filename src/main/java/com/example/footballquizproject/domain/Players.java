@@ -14,7 +14,7 @@ public class Players {
     @Column(nullable = false) String name;
     @Column(nullable = false) String imageUrl;
 
-    @ManyToOne @JoinColumn(name = "teamName")
+    @ManyToOne @JoinColumn(name = "team_name")
     private TeamCategory team;
 
 

@@ -11,6 +11,4 @@ public class TeamCategoryDto {
 
     private String teamName;
     private String teamEmblem;
-    private String league;
-    private String leagueEmblem;
 }

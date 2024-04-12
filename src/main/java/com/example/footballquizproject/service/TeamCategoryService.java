@@ -21,7 +21,7 @@ public class TeamCategoryService {
         List<TeamCategoryDto> teamCategories = new ArrayList<>();
 
         for(TeamCategory teamCategory: teamCategoryList){
-            TeamCategoryDto teamCategoryDto = new TeamCategoryDto(teamCategory.getTeamName(), teamCategory.getTeamEmblem(), teamCategory.getLeague(), teamCategory.getLeagueEmblem());
+            TeamCategoryDto teamCategoryDto = new TeamCategoryDto(teamCategory.getTeamName(), teamCategory.getTeamEmblem());
             teamCategories.add(teamCategoryDto);
 
         }

@@ -11,11 +11,10 @@ public class TeamCategory {
     @Id private String teamName;
 
     @Column private String teamEmblem;
-    @Column private String league;
-    @Column private String leagueEmblem;
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Players> playersList;
 
-
+    @ManyToOne @JoinColumn(name = "league")
+    private LeagueCategory league;
 }
