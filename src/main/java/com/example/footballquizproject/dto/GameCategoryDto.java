@@ -11,6 +11,7 @@ public class GameCategoryDto {
 
     private String categoryName;
     private String thumbnail;
+    private String categoryUrl;
 
 
 }

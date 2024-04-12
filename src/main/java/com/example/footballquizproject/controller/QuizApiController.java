@@ -20,7 +20,7 @@ public class QuizApiController {
     private final QuizService quizService;
     private final ResultService resultService;
 
-    @GetMapping("/quiz")
+    @GetMapping("/quiz/who-are-you/select-team/start")
     public String showQuiz(@RequestParam String teamName, Model model){
         List<QuizDto> quizList =  quizService.pick20PlayersByTeamName(teamName);
         model.addAttribute("quizListSet", quizList);
@@ -28,7 +28,7 @@ public class QuizApiController {
         return "quiz";
     }
 
-    @PostMapping("/result")
+    @PostMapping("/quiz/result")
     public String showResult(@RequestBody QuizResultRequestDto request, Model model){
 
         int correctAnswers = request.getCorrectAnswers();

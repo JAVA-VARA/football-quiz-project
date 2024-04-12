@@ -13,7 +13,9 @@
 
     <img id="quizImage" class="quiz-image" src="" alt="Quiz Image">
     <div>
-        <input id="answerInput" class="answer-input" type="text" placeholder="Enter your answer">
+        <label for="answerInput">
+            <input id="answerInput" class="answer-input" type="text" placeholder="Enter your answer">
+        </label>
     </div>
 
     <div>
@@ -86,7 +88,7 @@
     }
 
     function sendQuizResult(correctAnswers) {
-        fetch('/result', {
+        fetch('/quiz/result', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
