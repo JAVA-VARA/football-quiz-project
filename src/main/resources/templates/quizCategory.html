@@ -3,18 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .category-container {
+            margin-top: 50px;
+        }
+
+        .category-item {
+            display: inline-block;
+            margin: 20px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-thumbnail {
+            max-width: 400px;
+            max-height: 400px;
+            margin-bottom: 10px;
+        }
+
+        .category-name {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-
-<div th:each="category : ${categories}">
-    <form th:action="@{/quiz{categoryUrl} (categoryUrl = ${category.getCategoryUrl()})}" th:method="GET">
-
-        <button type="submit" style="border: none; background: none; cursor: pointer;">
-            <img th:src="${category.getThumbnail()}" style="max-width: 400px; max-height: 400px;" alt="지원하지 않는 파일">
-            <div th:text="${category.getCategoryName()}"></div>
-        </button>
-
-    </form>
+<div class="category-container">
+    <div th:each="category : ${categories}" class="category-item">
+        <form th:action="@{/quiz{categoryUrl} (categoryUrl = ${category.getCategoryUrl()})}" th:method="GET">
+            <button type="submit" style="border: none; background: none; cursor: pointer;">
+                <img th:src="${category.getThumbnail()}" class="category-thumbnail" alt="지원하지 않는 파일">
+                <div class="category-name" th:text="${category.getCategoryName()}"></div>
+            </button>
+        </form>
+    </div>
 </div>
 </body>
 </html>

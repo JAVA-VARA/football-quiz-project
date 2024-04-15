@@ -2,36 +2,83 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .quiz-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .question-number {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .quiz-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .answer-input {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .submit-btn,
+        .next-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .result {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .next-btn {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 <div class="quiz-container">
-    <div class="question-number">문제
-        <span id="questionNumber"></span>
-    </div>
-
-
+    <div class="question-number">문제 <span id="questionNumber"></span></div>
     <img id="quizImage" class="quiz-image" src="" alt="Quiz Image">
     <div>
-        <label for="answerInput">
-            <input id="answerInput" class="answer-input" type="text" placeholder="Enter your answer">
-        </label>
+        <input id="answerInput" class="answer-input" type="text" placeholder="Enter your answer">
     </div>
-
     <div>
         <button id="submitBtn" class="submit-btn" onclick="checkAnswer()">Submit</button>
     </div>
-
-
+    <div id="result" class="result"></div>
     <div>
-        <div id="result" class="result"></div>
+        <button id="nextBtn" class="next-btn" onclick="nextQuestion()">Next</button>
     </div>
-
-    <div>
-        <button id="nextBtn" class="next-btn" onclick="nextQuestion()" style="display: none;">다음</button>
-    </div>
-
-
 </div>
 
 <script th:inline="javascript">
@@ -59,7 +106,9 @@
             countCorrectAnswer++;
             resultMsg = "정답";
         } else {
-            resultMsg = "오답" + correctAnswer;
+            resultMsg =
+                `오답!!!
+                정답은`  + correctAnswer + "입니다";
 
         }
 

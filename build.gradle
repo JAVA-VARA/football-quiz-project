@@ -38,6 +38,9 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'
 
+    //web crawling
+    implementation 'org.jsoup:jsoup:1.15.3'
+
 
     //test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
