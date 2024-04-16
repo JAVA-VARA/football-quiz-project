@@ -20,7 +20,7 @@ public class QuizApiController {
     private final QuizService quizService;
     private final ResultService resultService;
 
-    @GetMapping("/quiz/who-are-you/select-team/start")
+    @GetMapping("/quiz/who-are-you/select-team")
     public String showQuiz(@RequestParam String teamName, Model model){
         List<QuizDto> quizList =  quizService.pick20PlayersByTeamName(teamName);
         model.addAttribute("quizListSet", quizList);

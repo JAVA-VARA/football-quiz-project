@@ -31,6 +31,7 @@ public class WebCrawlingPlayersService {
     private static final String team_name = "아틀레티코 마드리드";
 
     @Transactional
+//    @PostConstruct
     public List<Players> getPlayersInfo() throws IOException {
 
         TeamCategory team = teamCategoryRepository.findTeamCategoriesByTeamName(team_name);
@@ -74,73 +75,14 @@ public class WebCrawlingPlayersService {
         }
         playersRepository.saveAll(playersInfo);
 
+        /*TO-DO: 받아온 URL IMAGE를 다운로드
+        * */
+
+
         return playersInfo;
     }
 
 }
-//
-//    // img 클래스가 "CVF0kzUU"인 모든 이미지 요소 선택 => 선수 사진 저장되어 있음. attr("src")
-//    Elements imgElements = doc.select("img.CVF0kzUU");
-//
-//    // a 클래스가 "b8VqAR6G"인 모든  요소 선택 => 선수 이름 저장되어 있음. attr("title")
-//    Elements playersName = doc.select("a.b8VqAR6G");
-//
-//        for (int i = 0; i < imgElements.size(); i++) {
-//        Element imgElement = imgElements.get(i);
-//        Element playerName = playersName.get(i);
-//
-//        String imageUrl = imgElement.attr("src");
-//        String name = playerName.attr("title");
-//
-//        Players player = Players.builder()
-//        .imageUrl(imageUrl) // 이미지 링크
-//        .name(name)        // 이름
-//        .build();
-//
-//        // Players 객체를 리스트에 추가합니다.
-//        playersInfo.add(player);
-//
-//
-//
-//        }
-
-// 테이블 클래스가 "_1W4KUSzU"로 시작하는 요소 선택
-//        Element table = doc.selectFirst("div[class=BFgp7eXo]");
-
-//        Element table = doc.select("table[class=_1W4KUSzU_0171955f146ebd53531f53d883e96584]");
-
-
-// div 클래스가 "dkYV+6r2"인 요소 선택
-//        assert table != null;
-//        assert table != null;
-//        Elements divs = table.getClass("div[class=dkYV+6r2]");
-//        Elements span1 = divs.select("span[class=Z1BL0yTj]");
-//        Elements a = span1.select("a[class=b8VqAR6G]"); //여기서 title 값이 선수 이름
-//        Elements span2 = a.select("span[class=Z1BL0yTj]");
-
-
-
-//        for (Element div : divs) {
-//            // a 클래스가 "b8VqAR6G"인 요소 선택
-//            Elements links = span.select("img[class=CVF0kzUU]");
-//
-//            // 선택된 링크 출력
-//            for (Element link : links) {
-//                String src = link.attr("src");
-//                System.out.println("Href: " + src);
-//
-//                Players player = Players.builder()
-//                        .imageUrl(src) // 이미지 링크
-//                        .name(src)        // 이름
-//                        .build();
-//
-//                // Players 객체를 리스트에 추가합니다.
-//                playersInfo.add(player);
-//
-//            }
-//        }
-
-
 
 
 
