@@ -9,7 +9,10 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class QuizResultRequestDto {
-    private int correctAnswers;
-    private String team;
+public class RankingDto {
+
+    private int rank;
+    private int totalParticipantsByTeam;
+
+
 }

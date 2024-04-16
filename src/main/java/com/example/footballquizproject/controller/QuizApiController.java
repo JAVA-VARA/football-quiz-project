@@ -24,7 +24,7 @@ public class QuizApiController {
     public String showQuiz(@RequestParam String teamName, Model model){
         List<QuizDto> quizList =  quizService.pick20PlayersByTeamName(teamName);
         model.addAttribute("quizListSet", quizList);
-
+        model.addAttribute("team", teamName);
         return "quiz";
     }
 
@@ -32,11 +32,15 @@ public class QuizApiController {
     public String showResult(@RequestBody QuizResultRequestDto request, Model model){
 
         int correctAnswers = request.getCorrectAnswers();
+        String team = request.getTeam();
 
+        resultService.saveQuizHistory(correctAnswers,  team);
         String level = resultService.determineResult(correctAnswers);
+        int ranking = resultService.quizRankingByTeam(correctAnswers, team);
 
         model.addAttribute("correctAnswers", correctAnswers);
         model.addAttribute("level", level);
+        model.addAttribute("ranking", ranking);
 
         return "result";
     }

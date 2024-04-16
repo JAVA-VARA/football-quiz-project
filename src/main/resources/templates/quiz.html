@@ -72,13 +72,16 @@
     <div>
         <input id="answerInput" class="answer-input" type="text" placeholder="Enter your answer">
     </div>
+
     <div>
         <button id="submitBtn" class="submit-btn" onclick="checkAnswer()">Submit</button>
     </div>
     <div id="result" class="result"></div>
+
     <div>
         <button id="nextBtn" class="next-btn" onclick="nextQuestion()">Next</button>
     </div>
+
 </div>
 
 <script th:inline="javascript">
@@ -86,8 +89,9 @@
     var currentQuestionIndex = 0;
     let countCorrectAnswer = 0;
     var quizList = /*[[${quizListSet}]]*/ null;
+    var team = /*[[${team}]]*/  null;
 
-    function displayQuestion() {
+        function displayQuestion() {
         document.getElementById("questionNumber").textContent = currentQuestionIndex + 1;
         document.getElementById("quizImage").src = quizList[currentQuestionIndex].question;
     }
@@ -108,7 +112,7 @@
         } else {
             resultMsg =
                 `오답!!!
-                정답은`  + correctAnswer + "입니다";
+                정답은` + correctAnswer + "입니다";
 
         }
 
@@ -132,17 +136,21 @@
             alert("퀴즈 끝");
 
             //TO-DO: 퀴즈 끝나면 RESULT PAGE로 FECTCH 요청 countCorrectAnswer 도 함께 보내 유저의 퀴즈 결과에 대한 안내를 한다.
-            sendQuizResult(countCorrectAnswer);
+            sendQuizResult(countCorrectAnswer, team);
         }
     }
 
-    function sendQuizResult(correctAnswers) {
+    function sendQuizResult(correctAnswers, team) {
         fetch('/quiz/result', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({correctAnswers: correctAnswers}),
+            body: JSON.stringify({
+                correctAnswers: correctAnswers,
+                team: team
+
+            }),
         })
 
             .then(response => {
