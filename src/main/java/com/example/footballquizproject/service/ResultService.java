@@ -2,6 +2,7 @@ package com.example.footballquizproject.service;
 
 import com.example.footballquizproject.domain.AliasCategory;
 import com.example.footballquizproject.domain.QuizHistory;
+import com.example.footballquizproject.dto.RankingDto;
 import com.example.footballquizproject.repository.AliasCategoryRepository;
 import com.example.footballquizproject.repository.QuizHistoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,22 +38,25 @@ public class ResultService {
 
     }
 
-    public int quizRankingByTeam(int userCorrectAnswers, String team) {
+    public RankingDto quizRankingByTeam(int userCorrectAnswers, String team) {
 
         List<QuizHistory> quizTotalParticipantsByTeam = quizHistoryRepository.findByTeam(team);
+        RankingDto rankingDto = new RankingDto();
         int totalParticipants = quizTotalParticipantsByTeam.size();
+        rankingDto.setTotalParticipantsByTeam(totalParticipants);
 
         // 1. 정렬: 내림차순으로 정렬
         quizTotalParticipantsByTeam.sort((a, b) -> Integer.compare(b.getCorrectAnswer(), a.getCorrectAnswer()));
 
         //2 랭킹 반환
+        // *T0-DO: 이진 탐색으로 변경해서 성능을 좋게 만들자.
         int rank = 1;
         for (QuizHistory participant : quizTotalParticipantsByTeam) {
 
             if(quizTotalParticipantsByTeam.get(0).getCorrectAnswer() <= userCorrectAnswers){
-                return rank;
+                rankingDto.setRank(rank);
+                return rankingDto;
             }
-
             if (participant.getCorrectAnswer() != userCorrectAnswers) {
                 rank += 1;
 
@@ -60,7 +64,7 @@ public class ResultService {
                 break;
             }
         }
-        return rank;
+        return rankingDto;
     }
 }
 
