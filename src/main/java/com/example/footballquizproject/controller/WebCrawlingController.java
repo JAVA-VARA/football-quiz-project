@@ -23,7 +23,7 @@ public class WebCrawlingController {
         }
 
         for(EPLClubsSqudURL E : EPLClubsSqudURL.values()){
-            collectPremierLeaguePlayers.PremierLeaguePlayersData(E.getUrl());
+            collectPremierLeaguePlayers.PremierLeaguePlayersData(E);
         }
     }
 }

@@ -2,6 +2,7 @@ package com.example.footballquizproject.service;
 
 import com.example.footballquizproject.domain.Players;
 import com.example.footballquizproject.domain.TeamCategory;
+import com.example.footballquizproject.enumPack.EPLClubsSqudURL;
 import com.example.footballquizproject.repository.PlayersRepository;
 import com.example.footballquizproject.repository.TeamCategoryRepository;
 import com.example.footballquizproject.util.WebDriverUtil;
@@ -16,22 +17,20 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CollectPremierLeaguePlayers {
+public class CollectPremierLeaguePlayers  {
 
     private final TeamCategoryRepository teamCategoryRepository;
     private final PlayersRepository playersRepository;
     private final WebDriverUtil webDriverUtil;
 
-    public void PremierLeaguePlayersData(String URL) throws InterruptedException {
 
-        WebDriver driver = webDriverUtil.connectingDriver(URL);
+    public void PremierLeaguePlayersData(EPLClubsSqudURL epl) throws InterruptedException {
+
+        WebDriver driver = webDriverUtil.connectingDriver(epl.getUrl());
         webDriverUtil.scrollDriver(driver);
 
-        String PLAYER_IMAGE_URL_SELECTOR = "#mainContent > div.wrapper.col-12 > div > ul > div > ul > li > a > div > div.stats-card__top-section > div > img.statCardImg.statCardPlayer";
-        String TEAM_SELECTOR = "#mainContent > header > div.club-header__content > div > h2";
-
-        List<WebElement> elementsPlayers = driver.findElements(By.cssSelector(PLAYER_IMAGE_URL_SELECTOR));
-        List<WebElement> elementsTeam = driver.findElements(By.cssSelector(TEAM_SELECTOR));
+        List<WebElement> elementsPlayers = driver.findElements(By.cssSelector(epl.getImageCssSelector()));
+        List<WebElement> elementsTeam = driver.findElements(By.cssSelector(epl.getNameCssSelector()));
 
         List<Players> playersInfoList = savePlayersData(elementsPlayers,elementsTeam);
 
@@ -66,4 +65,7 @@ public class CollectPremierLeaguePlayers {
         String teamName = elements.get(0).getText();
         return teamCategoryRepository.findTeamCategoriesByTeamName(teamName);
     }
+
+
+
 }
