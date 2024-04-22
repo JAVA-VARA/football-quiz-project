@@ -1,12 +1,17 @@
 package com.example.footballquizproject.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
-@Getter
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class TeamCategory {
     @Id private String teamName;
 
@@ -17,4 +22,11 @@ public class TeamCategory {
 
     @ManyToOne @JoinColumn(name = "league")
     private LeagueCategory league;
+
+    @Builder
+    public TeamCategory(String teamName, String teamEmblem, LeagueCategory league){
+        this.teamName = teamName;
+        this.teamEmblem = teamEmblem;
+        this.league =   league;
+    }
 }
