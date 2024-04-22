@@ -8,20 +8,25 @@ import com.example.footballquizproject.service.ResultService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+// Restful API
+// resource => 자원
+// GET /find-user-by-id
+// GET users/:userId
+//
+// GET /find-boards-by-userid-pick-top10
+// GET /users/:userId/boards?limit=10
 
-@Controller
+@Controller()
+@RequestMapping("/quizzes")
 @RequiredArgsConstructor
 public class QuizApiController {
     private final QuizService quizService;
     private final ResultService resultService;
 
-    @GetMapping("/quiz/who-are-you/select-team")
+    @GetMapping("/who-are-you/select-team")
     public String showQuiz(@RequestParam String teamName, Model model) {
         List<QuizDto> quizList = quizService.pick20PlayersByTeamName(teamName);
         model.addAttribute("quizListSet", quizList);
@@ -29,7 +34,7 @@ public class QuizApiController {
         return "quiz";
     }
 
-    @PostMapping("/quiz/result")
+    @PostMapping("/result")
     public String showResult(@RequestBody QuizResultRequestDto request, Model model) {
 
         int correctAnswers = request.getCorrectAnswers();
