@@ -19,27 +19,31 @@ INSERT INTO alias_category(alias, min_correct_answers, max_correct_answers) valu
 ('고인물', 16, 19),
 ('썩은물', 20, 20);
 
-INSERT INTO league_category(league_emblem, league) values
-('https://upload.wikimedia.org/wikipedia/ko/thumb/7/73/%ED%94%84%EB%A6%AC%EB%AF%B8%EC%96%B4%EB%A6%AC%EA%B7%B8_%EB%A1%9C%EA%B3%A0.png/375px-%ED%94%84%EB%A6%AC%EB%AF%B8%EC%96%B4%EB%A6%AC%EA%B7%B8_%EB%A1%9C%EA%B3%A0.png', 'Premier League'
-);
+--INSERT INTO league_category(league_emblem, league) values
+--('https://upload.wikimedia.org/wikipedia/ko/thumb/7/73/%ED%94%84%EB%A6%AC%EB%AF%B8%EC%96%B4%EB%A6%AC%EA%B7%B8_%EB%A1%9C%EA%B3%A0.png/375px-%ED%94%84%EB%A6%AC%EB%AF%B8%EC%96%B4%EB%A6%AC%EA%B7%B8_%EB%A1%9C%EA%B3%A0.png', 'Premier League'
+--);
 
 
---insert into league_category(league, league_emblem) values
---('Laliga', 'http://dummyimage.com/238x100.png/ff4444/ffffff'),
---('프리미어리그', 'http://dummyimage.com/238x100.png/ff4444/ffffff'),
---('세리에', 'http://dummyimage.com/238x100.png/ff4444/ffffff'),
---('분데스리가', 'http://dummyimage.com/238x100.png/ff4444/ffffff');
+insert into league_category(league, league_emblem) values
+('PREMIER_LEAGUE', 'https://i.namu.wiki/i/bTqmNqULpeMYzTEaTy9qLnYdQbNQnKGWcBcoNn8fcv-mrw_Q0C0cRO2ZSJCTU91NUhtccmNao0TyWYYG3yvFBVkePiavIaLVpZc4Ik3X3oEV8A-KFJwePsbrGunHrrfSSe7orS1W6xW1qNnE0lunug.svg'),
+('LA_LIGA', 'https://i.namu.wiki/i/_wBNP-pU9i3_gHkwGbpd5EP27dCmqf2tiLQMVma2jSejwdWaF5xbfBNWVfGkEdwAEeOtXE6Jq57E4sVqDT0_K9wT74Q5kPsXisV6dy1g2aEOAlqmw7wWGA-8X-1YutaPFmxCYVbgQ7zarVAJLLGpNg.svg'),
+('SERIE_A', 'https://i.namu.wiki/i/5pTLKhchVszLqpLNtkz81gdh_6p3XnRN6sbWpT4ivdAPvAvxf5uKE6yUyyUYw3IWTEdVb01FKnUMlSnNdDFB3_dEOp9H4aEBg9nbLfvMxlXk8LfXgxBTENyLP2Q71scFCr6GGHTaBVtDQxvnInEXlQ.svg'),
+('BUNDES_LIGA', 'https://i.namu.wiki/i/uzwqxfyOYt1xII-LzbtsmzIhBCiIlOyIzixEa80Pr25Sjrp5OjiJas0HGeFQGYXD0sKlvpFK-3z5ZrfUmEA7jkORKajEgXkDNPTt6xiHYVK4OyGhXkletT7T1uFFek1paK845KUynaB5Gs_Rwg6awA.svg'),
+('LEGUE_1', 'https://i.namu.wiki/i/SyEyyt5Z5bErJH0g5jX5BxppdD0FUMgzLsaPkPKMOVzVd6QKuG3XbLucQ4-wOw7AH6SdWUzx2OTYQwCTv2Oa-zFFSsvCfY9tZcPoLFQ5OlJTouBL2Z5eO7DtyVvG0EQw6KGR2EdSPfAbaU4t_UW-bw.svg');
+
+INSERT INTO team_category(league, team_emblem, team_name) values
+('라리가', 'https://i.namu.wiki/i/lMqcxJZ1Rzt6xUjQ5oSRWfZre6QgW0np7nb9xzIGrqPq3aAs9U4I3TuPQyun7FRneuqWuL2gg_c1eOvhJKB4H_WKvfb7gWpaHdtaao5Tn353Kbgxdr3yZHpdjgM-dsEBqD3MDrN0tsPFpmwZ4smUjg.svg' ,'아틀레티코 마드리드');
 
 
---INSERT INTO players(name, image_url, team_name) values
---('오블락','https://assets.laliga.com/squad/2023/t175/p81352/512x512/p81352_t175_2023_1_003_000.png','아틀레티코 마드리드'),
---('고미스', 'https://assets.laliga.com/squad/2023/t175/p493104/512x512/p493104_t175_2023_1_003_000.png','아틀레티코 마드리드'),
---
---('히메네스', 'https://assets.laliga.com/squad/2023/t175/p151883/512x512/p151883_t175_2023_1_003_000.png','아틀레티코 마드리드'),
---
---('아스필리쿠에타', 'https://assets.laliga.com/squad/2023/t175/p41328/512x512/p41328_t175_2023_1_003_000.png','아틀레티코 마드리드'),
---
---('사비치', 'https://assets.laliga.com/squad/2023/t175/p65807/512x512/p65807_t175_2023_1_003_000.png','아틀레티코 마드리드'),
+INSERT INTO players(name, image_url, team_name) values
+('오블락','https://assets.laliga.com/squad/2023/t175/p81352/512x512/p81352_t175_2023_1_003_000.png','아틀레티코 마드리드'),
+('고미스', 'https://assets.laliga.com/squad/2023/t175/p493104/512x512/p493104_t175_2023_1_003_000.png','아틀레티코 마드리드'),
+
+('히메네스', 'https://assets.laliga.com/squad/2023/t175/p151883/512x512/p151883_t175_2023_1_003_000.png','아틀레티코 마드리드'),
+
+('아스필리쿠에타', 'https://assets.laliga.com/squad/2023/t175/p41328/512x512/p41328_t175_2023_1_003_000.png','아틀레티코 마드리드'),
+
+('사비치', 'https://assets.laliga.com/squad/2023/t175/p65807/512x512/p65807_t175_2023_1_003_000.png','아틀레티코 마드리드');
 --
 --('몰리나', 'https://assets.laliga.com/squad/2023/t175/p221586/512x512/p221586_t175_2023_1_003_000.png','아틀레티코 마드리드'),
 --
