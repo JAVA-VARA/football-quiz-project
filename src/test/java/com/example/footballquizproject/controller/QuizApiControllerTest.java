@@ -45,12 +45,14 @@ class QuizApiControllerTest {
     @InjectMocks
     QuizApiController quizApiController;
 
+    private final String testTeam = "아틀레티코 마드리드";
+
     @Test
     @DisplayName("TEAM 기준으로 랜덤 문제 20개를 생성한다")
     void showQuizTest() throws Exception{
 
         //given
-        final String url = "/quiz";
+        final String url = "/quiz/who-are-you/select-team";
         final String teamName = "아틀레티코 마드리드";
 
         //when
@@ -63,7 +65,7 @@ class QuizApiControllerTest {
         //then
         resultActions
                 .andExpect(status().isOk())
-                .andExpect(model().size(1))
+                .andExpect(model().size(2))
                 .andExpect(model().attributeExists("quizListSet"));
 
 
@@ -95,8 +97,8 @@ class QuizApiControllerTest {
         //given 유저가 맞춘 갯수 지정 / 갯수에 따른 별칭 지정
         int correctAnswers = 0;
         final String level = "뉴비";
-        final String url = "/result";
-        QuizResultRequestDto request = new QuizResultRequestDto(correctAnswers);
+        final String url = "/quiz/result";
+        QuizResultRequestDto request = new QuizResultRequestDto(correctAnswers,testTeam);
         final String requestBody = objectMapper.writeValueAsString(request);
 
         //when 맞춘 갯수를 controller에 전달
@@ -124,8 +126,8 @@ class QuizApiControllerTest {
         //given 유저가 맞춘 갯수 지정 / 갯수에 따른 별칭 지정
         int correctAnswers = 10;
         final String level = "패션";
-        final String url = "/result";
-        QuizResultRequestDto request = new QuizResultRequestDto(correctAnswers);
+        final String url = "/quiz/result";
+        QuizResultRequestDto request = new QuizResultRequestDto(correctAnswers,testTeam);
         final String requestBody = objectMapper.writeValueAsString(request);
 
         //when 맞춘 갯수를 controller에 전달
@@ -151,8 +153,8 @@ class QuizApiControllerTest {
         //given 유저가 맞춘 갯수 지정 / 갯수에 따른 별칭 지정
         int correctAnswers = 15;
         final String level = "라이트팬";
-        final String url = "/result";
-        QuizResultRequestDto request = new QuizResultRequestDto(correctAnswers);
+        final String url = "/quiz/result";
+        QuizResultRequestDto request = new QuizResultRequestDto(correctAnswers,testTeam);
         final String requestBody = objectMapper.writeValueAsString(request);
 
         //when 맞춘 갯수를 controller에 전달
@@ -178,8 +180,8 @@ class QuizApiControllerTest {
         //given 유저가 맞춘 갯수 지정 / 갯수에 따른 별칭 지정
         int correctAnswers = 16;
         final String level = "고인물";
-        final String url = "/result";
-        QuizResultRequestDto request = new QuizResultRequestDto(correctAnswers);
+        final String url = "/quiz/result";
+        QuizResultRequestDto request = new QuizResultRequestDto(correctAnswers,testTeam);
         final String requestBody = objectMapper.writeValueAsString(request);
 
         //when 맞춘 갯수를 controller에 전달
@@ -205,8 +207,8 @@ class QuizApiControllerTest {
         //given 유저가 맞춘 갯수 지정 / 갯수에 따른 별칭 지정
         int correctAnswers = 20;
         final String level = "썩은물";
-        final String url = "/result";
-        QuizResultRequestDto request = new QuizResultRequestDto(correctAnswers);
+        final String url = "/quiz/result";
+        QuizResultRequestDto request = new QuizResultRequestDto(correctAnswers,testTeam);
         final String requestBody = objectMapper.writeValueAsString(request);
 
         //when 맞춘 갯수를 controller에 전달

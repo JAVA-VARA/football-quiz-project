@@ -38,7 +38,7 @@ class QuizServiceTest {
         List<Players> players = playersRepository.findRandomPlayersByTeamName(teamName);
 
         //THEN
-        assertEquals(players.size(), 2);
+        assertEquals(players.size(), 5);
         assertThat(players.get(0).getTeam().getTeamName()).isEqualTo(teamName);
     }
 }

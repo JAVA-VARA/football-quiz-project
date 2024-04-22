@@ -45,7 +45,7 @@
 
 <div class="team-container">
     <div th:each="team : ${teamCategories}" class="team-item">
-        <form th:action="@{/quiz/who-are-you/select-team}" th:method="GET">
+        <form th:action="@{/quizzes/who-are-you/select-team}" th:method="GET">
             <input type="hidden" name="teamName" th:value="${team.getTeamName()}">
             <button type="submit" style="border: none; background: none; cursor: pointer;">
                 <img th:src="${team.getTeamEmblem()}" class="team-emblem" alt="지원하지 않는 파일">
