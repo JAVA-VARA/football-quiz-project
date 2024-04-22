@@ -17,7 +17,7 @@ public class TeamCategoryViewController {
     private final TeamCategoryService teamCategoryService;
     private final LeagueCategoryService leagueCategoryService;
 
-    @GetMapping("/quiz/who-are-you")
+    @GetMapping("/quizzes/who-are-you")
     public String showTeamList(Model model){
 
         List<LeagueCategoryDto> league  = leagueCategoryService.getLeagueList();

@@ -1,15 +1,12 @@
 package com.example.footballquizproject.controller;
 
-import com.example.footballquizproject.domain.Players;
-import com.example.footballquizproject.domain.TeamCategory;
+import com.example.footballquizproject.enumPack.EPLClubsSqudURL;
+import com.example.footballquizproject.enumPack.LeagueClubsURL;
 import com.example.footballquizproject.service.CollectPremierLeaguePlayers;
 import com.example.footballquizproject.service.CollectTeamPremierLeague;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -19,14 +16,14 @@ public class WebCrawlingController {
     private final CollectTeamPremierLeague collectTeamPremierLeague;
 
     @GetMapping("/crawler/players")
-    public String crawlingPlayersInfo(Model model) throws Exception {
+    public void crawlingPlayersInfo() throws Exception {
 
-        List<TeamCategory> teamCategoryList = collectTeamPremierLeague.getTeamData();
-        List<Players> players = collectPremierLeaguePlayers.PremierLeaguePlayersData();
+        for(LeagueClubsURL L : LeagueClubsURL.values()){
+            collectTeamPremierLeague.getTeamData(L);
+        }
 
-        model.addAttribute("players", players);
-
-        return "crawling-test";
+        for(EPLClubsSqudURL E : EPLClubsSqudURL.values()){
+            collectPremierLeaguePlayers.PremierLeaguePlayersData(E.getUrl());
+        }
     }
-
 }

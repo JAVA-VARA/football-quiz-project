@@ -40,11 +40,14 @@
 <body>
 <div class="category-container">
     <div th:each="category : ${categories}" class="category-item">
+
         <form th:action="@{/quizzes{categoryUrl} (categoryUrl = ${category.getCategoryUrl()})}" th:method="GET">
+
             <button type="submit" style="border: none; background: none; cursor: pointer;">
                 <img th:src="${category.getThumbnail()}" class="category-thumbnail" alt="지원하지 않는 파일">
                 <div class="category-name" th:text="${category.getCategoryName()}"></div>
             </button>
+
         </form>
     </div>
 </div>
