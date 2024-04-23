@@ -7,10 +7,10 @@ import lombok.Getter;
 @Getter
 public enum LeagueClubsURL {
 
-//    PREMIER_LEAGUE("PREMIER_LEAGUE",
-//            "https://www.premierleague.com/clubs",
-//            "#mainContent > div.clubIndex > div > div > div.club-cards-wrapper.indexSection > ul > li > a > div.club-card__badge > span > img",
-//            "#mainContent > div.clubIndex > div > div > div.club-cards-wrapper.indexSection > ul > li > a > div.club-card__info > div > h2"),
+    PREMIER_LEAGUE("PREMIER_LEAGUE",
+            "https://www.premierleague.com/clubs",
+            "#mainContent > div.clubIndex > div > div > div.club-cards-wrapper.indexSection > ul > li > a > div.club-card__badge > span > img",
+            "#mainContent > div.clubIndex > div > div > div.club-cards-wrapper.indexSection > ul > li > a > div.club-card__info > div > h2");
 
 //    LA_LIGA("LA_LIGA",
 //            "https://www.laliga.com/en-GB/laliga-easports/clubs",
@@ -27,10 +27,10 @@ public enum LeagueClubsURL {
 //            "#default > div > clubs-page > div > div > club-card > a > div > clublogo > img",
 //            "#default > div > clubs-page > div > div > club-card > a > div > div > div.club");
 //
-    LEGUE_1("LEAGUE_1",
-            "https://www.ligue1.com/clubs/List",
-            "#CompetitionClubsListPage > div.ClubListPage-container.container > div > a > div > div.ClubListPage-logo > img",
-            "#CompetitionClubsListPage > div.ClubListPage-container.container > div > a > div > div.ClubListPage-name > h3");
+//    LEGUE_1("LEAGUE_1",
+//            "https://www.ligue1.com/clubs/List",
+//            "#CompetitionClubsListPage > div.ClubListPage-container.container > div > a > div > div.ClubListPage-logo > img",
+//            "#CompetitionClubsListPage > div.ClubListPage-container.container > div > a > div > div.ClubListPage-name > h3");
 
     private final String league;
     private final String url;
