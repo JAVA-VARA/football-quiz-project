@@ -43,6 +43,11 @@ public enum LaligaClubsSquadURL implements ClubsSquadURLProvider  {
     }
 
     @Override
+    public String getTeamCssSelector() {
+        return CssSelectorPlayersByLeague.LA_LIGA.getTeamname();
+    }
+
+    @Override
     public String getUrl(){
         return this.url;
     }

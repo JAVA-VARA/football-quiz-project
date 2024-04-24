@@ -1,5 +1,6 @@
 package com.example.footballquizproject.controller;
 
+import com.example.footballquizproject.enumPack.ClubsSquadURLProvider;
 import com.example.footballquizproject.enumPack.EPLClubsSquadURL;
 import com.example.footballquizproject.enumPack.LaligaClubsSquadURL;
 import com.example.footballquizproject.enumPack.LeagueClubsURL;
@@ -21,14 +22,23 @@ public class WebCrawlingController {
 
     @GetMapping("/players")
     public void crawlingPlayersInfo() throws Exception {
-        for(EPLClubsSquadURL squadURL : EPLClubsSquadURL.values()){
-            collectPlayersData.collectPlayersData(squadURL);
-        }
+        collectPlayersByLeague(EPLClubsSquadURL.values());
+        collectPlayersByLeagueLaliga(LaligaClubsSquadURL.values());
+    }
 
-        for(LaligaClubsSquadURL squadURL: LaligaClubsSquadURL.values()){
+    private void collectPlayersByLeague(ClubsSquadURLProvider[] squadURLs) throws Exception {
+        for (ClubsSquadURLProvider squadURL : squadURLs) {
             collectPlayersData.collectPlayersData(squadURL);
         }
     }
+
+    private void collectPlayersByLeagueLaliga(LaligaClubsSquadURL[] laligaClubsSquadURLs) throws Exception {
+        for (LaligaClubsSquadURL squadURL : laligaClubsSquadURLs) {
+            collectPlayersData.collectLaligaPlayersData(squadURL);
+        }
+    }
+
+
 
     @GetMapping("/team")
     public void crawlingTeamInfo() throws InterruptedException {

@@ -1,10 +1,13 @@
 package com.example.footballquizproject.service;
 
 import com.example.footballquizproject.enumPack.ClubsSquadURLProvider;
+import com.example.footballquizproject.enumPack.LaligaClubsSquadURL;
 import com.example.footballquizproject.enumPack.League1ClubsSquadURL;
 
 public interface CollectPlayersDataService {
     void collectPlayersData(ClubsSquadURLProvider squadURL) throws InterruptedException;
+
+    void collectLaligaPlayersData(LaligaClubsSquadURL laligaClubsSquadURL) throws InterruptedException;
 
     void collectLeague1PlayersData(League1ClubsSquadURL league1ClubsSquadURL) throws InterruptedException;
 

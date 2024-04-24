@@ -21,6 +21,11 @@ public enum League1ClubsSquadURL implements ClubsSquadURLProvider {
     }
 
     @Override
+    public String getTeamCssSelector() {
+        return null;
+    }
+
+    @Override
     public String getUrl(){
         return this.url;
     }

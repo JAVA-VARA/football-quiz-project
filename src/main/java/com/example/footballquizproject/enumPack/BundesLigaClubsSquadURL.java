@@ -21,6 +21,11 @@ public enum BundesLigaClubsSquadURL implements ClubsSquadURLProvider {
     }
 
     @Override
+    public String getTeamCssSelector() {
+        return CssSelectorPlayersByLeague.BUNDES_LIGA.getTeamname();
+    }
+
+    @Override
     public String getUrl(){
         return this.url;
     }
