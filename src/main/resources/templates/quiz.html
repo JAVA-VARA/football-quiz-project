@@ -11,14 +11,27 @@
             padding: 0;
         }
 
+        /*.quiz-container {*/
+        /*    max-width: 600px;*/
+        /*    margin: 50px auto;*/
+        /*    background-color: #fff;*/
+        /*    border-radius: 10px;*/
+        /*    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+        /*    padding: 20px;*/
+        /*    text-align: center;*/
+        /*}*/
+
         .quiz-container {
-            max-width: 600px;
-            margin: 50px auto;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
             text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .question-number {
@@ -28,7 +41,8 @@
         }
 
         .quiz-image {
-            max-width: 100%;
+            width: 500px;
+            /*max-width: 100%;*/
             height: auto;
             border-radius: 5px;
             margin-bottom: 20px;
@@ -40,7 +54,7 @@
             margin-bottom: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            font-size: 16px;
+            font-size: 30px;
         }
 
         .submit-btn,
@@ -54,8 +68,15 @@
             font-size: 16px;
         }
 
-        .result {
-            font-size: 18px;
+        .result1 {
+            color: red;
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .result2 {
+            font-size: 30px;
             font-weight: bold;
             margin-bottom: 20px;
         }
@@ -70,16 +91,17 @@
     <div class="question-number">문제 <span id="questionNumber"></span></div>
     <img id="quizImage" class="quiz-image" src="" alt="Quiz Image">
     <div>
-        <input id="answerInput" class="answer-input" type="text" placeholder="Enter your answer">
+        <label for="answerInput"></label><input id="answerInput" class="answer-input" type="text">
     </div>
 
     <div>
-        <button id="submitBtn" class="submit-btn" onclick="checkAnswer()">Submit</button>
+        <button id="submitBtn" class="submit-btn" onclick="checkAnswer()">제출</button>
     </div>
-    <div id="result" class="result"></div>
+    <div id="result1" class="result1"></div>
+    <div id="result2" class="result2"></div>
 
     <div>
-        <button id="nextBtn" class="next-btn" onclick="nextQuestion()">Next</button>
+        <button id="nextBtn" class="next-btn" onclick="nextQuestion()">다음</button>
     </div>
 
 </div>
@@ -91,32 +113,37 @@
     var quizList = /*[[${quizListSet}]]*/ null;
     var team = /*[[${team}]]*/  null;
 
-        function displayQuestion() {
+    function displayQuestion() {
         document.getElementById("questionNumber").textContent = currentQuestionIndex + 1;
         document.getElementById("quizImage").src = quizList[currentQuestionIndex].question;
+
     }
 
     function checkAnswer() {
 
         let answer = document.getElementById("answerInput").value;
+
         let correctAnswer = quizList[currentQuestionIndex].answer;
+
+        // let partialCorrectAnswer = correctAnswer.
 
 
         //정답 확인
         let isCorrect = answer === correctAnswer;
 
-        let resultMsg;
+        let resultMsg1;
+        let resultMsg2;
         if (isCorrect) {
             countCorrectAnswer++;
-            resultMsg = "정답";
+            resultMsg1 = "정답";
         } else {
-            resultMsg =
-                `오답!!!
-                정답은` + correctAnswer + "입니다";
+            resultMsg1 ="오답"
+            resultMsg2 = correctAnswer;
 
         }
 
-        document.getElementById("result").textContent = resultMsg;
+        document.getElementById("result1").textContent = resultMsg1;
+        document.getElementById("result2").textContent = resultMsg2;
         document.getElementById("submitBtn").style.display = "none"; // submit 버튼 숨기기
         document.getElementById("nextBtn").style.display = "block"; // next 버튼 보이기
     }
@@ -127,15 +154,14 @@
             currentQuestionIndex++;
 
             displayQuestion();
-            document.getElementById("result").textContent = ""; // 결과 메시지 초기화
+            document.getElementById("result1").textContent = ""; // 결과 메시지 초기화
+            document.getElementById("result2").textContent = ""; // 결과 메시지 초기화
             document.getElementById("answerInput").value = ""; // 입력 필드 초기화
+
             document.getElementById("submitBtn").style.display = "block"; // submit 버튼 보이기
             document.getElementById("nextBtn").style.display = "none"; // next 버튼 숨기기
 
         } else {
-            alert("퀴즈 끝");
-
-            //TO-DO: 퀴즈 끝나면 RESULT PAGE로 FECTCH 요청 countCorrectAnswer 도 함께 보내 유저의 퀴즈 결과에 대한 안내를 한다.
             sendQuizResult(countCorrectAnswer, team);
         }
     }
@@ -177,5 +203,6 @@
 
     /*]]>*/
 </script>
+<script src="/static/submit.js"></script>
 </body>
 </html>
