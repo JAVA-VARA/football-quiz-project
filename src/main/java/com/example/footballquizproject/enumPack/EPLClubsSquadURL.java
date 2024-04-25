@@ -26,9 +26,45 @@ public enum EPLClubsSquadURL implements ClubsSquadURLProvider  {
     CRYSTAL_PALACE("Crystal Palace", "https://sports.daum.net/team/epl/274/squad#0"),
     FULHAM("Fulham", "https://sports.daum.net/team/epl/260/squad#0"),
     TOTTENHAM_HOTSPUR("Tottenham Hotspur", "https://sports.daum.net/team/epl/249/squad#0"),
-
     ;
-    //프리미어리그
+    private final String team;
+    private final String url;
+
+    @Override
+    public String getSeasonCssSelector() {
+        return CssSelectorPlayersByLeague.PLAYERS_SELECTOR_DAUM_SPORT.getSeason();
+    }
+
+    @Override
+    public String getImageCssSelector(){
+
+        return CssSelectorPlayersByLeague.PLAYERS_SELECTOR_DAUM_SPORT.getSelectPlayerImage();
+    }
+
+    @Override
+    public String getNameCssSelector(){
+
+        return CssSelectorPlayersByLeague.PLAYERS_SELECTOR_DAUM_SPORT.getSelectPlayerName();
+    }
+
+    @Override
+    public String getTeamCssSelector() {
+
+        return CssSelectorPlayersByLeague.PLAYERS_SELECTOR_DAUM_SPORT.getTeamName();
+    }
+
+    @Override
+    public String getBackNumberCssSelector() {
+        return CssSelectorPlayersByLeague.PLAYERS_SELECTOR_DAUM_SPORT.getBackNumber();
+    }
+
+    @Override
+    public String getUrl(){
+        return this.url;
+    }
+}
+
+//프리미어리그
 //    ARSENAL("Arsenal", "https://www.premierleague.com/clubs/1/Arsenal/squad?se=578"),
 //    ASTON_VILLA("Aston Villa", "https://www.premierleague.com/clubs/2/Aston-Villa/squad?se=578"),
 //    BOURNEMOUTH("Bournemouth", "https://www.premierleague.com/clubs/127/Bournemouth/squad?se=578"),
@@ -49,32 +85,3 @@ public enum EPLClubsSquadURL implements ClubsSquadURLProvider  {
 //    TOTTENHAM_HOTSPUR("Tottenham Hotspur", "https://www.premierleague.com/clubs/21/Tottenham-Hotspur/squad?se=578"),
 //    WEST_HAM_UNITED("West Ham United", "https://www.premierleague.com/clubs/25/West-Ham-United/squad?se=578"),
 //    WOLVERHAMPTON_WANDERERS("Wolverhampton Wanderers", "https://www.premierleague.com/clubs/38/Wolverhampton-Wanderers/squad?se=578");
-
-    private final String team;
-    private final String url;
-
-    @Override
-    public String getImageCssSelector(){
-
-        return CssSelectorPlayersByLeague.PREMIER_LEAGUE.getSelectPlayerImage();
-    }
-
-    @Override
-    public String getNameCssSelector(){
-
-        return CssSelectorPlayersByLeague.PREMIER_LEAGUE.getSelectPlayerName();
-    }
-
-    @Override
-    public String getTeamCssSelector() {
-
-        return CssSelectorPlayersByLeague.PREMIER_LEAGUE.getTeamname();
-    }
-
-    @Override
-    public String getUrl(){
-        return this.url;
-    }
-
-
-}

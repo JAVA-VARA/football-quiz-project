@@ -32,18 +32,18 @@ insert into league_category(league, league_emblem) values
 ('LEGUE_1', 'https://i.namu.wiki/i/SyEyyt5Z5bErJH0g5jX5BxppdD0FUMgzLsaPkPKMOVzVd6QKuG3XbLucQ4-wOw7AH6SdWUzx2OTYQwCTv2Oa-zFFSsvCfY9tZcPoLFQ5OlJTouBL2Z5eO7DtyVvG0EQw6KGR2EdSPfAbaU4t_UW-bw.svg');
 
 INSERT INTO team_category(league, team_emblem, team_name) values
-('라리가', 'https://i.namu.wiki/i/lMqcxJZ1Rzt6xUjQ5oSRWfZre6QgW0np7nb9xzIGrqPq3aAs9U4I3TuPQyun7FRneuqWuL2gg_c1eOvhJKB4H_WKvfb7gWpaHdtaao5Tn353Kbgxdr3yZHpdjgM-dsEBqD3MDrN0tsPFpmwZ4smUjg.svg' ,'아틀레티코 마드리드');
+('LA_LIGA', 'https://i.namu.wiki/i/lMqcxJZ1Rzt6xUjQ5oSRWfZre6QgW0np7nb9xzIGrqPq3aAs9U4I3TuPQyun7FRneuqWuL2gg_c1eOvhJKB4H_WKvfb7gWpaHdtaao5Tn353Kbgxdr3yZHpdjgM-dsEBqD3MDrN0tsPFpmwZ4smUjg.svg' ,'아틀레티코 마드리드');
 
 
-INSERT INTO players(name, image_url, team_name) values
-('오블락','https://assets.laliga.com/squad/2023/t175/p81352/512x512/p81352_t175_2023_1_003_000.png','아틀레티코 마드리드'),
-('고미스', 'https://assets.laliga.com/squad/2023/t175/p493104/512x512/p493104_t175_2023_1_003_000.png','아틀레티코 마드리드'),
-
-('히메네스', 'https://assets.laliga.com/squad/2023/t175/p151883/512x512/p151883_t175_2023_1_003_000.png','아틀레티코 마드리드'),
-
-('아스필리쿠에타', 'https://assets.laliga.com/squad/2023/t175/p41328/512x512/p41328_t175_2023_1_003_000.png','아틀레티코 마드리드'),
-
-('사비치', 'https://assets.laliga.com/squad/2023/t175/p65807/512x512/p65807_t175_2023_1_003_000.png','아틀레티코 마드리드');
+--INSERT INTO players(name, image_url, team_name) values
+--('오블락','https://assets.laliga.com/squad/2023/t175/p81352/512x512/p81352_t175_2023_1_003_000.png','아틀레티코 마드리드'),
+--('고미스', 'https://assets.laliga.com/squad/2023/t175/p493104/512x512/p493104_t175_2023_1_003_000.png','아틀레티코 마드리드'),
+--
+--('히메네스', 'https://assets.laliga.com/squad/2023/t175/p151883/512x512/p151883_t175_2023_1_003_000.png','아틀레티코 마드리드'),
+--
+--('아스필리쿠에타', 'https://assets.laliga.com/squad/2023/t175/p41328/512x512/p41328_t175_2023_1_003_000.png','아틀레티코 마드리드'),
+--
+--('사비치', 'https://assets.laliga.com/squad/2023/t175/p65807/512x512/p65807_t175_2023_1_003_000.png','아틀레티코 마드리드');
 --
 --('몰리나', 'https://assets.laliga.com/squad/2023/t175/p221586/512x512/p221586_t175_2023_1_003_000.png','아틀레티코 마드리드'),
 --

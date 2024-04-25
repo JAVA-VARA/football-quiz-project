@@ -18,7 +18,7 @@ public class Players {
     String imageUrl;
 
     @Column(nullable = false)
-    String fullname;
+    String fullName;
 
     @Column
     String firstname;
@@ -27,7 +27,7 @@ public class Players {
     String lastname;
 
     @Column
-    String middlename;
+    String backNumber;
 
     @Column
     String season;
@@ -36,12 +36,13 @@ public class Players {
     private TeamCategory team;
 
     @Builder
-    public Players(String imageUrl, String fullname, String lastname, String firstname, String season, TeamCategory team){
+    public Players(String imageUrl, String fullName, String lastname, String firstname, String season, TeamCategory team, String backNumber){
         this.imageUrl = imageUrl;
-        this.fullname = fullname;
+        this.fullName = fullName;
         this.lastname = lastname;
         this.firstname = firstname;
         this.season = season;
+        this.backNumber = backNumber;
         this.team = team;
     }
 }

@@ -47,6 +47,10 @@ public class CollectTeamPremierLeague {
             String teamEmblem = imgElements.get(i).getAttribute("src");
             String teamName = nameElements.get(i).getText();
 
+            if(teamName.contains("FC")){
+                teamName = teamName.replace(" FC", "");
+            }
+
             TeamCategory teamCategory = TeamCategory.builder()
                     .teamName(teamName)
                     .teamEmblem(teamEmblem)

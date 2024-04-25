@@ -14,16 +14,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SavePlayersDataService {
 
-    List<Players> savePlayersData(List<WebElement> elementsPlayersImage, List<WebElement> elementsPlayersName, TeamCategory team){
+    List<Players> savePlayersData(List<WebElement> elementsPlayersImage, List<WebElement> elementsPlayersName, TeamCategory team, String season, List<WebElement> elementsPlayerBackNumber){
 
         List<Players> playersInfoList = new ArrayList<>();
 
+
         for(int i=0; i < elementsPlayersImage.size(); i++){
+            //사진
             String playerImage = elementsPlayersImage.get(i).getAttribute("src");
             if(playerImage.equals("https://t1.daumcdn.net/media/img-section/sports13/player/noimage/square_m.png")){
                 continue;
             }
 
+            //이름
             String playerFullName = elementsPlayersName.get(i).getText();
             String[] fullName = playerFullName.split(" ");
             String firstName = "none";
@@ -34,12 +37,18 @@ public class SavePlayersDataService {
                 lastName = String.join(" ", Arrays.copyOfRange(fullName, 1, fullName.length));
             }
 
+            //등번호
+            String backNumberString = elementsPlayerBackNumber.get(i).getText();
+            String backNumber = backNumberString.replace("No.", "");
+
             Players player = Players.builder()
-                    .imageUrl(playerImage) // 이미지 링크
-                    .fullname(playerFullName)// 이름
+                    .imageUrl(playerImage)
+                    .fullName(playerFullName)
                     .firstname(firstName)
                     .lastname(lastName)
                     .team(team)
+                    .season(season)
+                    .backNumber(backNumber)
                     .build();
 
             playersInfoList.add(player);

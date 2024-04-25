@@ -1,9 +1,6 @@
 package com.example.footballquizproject.controller;
 
-import com.example.footballquizproject.enumPack.ClubsSquadURLProvider;
-import com.example.footballquizproject.enumPack.EPLClubsSquadURL;
-import com.example.footballquizproject.enumPack.LaligaClubsSquadURL;
-import com.example.footballquizproject.enumPack.LeagueClubsURL;
+import com.example.footballquizproject.enumPack.*;
 import com.example.footballquizproject.service.CollectPlayersDataService;
 import com.example.footballquizproject.service.CollectTeamPremierLeague;
 import lombok.RequiredArgsConstructor;
@@ -19,11 +16,21 @@ public class WebCrawlingController {
     private final CollectPlayersDataService collectPlayersData;
     private final CollectTeamPremierLeague collectTeamPremierLeague;
 
+    @GetMapping("/team")
+    public void crawlingTeamInfo() throws InterruptedException {
+        for (LeagueClubsURL L : LeagueClubsURL.values()) {
+            collectTeamPremierLeague.getTeamData(L);
+        }
+    }
+
 
     @GetMapping("/players")
     public void crawlingPlayersInfo() throws Exception {
         collectPlayersByLeague(EPLClubsSquadURL.values());
-        collectPlayersByLeagueLaliga(LaligaClubsSquadURL.values());
+        collectPlayersByLeague(BundesLigaClubsSquadURL.values());
+        collectPlayersByLeague(LaligaClubsSquadURL.values());
+        collectPlayersByLeague(SerieAClubsSquadURL.values());
+        collectPlayersByLeague(League1ClubsSquadURL.values());
     }
 
     private void collectPlayersByLeague(ClubsSquadURLProvider[] squadURLs) throws Exception {
@@ -32,18 +39,13 @@ public class WebCrawlingController {
         }
     }
 
-    private void collectPlayersByLeagueLaliga(LaligaClubsSquadURL[] laligaClubsSquadURLs) throws Exception {
-        for (LaligaClubsSquadURL squadURL : laligaClubsSquadURLs) {
-            collectPlayersData.collectLaligaPlayersData(squadURL);
-        }
-    }
 
-
-
-    @GetMapping("/team")
-    public void crawlingTeamInfo() throws InterruptedException {
-        for (LeagueClubsURL L : LeagueClubsURL.values()) {
-            collectTeamPremierLeague.getTeamData(L);
-        }
-    }
 }
+
+//    private void collectPlayersByLeagueLaliga(LaligaClubsSquadURL[] laligaClubsSquadURLs) throws Exception {
+//        for (LaligaClubsSquadURL squadURL : laligaClubsSquadURLs) {
+//            collectPlayersData.collectLaligaPlayersData(squadURL);
+//        }
+//    }
+
+

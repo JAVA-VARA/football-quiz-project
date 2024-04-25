@@ -7,15 +7,44 @@ import lombok.Getter;
 @Getter
 public enum LeagueClubsURL {
 
+    PREMIER_LEAGUE("PREMIER_LEAGUE",
+            "https://sports.daum.net/team/epl",
+            "#teamList > ul.list_teamplayer > li> div > a > span > img",
+            "#teamList > ul.list_teamplayer > li > div > a > strong"),
+
+    LA_LIGA("LA_LIGA",
+            "https://sports.daum.net/team/primera",
+            "#teamList > ul.list_teamplayer > li> div > a > span > img",
+            "#teamList > ul.list_teamplayer > li > div > a > strong"),
+
+    SERIE_A("SERIE_A",
+            "https://sports.daum.net/team/seriea",
+            "#teamList > ul.list_teamplayer > li> div > a > span > img",
+            "#teamList > ul.list_teamplayer > li > div > a > strong"),
+
+    BUNDES_LIGA("BUNDES_LIGA",
+            "https://sports.daum.net/team/bundesliga",
+            "#teamList > ul.list_teamplayer > li> div > a > span > img",
+            "#teamList > ul.list_teamplayer > li > div > a > strong"),
+
+    LEGUE_1("LEGUE_1",
+            "https://sports.daum.net/team/ligue1",
+            "#teamList > ul.list_teamplayer > li> div > a > span > img",
+            "#teamList > ul.list_teamplayer > li > div > a > strong");
+
+
+    private final String league;
+    private final String url;
+    private final String SelectEmblem;
+    private final String SelectName;
+}
+
 //    PREMIER_LEAGUE("PREMIER_LEAGUE",
 //            "https://www.premierleague.com/clubs",
 //            "#mainContent > div.clubIndex > div > div > div.club-cards-wrapper.indexSection > ul > li > a > div.club-card__badge > span > img",
 //            "#mainContent > div.clubIndex > div > div > div.club-cards-wrapper.indexSection > ul > li > a > div.club-card__info > div > h2"),
 
-    PREMIER_LEAGUE("PREMIER_LEAGUE",
-            "https://sports.daum.net/team/epl",
-            "#teamList > ul.list_teamplayer > li> div > a > span > img",
-            "#teamList > ul.list_teamplayer > li > div > a > strong");
+
 //
 //    LA_LIGA("LA_LIGA",
 //            "https://www.laliga.com/en-GB/laliga-easports/clubs",
@@ -36,9 +65,3 @@ public enum LeagueClubsURL {
 //            "https://www.ligue1.com/clubs/List",
 //            "#CompetitionClubsListPage > div.ClubListPage-container.container > div > a > div > div.ClubListPage-logo > img",
 //            "#CompetitionClubsListPage > div.ClubListPage-container.container > div > a > div > div.ClubListPage-name > h3");
-
-    private final String league;
-    private final String url;
-    private final String SelectEmblem;
-    private final String SelectName;
-}
