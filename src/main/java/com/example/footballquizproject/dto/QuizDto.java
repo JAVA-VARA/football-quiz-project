@@ -10,6 +10,8 @@ import lombok.Setter;
 public class QuizDto {
 
     private String question;
-    private String answer;
+    private String fullName;
+    private String firstName;
+    private String lastName;
 
 }

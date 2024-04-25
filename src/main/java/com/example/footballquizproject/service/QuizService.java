@@ -23,7 +23,7 @@ public class QuizService {
         List<QuizDto> quizSetOfPlayers = new ArrayList<>();
 
         for(Players player : players){
-            QuizDto playersDto = new QuizDto(player.getImageUrl(), player.getName());
+            QuizDto playersDto = new QuizDto(player.getImageUrl(), player.getFullname(), player.getFirstname(), player.getLastname());
             quizSetOfPlayers.add(playersDto);
         }
         return quizSetOfPlayers;

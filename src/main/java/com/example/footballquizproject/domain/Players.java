@@ -18,18 +18,30 @@ public class Players {
     String imageUrl;
 
     @Column(nullable = false)
-    String name;
+    String fullname;
+
+    @Column
+    String firstname;
+
+    @Column
+    String lastname;
+
+    @Column
+    String middlename;
+
+    @Column
+    String season;
 
     @ManyToOne @JoinColumn(name = "team_name")
     private TeamCategory team;
 
     @Builder
-    public Players(String imageUrl, String name, TeamCategory team){
+    public Players(String imageUrl, String fullname, String lastname, String firstname, String season, TeamCategory team){
         this.imageUrl = imageUrl;
-        this.name = name;
+        this.fullname = fullname;
+        this.lastname = lastname;
+        this.firstname = firstname;
+        this.season = season;
         this.team = team;
     }
-
-
-
 }

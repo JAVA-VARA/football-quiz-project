@@ -123,13 +123,19 @@
 
         let answer = document.getElementById("answerInput").value;
 
-        let correctAnswer = quizList[currentQuestionIndex].answer;
+        let correctFullName = quizList[currentQuestionIndex].fullName;
+        let correctFirstName = quizList[currentQuestionIndex].firstName;
+        let correctLastName = quizList[currentQuestionIndex].lastName;
 
-        // let partialCorrectAnswer = correctAnswer.
 
 
         //정답 확인
-        let isCorrect = answer === correctAnswer;
+        let isCorrect = false;
+        if(answer === correctFullName || answer === correctFirstName || answer === correctLastName){
+            isCorrect = true;
+        }
+
+        // let isCorrect = answer === correctFullName;
 
         let resultMsg1;
         let resultMsg2;
@@ -138,7 +144,7 @@
             resultMsg1 = "정답";
         } else {
             resultMsg1 ="오답"
-            resultMsg2 = correctAnswer;
+            resultMsg2 = correctFullName;
 
         }
 
@@ -203,6 +209,6 @@
 
     /*]]>*/
 </script>
-<script src="/static/submit.js"></script>
+<!--<script src="/static/submit.js"></script>-->
 </body>
 </html>

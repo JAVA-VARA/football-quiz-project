@@ -13,9 +13,16 @@
             padding-top: 50px;
         }
 
+        .result-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
         div {
             margin-bottom: 20px;
-            font-size: 18px;
+            font-size: 24px; /* 글자 크기 키우기 */
         }
 
         .result {
@@ -25,10 +32,13 @@
     </style>
 </head>
 <body>
-<div>맞춘 문제 갯수: <span class="result" th:text=" ${correctAnswers}"></span> 개</div>
+<div class="result-container">
+    <div>정답 갯수: <span class="result" th:text="${correctAnswers}"></span> 개</div>
 
-<div><span class="result" th:text="|당신은 ${team} ${level} 입니다|"></span></div>
+    <div><span class="result" th:text="|당신은 ${team} ${level} 입니다|"></span></div>
 
-<div><span class="result" th:text="|${ranking.getTotalParticipantsByTeam()} 명 중 ${ranking.getRank()} 등|"></span></div>
+    <div><span class="result" th:text="|${ranking.getTotalParticipantsByTeam()} 명 중 ${ranking.getRank()} 등|"></span>
+    </div>
+</div>
 </body>
 </html>
