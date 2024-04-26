@@ -50,7 +50,7 @@ public class QuizApiController {
     @GetMapping("/team-category/{teamId}")
     public String showQuiz(@PathVariable("teamId")  Long teamId, Model model) {
 
-        List<QuizDto> quizList = quizService.pick20PlayersByTeamId(teamId);
+        List<QuizDto> quizList = quizService.pick10PlayersByTeamId(teamId);
 
         model.addAttribute("quizListSet", quizList);
         model.addAttribute("teamId", teamId);

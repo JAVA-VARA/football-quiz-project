@@ -4,6 +4,7 @@ import com.example.footballquizproject.domain.LeagueCategory;
 import com.example.footballquizproject.domain.TeamCategory;
 import com.example.footballquizproject.enumPack.LeagueClubsURL;
 import com.example.footballquizproject.repository.LeagueCategoryRepository;
+import com.example.footballquizproject.repository.TeamCategoryRepository;
 import com.example.footballquizproject.util.WebDriverUtil;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.By;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CollectTeamData {
     private final LeagueCategoryRepository leagueCategoryRepository;
+    private final TeamCategoryRepository teamCategoryRepository;
     private final WebDriverUtil webDriverUtil;
 
     @Transactional
@@ -46,6 +48,11 @@ public class CollectTeamData {
         for(int i =0; i < imgElements.size() ; i++){
             String teamEmblem = imgElements.get(i).getAttribute("src");
             String teamName = nameElements.get(i).getText();
+
+
+            if(teamCategoryRepository.findByTeamName(teamName)){
+                continue;
+            }
 
             if(teamName.contains("FC")){
                 teamName = teamName.replace(" FC", "");

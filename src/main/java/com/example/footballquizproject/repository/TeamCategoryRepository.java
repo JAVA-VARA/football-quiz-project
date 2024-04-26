@@ -10,5 +10,7 @@ public interface TeamCategoryRepository extends JpaRepository<TeamCategory, Stri
 
     TeamCategory findByTeamId(Long teamId);
 
+    Boolean findByTeamName(String teamName);
+
     List<TeamCategory> findTeamCategoriesByLeague(LeagueCategory league);
 }
