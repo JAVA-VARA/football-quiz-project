@@ -19,11 +19,11 @@ public enum LaligaClubsSquadURL implements ClubsSquadURLProvider  {
     REAL_SOCIEDAD("레알 소시에다드","https://sports.daum.net/team/primera/1063/squad#0"),
     VALENCIA ("발렌시아 CF", "https://sports.daum.net/team/primera/1067/squad#0"),
     VILLARREAL ("비야레알 CF", "https://sports.daum.net/team/primera/1068/squad#0"),
-    SEVILLA("세비야", "https://sports.daum.net/team/primera/1073/squad#0"),
+    SEVILLA("세비야 FC", "https://sports.daum.net/team/primera/1073/squad#0"),
     CELTA("셀타 비고", "https://sports.daum.net/team/primera/1071/squad#0"),
     ATLETICO_DE_MADRID("아틀레티코 마드리드", "https://sports.daum.net/team/primera/1058/squad#0"),
     ATHLETIC_CLUB("아틀레틱 빌바오", "https://sports.daum.net/team/primera/1057/squad#0"),
-    GIRONA ("지로나", "https://sports.daum.net/team/primera/600249/squad#0"),
+    GIRONA ("지로나 FC", "https://sports.daum.net/team/primera/600249/squad#0"),
     CADIZ("카디스 CF", "https://sports.daum.net/team/primera/1078/squad#0"),
     GETAFE  ("헤타페 CF", "https://sports.daum.net/team/primera/1087/squad#0"),
 ;
