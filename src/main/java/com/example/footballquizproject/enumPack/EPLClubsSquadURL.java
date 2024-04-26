@@ -6,26 +6,26 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum EPLClubsSquadURL implements ClubsSquadURLProvider  {
-    BOURNEMOUTH("Bournemouth", "https://sports.daum.net/team/epl/310/squad#0"),
-    NOTTINGHAM("Nottingham", "https://sports.daum.net/team/epl/269/squad#0"),
-    NEWCASTLE_UNITED("Newcastle United", "https://sports.daum.net/team/epl/1321/squad#0"),
-    LUTON_TOWN("Luton Town", "https://sports.daum.net/team/epl/1888/squad#0"),
-    LIVERPOOL("Liverpool", "https://sports.daum.net/team/epl/253/squad#0"),
-    MANCHESTER_CITY("Manchester City", "https://sports.daum.net/team/epl/258/squad#0"),
-    MANCHESTER_UNITED("Manchester United", "https://sports.daum.net/team/epl/246/squad#0"),
-    BURNLEY("Burnley", "https://sports.daum.net/team/epl/263/squad#0"),
-    BRIGHTON("Brighton", "https://sports.daum.net/team/epl/277/squad#0"),
-    BRENTFORD("Brentford", "https://sports.daum.net/team/epl/313/squad#0"),
-    SHEFFIELD_UNITED("Sheffield United", "https://sports.daum.net/team/epl/286/squad#0"),
-    ARSENAL("Arsenal", "https://sports.daum.net/team/epl/247/squad#0"),
-    ASTON_VILLA("Aston Villa", "https://sports.daum.net/team/epl/250/squad#0"),
-    EVERTON("Everton", "https://sports.daum.net/team/epl/252/squad#0"),
-    WOLVERHAMPTON_WANDERERS("Wolverhampton Wanderers", "https://sports.daum.net/team/epl/256/squad#0"),
-    WEST_HAM_UNITED("West Ham United", "https://sports.daum.net/team/epl/254/squad#0"),
-    CHELSEA("Chelsea", "https://sports.daum.net/team/epl/251/squad#0"),
-    CRYSTAL_PALACE("Crystal Palace", "https://sports.daum.net/team/epl/274/squad#0"),
-    FULHAM("Fulham", "https://sports.daum.net/team/epl/260/squad#0"),
-    TOTTENHAM_HOTSPUR("Tottenham Hotspur", "https://sports.daum.net/team/epl/249/squad#0"),
+    BOURNEMOUTH("AFC 본머스", "https://sports.daum.net/team/epl/310/squad#0"),
+    NOTTINGHAM("노팅엄 포레스트", "https://sports.daum.net/team/epl/269/squad#0"),
+    NEWCASTLE_UNITED("뉴캐슬 유나이티드", "https://sports.daum.net/team/epl/1321/squad#0"),
+    LUTON_TOWN("루턴 타운", "https://sports.daum.net/team/epl/1888/squad#0"),
+    LIVERPOOL("리버풀", "https://sports.daum.net/team/epl/253/squad#0"),
+    MANCHESTER_CITY("맨체스터 시티", "https://sports.daum.net/team/epl/258/squad#0"),
+    MANCHESTER_UNITED("맨체스터 유나이티드", "https://sports.daum.net/team/epl/246/squad#0"),
+    BURNLEY("번리", "https://sports.daum.net/team/epl/263/squad#0"),
+    BRIGHTON("브라이튼 앤 호브 알비온", "https://sports.daum.net/team/epl/277/squad#0"),
+    BRENTFORD("브렌트포드", "https://sports.daum.net/team/epl/313/squad#0"),
+    SHEFFIELD_UNITED("셰필드 유나이티드", "https://sports.daum.net/team/epl/286/squad#0"),
+    ARSENAL("아스널", "https://sports.daum.net/team/epl/247/squad#0"),
+    ASTON_VILLA("애스턴 빌라", "https://sports.daum.net/team/epl/250/squad#0"),
+    EVERTON("에버턴", "https://sports.daum.net/team/epl/252/squad#0"),
+    WOLVERHAMPTON_WANDERERS("울버햄튼 원더러스", "https://sports.daum.net/team/epl/256/squad#0"),
+    WEST_HAM_UNITED("웨스트햄 유나이티드", "https://sports.daum.net/team/epl/254/squad#0"),
+    CHELSEA("첼시", "https://sports.daum.net/team/epl/251/squad#0"),
+    CRYSTAL_PALACE("크리스탈 팰리스", "https://sports.daum.net/team/epl/274/squad#0"),
+    FULHAM("풀럼", "https://sports.daum.net/team/epl/260/squad#0"),
+    TOTTENHAM_HOTSPUR("토트넘 홋스퍼", "https://sports.daum.net/team/epl/249/squad#0"),
     ;
     private final String team;
     private final String url;
@@ -61,6 +61,11 @@ public enum EPLClubsSquadURL implements ClubsSquadURLProvider  {
     @Override
     public String getUrl(){
         return this.url;
+    }
+
+    @Override
+    public String getTeam(){
+        return this.team;
     }
 }
 

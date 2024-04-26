@@ -7,5 +7,6 @@ public interface ClubsSquadURLProvider {
     String getTeamCssSelector();
     String getBackNumberCssSelector();
     String getUrl();
+    String getTeam();
 
 }

@@ -22,10 +22,13 @@ public class Players {
     String fullName;
 
     @Column
-    String firstname;
+    String firstName;
 
     @Column
-    String lastname;
+    String middleName;
+
+    @Column
+    String lastName;
 
     @Column
     String backNumber;
@@ -38,11 +41,12 @@ public class Players {
     private TeamCategory team;
 
     @Builder
-    public Players(String imageUrl, String fullName, String lastname, String firstname, String season, TeamCategory team, String backNumber){
+    public Players(String imageUrl, String fullName, String lastName, String middleName , String firstName, String season, TeamCategory team, String backNumber){
         this.imageUrl = imageUrl;
         this.fullName = fullName;
-        this.lastname = lastname;
-        this.firstname = firstname;
+        this.lastName = lastName;
+        this.middleName = middleName;
+        this.firstName = firstName;
         this.season = season;
         this.backNumber = backNumber;
         this.team = team;

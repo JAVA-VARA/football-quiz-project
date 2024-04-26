@@ -49,13 +49,8 @@ public class CollectTeamData {
             String teamEmblem = imgElements.get(i).getAttribute("src");
             String teamName = nameElements.get(i).getText();
 
-
-            if(teamCategoryRepository.findByTeamName(teamName)){
+            if(teamCategoryRepository.existsByTeamName(teamName)){
                 continue;
-            }
-
-            if(teamName.contains("FC")){
-                teamName = teamName.replace(" FC", "");
             }
 
             TeamCategory teamCategory = TeamCategory.builder()

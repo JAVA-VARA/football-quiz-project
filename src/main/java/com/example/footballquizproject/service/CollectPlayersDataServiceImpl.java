@@ -30,13 +30,17 @@ public class CollectPlayersDataServiceImpl implements CollectPlayersDataService 
 
         List<WebElement> elementsPlayersImage = driver.findElements(By.cssSelector(squadURL.getImageCssSelector()));
         List<WebElement>elementsPlayersName = driver.findElements(By.cssSelector(squadURL.getNameCssSelector()));
-        List<WebElement> elementsTeam = driver.findElements(By.cssSelector(squadURL.getTeamCssSelector()));
+
+//        List<WebElement> elementsTeam = driver.findElements(By.cssSelector(squadURL.getTeamCssSelector()));
+
         List<WebElement> elementsSeason = driver.findElements(By.cssSelector(squadURL.getSeasonCssSelector()));
         List<WebElement> elementsPlayerBackNumber = driver.findElements(By.cssSelector(squadURL.getBackNumberCssSelector()));
 
         String season = elementsSeason.get(0).getText();
 
-        String teamName = elementsTeam.get(0).getText();
+//        String teamName = elementsTeam.get(0).getText();
+
+        String teamName = squadURL.getTeam();
         TeamCategory team = teamCategoryRepository.findTeamCategoriesByTeamName(teamName);
 
         List<Players> playersInfoList = savePlayersDataService.savePlayersData(elementsPlayersImage,elementsPlayersName,team, season, elementsPlayerBackNumber);

@@ -6,9 +6,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum BundesLigaClubsSquadURL implements ClubsSquadURLProvider {
-    FC_쾰른("FC 쾰른", "https://sports.daum.net/team/bundesliga/1127/squad#0"),
+    FC_쾰른("1. FC 쾰른", "https://sports.daum.net/team/bundesliga/1127/squad#0"),
     FC_하이덴하임_1846("1 FC 하이덴하임 1846", "https://sports.daum.net/team/bundesliga/601390/squad#0"),
-    아우크스부르크("아우크스부르크", "https://sports.daum.net/team/bundesliga/35957/squad#0"),
+    아우크스부르크("FC 아우크스부르크", "https://sports.daum.net/team/bundesliga/35957/squad#0"),
     RB_라이프치히("RB 라이프치히", "https://sports.daum.net/team/bundesliga/516328/squad#0"),
     SC_프라이부르크("SC 프라이부르크", "https://sports.daum.net/team/bundesliga/1125/squad#0"),
     SV_다름슈타트_98("SV 다름슈타트 98", "https://sports.daum.net/team/bundesliga/434990/squad#0"),
@@ -59,6 +59,11 @@ public enum BundesLigaClubsSquadURL implements ClubsSquadURLProvider {
     @Override
     public String getUrl() {
         return this.url;
+    }
+
+    @Override
+    public String getTeam(){
+        return this.team;
     }
 
 }
