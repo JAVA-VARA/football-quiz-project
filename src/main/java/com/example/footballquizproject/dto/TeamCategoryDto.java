@@ -9,6 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TeamCategoryDto {
 
+    private Long teamId;
     private String teamName;
     private String teamEmblem;
 }

@@ -33,7 +33,8 @@ public class Players {
     @Column
     String season;
 
-    @ManyToOne @JoinColumn(name = "team_name")
+    @ManyToOne
+    @JoinColumn(name = "team_id")
     private TeamCategory team;
 
     @Builder

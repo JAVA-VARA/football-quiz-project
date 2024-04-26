@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .team-container {
+            margin-top: 50px;
+        }
+
+        .team-item {
+            display: inline-block;
+            margin: 20px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-emblem {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 10px;
+        }
+
+        .team-name {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div>
+    팀 선택
+</div>
+
+<!--<div class="team-container">-->
+<!--    <div th:each="team : ${teamList}" class="team-item">-->
+<!--        <form th:action="@{/quizzes/team-category}" th:method="GET">-->
+
+<!--            <button type="submit" style="border: none; background: none; cursor: pointer;">-->
+<!--                <img th:src="${team.getTeamEmblem()}" class="team-emblem" alt="지원하지 않는 파일">-->
+<!--                <div class="team-name" th:text="${team.getTeamName()}"></div>-->
+<!--            </button>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</div>-->
+
+<div class="team-container">
+    <div th:each="team : ${teamList}" class="team-item">
+        <form th:action="@{/quizzes/team-category/{teamId}(teamId=${team.getTeamId()})}" th:method="GET">
+            <input type="hidden" name="teamId" th:value="${team.getTeamId()}">
+
+            <button type="submit" style="border: none; background: none; cursor: pointer;">
+                <img th:src="${team.getTeamEmblem()}" class="team-emblem" alt="지원하지 않는 파일">
+                <div class="team-name" th:text="${team.getTeamName()}"></div>
+            </button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

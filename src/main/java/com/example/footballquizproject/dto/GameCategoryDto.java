@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class GameCategoryDto {
 
+    private Long id;
     private String categoryName;
     private String thumbnail;
     private String categoryUrl;

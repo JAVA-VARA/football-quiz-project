@@ -111,7 +111,7 @@
     var currentQuestionIndex = 0;
     let countCorrectAnswer = 0;
     var quizList = /*[[${quizListSet}]]*/ null;
-    var team = /*[[${team}]]*/  null;
+    var teamId = /*[[${teamId}]]*/  null;
 
     function displayQuestion() {
         document.getElementById("questionNumber").textContent = currentQuestionIndex + 1;
@@ -168,11 +168,11 @@
             document.getElementById("nextBtn").style.display = "none"; // next 버튼 숨기기
 
         } else {
-            sendQuizResult(countCorrectAnswer, team);
+            sendQuizResult(countCorrectAnswer, teamId);
         }
     }
 
-    function sendQuizResult(correctAnswers, team) {
+    function sendQuizResult(correctAnswers, teamId) {
         fetch('/quizzes/result', {
             method: 'POST',
             headers: {
@@ -180,7 +180,7 @@
             },
             body: JSON.stringify({
                 correctAnswers: correctAnswers,
-                team: team
+                teamId: teamId
 
             }),
         })

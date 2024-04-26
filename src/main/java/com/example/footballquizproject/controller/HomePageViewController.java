@@ -16,7 +16,7 @@ public class HomePageViewController {
     private final GameCategoryService gameCategoryService;
 
 
-    @GetMapping(value ={"/", "/quiz"})
+    @GetMapping(value ={"/", "/quizzes"})
     public String showQuizCategory(Model model){
 
         //나중에 게임이 많아지면 게임 검색 기능 추가

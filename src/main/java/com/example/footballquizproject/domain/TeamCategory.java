@@ -10,7 +10,12 @@ import java.util.List;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TeamCategory {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long teamId;
+
+    @Column
     private String teamName;
 
     @Column
@@ -19,7 +24,8 @@ public class TeamCategory {
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Players> playersList;
 
-    @ManyToOne @JoinColumn(name = "league")
+    @ManyToOne
+    @JoinColumn(name = "league")
     private LeagueCategory league;
 
     @Builder

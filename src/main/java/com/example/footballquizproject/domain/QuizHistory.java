@@ -19,17 +19,20 @@ public class QuizHistory {
 
     @Column private int correctAnswer;
 
-    @Column(nullable = false, updatable = false)
     @CreatedDate
+    @Column(nullable = false, updatable = false)
     private LocalDateTime localDateTime;
 
     @Column
-    private String team;
+    private Long gameCategoryId;
+
+    @Column
+    private Long teamId;
 
     @Builder
-    public QuizHistory(int correctAnswer, String team){
+    public QuizHistory(int correctAnswer, Long teamId){
         this.correctAnswer = correctAnswer;
-        this.team = team;
+        this.teamId = teamId;
     }
 
 

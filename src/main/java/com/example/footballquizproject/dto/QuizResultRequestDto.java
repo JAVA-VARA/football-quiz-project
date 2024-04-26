@@ -11,5 +11,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class QuizResultRequestDto {
     private int correctAnswers;
-    private String team;
+    private Long teamId;
 }

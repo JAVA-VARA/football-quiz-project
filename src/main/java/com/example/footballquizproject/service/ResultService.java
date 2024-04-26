@@ -28,19 +28,19 @@ public class ResultService {
     }
 
     @Transactional
-    public void saveQuizHistory(int correctAnswers, String team) {
+    public void saveQuizHistory(int correctAnswers, Long teamId) {
         //정답 갯수 및 플레이한 시간 등등 저장
         QuizHistory quizHistory = QuizHistory.builder()
                 .correctAnswer(correctAnswers)
-                .team(team)
+                .teamId(teamId)
                 .build();
         quizHistoryRepository.save(quizHistory);
 
     }
 
-    public RankingDto quizRankingByTeam(int userCorrectAnswers, String team) {
+    public RankingDto quizRankingByTeam(int userCorrectAnswers, Long teamId) {
 
-        List<QuizHistory> quizTotalParticipantsByTeam = quizHistoryRepository.findByTeam(team);
+        List<QuizHistory> quizTotalParticipantsByTeam = quizHistoryRepository.findByTeamId(teamId);
         RankingDto rankingDto = new RankingDto();
         int totalParticipants = quizTotalParticipantsByTeam.size();
         rankingDto.setTotalParticipantsByTeam(totalParticipants);

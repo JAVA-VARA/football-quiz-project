@@ -15,9 +15,14 @@ import java.util.List;
 public class LeagueCategory {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long leagueId;
+
+    @Column
     private String league;
 
-    @Column private String leagueEmblem;
+    @Column
+    private String leagueEmblem;
 
     @OneToMany(mappedBy = "league",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<TeamCategory> teamList = new ArrayList<>();

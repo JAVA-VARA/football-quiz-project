@@ -23,29 +23,37 @@ import java.util.List;
 @RequestMapping("/quizzes")
 @RequiredArgsConstructor
 public class QuizApiController {
-    private final TeamCategoryService teamCategoryService;
     private final LeagueCategoryService leagueCategoryService;
+    private final TeamCategoryService teamCategoryService;
     private final QuizService quizService;
     private final ResultService resultService;
 
-    @GetMapping("/who-are-you")
-    public String showTeamList(Model model){
+    @GetMapping("/game-category/1")
+    public String getLeagueList(Model model) {
 
-        List<LeagueCategoryDto> league  = leagueCategoryService.getLeagueList();
-        model.addAttribute("leagueCategories", league);
+        List<LeagueCategoryDto> leagueList = leagueCategoryService.getLeagueList();
+        model.addAttribute("leagueList", leagueList);
 
-        List<TeamCategoryDto> teamCategories = teamCategoryService.getTeamCategoryList();
-        model.addAttribute("teamCategories", teamCategories);
-
-        return "teamCategory";
+        return "selectLeaguePage";
     }
 
-    @GetMapping("/who-are-you/select-team")
-    public String showQuiz(@RequestParam String teamName, Model model) {
-        List<QuizDto> quizList = quizService.pick20PlayersByTeamName(teamName);
+    @GetMapping("/league-category/{leagueId}")
+    public String showTeamList(@PathVariable("leagueId") Long leagueId, Model model) {
+
+        List<TeamCategoryDto> teamList = teamCategoryService.getTeamCategoryListByLeague(leagueId);
+        model.addAttribute("teamList", teamList);
+
+        return "selectTeamPage";
+    }
+
+
+    @GetMapping("/team-category/{teamId}")
+    public String showQuiz(@PathVariable("teamId")  Long teamId, Model model) {
+
+        List<QuizDto> quizList = quizService.pick20PlayersByTeamId(teamId);
 
         model.addAttribute("quizListSet", quizList);
-        model.addAttribute("team", teamName);
+        model.addAttribute("teamId", teamId);
         return "quiz";
     }
 
@@ -53,16 +61,17 @@ public class QuizApiController {
     public String showResult(@RequestBody QuizResultRequestDto request, Model model) {
 
         int correctAnswers = request.getCorrectAnswers();
-        String team = request.getTeam();
+        Long teamId = request.getTeamId();
+        String team =teamCategoryService.getTeamName(teamId);
 
-        resultService.saveQuizHistory(correctAnswers, team);
+
+        resultService.saveQuizHistory(correctAnswers, teamId);
         String level = resultService.determineResult(correctAnswers);
-        RankingDto rankingInfo = resultService.quizRankingByTeam(correctAnswers, team);
+        RankingDto rankingInfo = resultService.quizRankingByTeam(correctAnswers, teamId);
 
         model.addAttribute("correctAnswers", correctAnswers);
         model.addAttribute("level", level);
         model.addAttribute("team", team);
-
         model.addAttribute("ranking", rankingInfo);
 
         return "result";

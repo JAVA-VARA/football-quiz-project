@@ -9,7 +9,8 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class LeagueCategoryDto {
-    private String league;
+    private Long id;
+    private String leagueName;
     private String leagueEmblem;
     private List<TeamCategory> teamList;
 }

@@ -15,9 +15,12 @@ public class QuizService {
 
     private final PlayersRepository playersRepository;
 
-    public List<QuizDto> pick20PlayersByTeamName(String teamName){
+    public List<QuizDto> pick20PlayersByTeamId(Long teamId){
 
-        List<Players> players = playersRepository.findRandomPlayersByTeamName(teamName);
+//        List<Players> players = playersRepository.findRandomPlayersByTeamName(teamName);
+
+        List<Players> players = playersRepository.findRandomPlayersByTeamId(teamId);
+
 
         //dto에 필요한 정보만 저장 후 controller로 전달
         List<QuizDto> quizSetOfPlayers = new ArrayList<>();

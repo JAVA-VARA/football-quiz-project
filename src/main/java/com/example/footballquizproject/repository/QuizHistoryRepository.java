@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface QuizHistoryRepository extends JpaRepository<QuizHistory, Long> {
-    List<QuizHistory> findByTeam(String team);
+    List<QuizHistory> findByTeamId(Long teamId);
 }

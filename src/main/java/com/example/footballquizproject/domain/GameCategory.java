@@ -20,7 +20,9 @@ public class GameCategory {
     @Column
     private String categoryUrl;
 
-    @Column private String categoryName;
+    @Column
+    private String categoryName;
 
-    @Column private String categoryDescription;
+    @Column
+    private String categoryDescription;
 }
