@@ -16,6 +16,12 @@
             margin-top: 50px;
         }
 
+        .team-selection {
+            font-size: 50px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
         .team-item {
             display: inline-block;
             margin: 20px;
@@ -34,28 +40,20 @@
         .team-name {
             font-size: 18px;
             font-weight: bold;
+
+        }
+
+        .team-participants{
+            font-size: 9px;
+            font-weight: bold;
+            color: brown;
         }
     </style>
 </head>
 <body>
 
-<div>
-    팀 선택
-</div>
-
-<!--<div class="team-container">-->
-<!--    <div th:each="team : ${teamList}" class="team-item">-->
-<!--        <form th:action="@{/quizzes/team-category}" th:method="GET">-->
-
-<!--            <button type="submit" style="border: none; background: none; cursor: pointer;">-->
-<!--                <img th:src="${team.getTeamEmblem()}" class="team-emblem" alt="지원하지 않는 파일">-->
-<!--                <div class="team-name" th:text="${team.getTeamName()}"></div>-->
-<!--            </button>-->
-<!--        </form>-->
-<!--    </div>-->
-<!--</div>-->
-
 <div class="team-container">
+    <div class="team-selection">팀 선택</div>
     <div th:each="team : ${teamList}" class="team-item">
         <form th:action="@{/quizzes/team-category/{teamId}(teamId=${team.getTeamId()})}" th:method="GET">
             <input type="hidden" name="teamId" th:value="${team.getTeamId()}">
@@ -64,6 +62,7 @@
                 <img th:src="${team.getTeamEmblem()}" class="team-emblem" alt="지원하지 않는 파일">
                 <div class="team-name" th:text="${team.getTeamName()}"></div>
             </button>
+            <div class="team-participants" th:text="|참여 인원: ${team.getGameParticipants()}|"></div>
         </form>
     </div>
 </div>

@@ -1,10 +1,7 @@
 package com.example.footballquizproject.controller;
 
 import com.example.footballquizproject.dto.*;
-import com.example.footballquizproject.service.LeagueCategoryService;
-import com.example.footballquizproject.service.QuizService;
-import com.example.footballquizproject.service.ResultService;
-import com.example.footballquizproject.service.TeamCategoryService;
+import com.example.footballquizproject.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +30,6 @@ public class QuizApiController {
 
         List<LeagueCategoryDto> leagueList = leagueCategoryService.getLeagueList();
         model.addAttribute("leagueList", leagueList);
-
         return "selectLeaguePage";
     }
 

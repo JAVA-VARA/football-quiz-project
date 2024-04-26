@@ -12,8 +12,14 @@
             text-align: center;
         }
 
-        .team-container {
+        .league-container {
             margin-top: 50px;
+        }
+
+        .league-selection {
+            font-size: 50px;
+            font-weight: bold;
+            margin-bottom: 40px;
         }
 
         .team-item {
@@ -39,11 +45,8 @@
 </head>
 <body>
 
-<div>
-    리그 선택
-</div>
-
-<div class="team-container">
+<div class="league-container">
+    <div class="league-selection">리그 선택</div>
     <div th:each="league : ${leagueList}" class="team-item">
         <form th:action="@{/quizzes/league-category/{leagueId}(leagueId=${league.getId()})}" th:method="GET">
             <input type="hidden" name="leagueId" th:value="${league.getId()}">
