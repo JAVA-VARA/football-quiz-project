@@ -17,15 +17,12 @@ public class LeagueCategoryService {
 
     public List<LeagueCategoryDto> getLeagueList() {
         List<LeagueCategory> leagueCategoryList = leagueCategoryRepository.findAll();
-
         List<LeagueCategoryDto> leagueList = new ArrayList<>();
 
-        for(LeagueCategory leagueCategory: leagueCategoryList){
-            LeagueCategoryDto leagueCategoryDto = new LeagueCategoryDto(leagueCategory.getLeague(), leagueCategory.getLeagueEmblem(), leagueCategory.getTeamList());
+        for (LeagueCategory leagueCategory : leagueCategoryList) {
+            LeagueCategoryDto leagueCategoryDto = new LeagueCategoryDto(leagueCategory.getLeagueId(), leagueCategory.getLeague(), leagueCategory.getLeagueEmblem(), leagueCategory.getTeamList());
             leagueList.add(leagueCategoryDto);
-
         }
         return leagueList;
     }
-
 }

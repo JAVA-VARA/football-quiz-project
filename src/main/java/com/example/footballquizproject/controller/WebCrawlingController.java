@@ -2,7 +2,7 @@ package com.example.footballquizproject.controller;
 
 import com.example.footballquizproject.enumPack.*;
 import com.example.footballquizproject.service.CollectPlayersDataService;
-import com.example.footballquizproject.service.CollectTeamPremierLeague;
+import com.example.footballquizproject.service.CollectTeamData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class WebCrawlingController {
 
     private final CollectPlayersDataService collectPlayersData;
-    private final CollectTeamPremierLeague collectTeamPremierLeague;
+    private final CollectTeamData collectTeamData;
 
     @GetMapping("/team")
     public void crawlingTeamInfo() throws InterruptedException {
         for (LeagueClubsURL L : LeagueClubsURL.values()) {
-            collectTeamPremierLeague.getTeamData(L);
+            collectTeamData.collectTeamInfo(L);
         }
     }
 

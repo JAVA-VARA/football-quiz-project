@@ -18,7 +18,7 @@ public class GameCategoryService {
         List<GameCategoryDto> gameCategoryDtoList = new ArrayList<>();
 
         for(GameCategory gameCategory : gameCategories){
-            GameCategoryDto gameCategoryDto = new GameCategoryDto(gameCategory.getCategoryName(), gameCategory.getCategoryThumbnail(), gameCategory.getCategoryUrl());
+            GameCategoryDto gameCategoryDto = new GameCategoryDto(gameCategory.getCategoryId(), gameCategory.getCategoryName(), gameCategory.getCategoryThumbnail(), gameCategory.getCategoryUrl());
             gameCategoryDtoList.add(gameCategoryDto);
         }
 
