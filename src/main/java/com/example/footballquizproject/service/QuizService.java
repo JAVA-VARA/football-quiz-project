@@ -26,7 +26,7 @@ public class QuizService {
         List<QuizDto> quizSetOfPlayers = new ArrayList<>();
 
         for(Players player : players){
-            QuizDto playersDto = new QuizDto(player.getImageUrl(), player.getFullName(), player.getFirstname(), player.getLastname());
+            QuizDto playersDto = new QuizDto(player.getImageUrl(), player.getFullName(), player.getFirstName(), player.getMiddleName(), player.getLastName());
             quizSetOfPlayers.add(playersDto);
         }
         return quizSetOfPlayers;

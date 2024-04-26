@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -30,12 +29,28 @@ public class SavePlayersDataService {
             String playerFullName = elementsPlayersName.get(i).getText();
             String[] fullName = playerFullName.split(" ");
             String firstName = "none";
+            String middleName = "none";
             String lastName ="none";
 
-            if(fullName.length > 1){
-                firstName = fullName[0];
-                lastName = String.join(" ", Arrays.copyOfRange(fullName, 1, fullName.length));
+            if(fullName.length == 1){
+                continue;
             }
+
+            if(fullName.length == 2){
+                firstName = fullName[0];
+                lastName = fullName[1];
+            }
+
+            if(fullName.length == 3){
+                firstName = fullName[0];
+                middleName = fullName[1];
+                lastName = fullName[2];
+            }
+
+//            if(fullName.length > 1){
+//                firstName = fullName[0];
+//                lastName = String.join(" ", Arrays.copyOfRange(fullName, 1, fullName.length));
+//            }
 
             //등번호
             String backNumberString = elementsPlayerBackNumber.get(i).getText();
@@ -44,8 +59,9 @@ public class SavePlayersDataService {
             Players player = Players.builder()
                     .imageUrl(playerImage)
                     .fullName(playerFullName)
-                    .firstname(firstName)
-                    .lastname(lastName)
+                    .firstName(firstName)
+                    .middleName(middleName)
+                    .lastName(lastName)
                     .team(team)
                     .season(season)
                     .backNumber(backNumber)

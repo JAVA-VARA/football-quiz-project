@@ -26,11 +26,11 @@ public class WebCrawlingController {
 
     @GetMapping("/players")
     public void crawlingPlayersInfo() throws Exception {
-        collectPlayersByLeague(EPLClubsSquadURL.values());
+//        collectPlayersByLeague(EPLClubsSquadURL.values());
         collectPlayersByLeague(BundesLigaClubsSquadURL.values());
-        collectPlayersByLeague(LaligaClubsSquadURL.values());
-        collectPlayersByLeague(SerieAClubsSquadURL.values());
-        collectPlayersByLeague(League1ClubsSquadURL.values());
+//        collectPlayersByLeague(LaligaClubsSquadURL.values());
+//        collectPlayersByLeague(SerieAClubsSquadURL.values());
+//        collectPlayersByLeague(League1ClubsSquadURL.values());
     }
 
     private void collectPlayersByLeague(ClubsSquadURLProvider[] squadURLs) throws Exception {

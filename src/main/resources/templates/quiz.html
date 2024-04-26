@@ -125,17 +125,24 @@
 
         let correctFullName = quizList[currentQuestionIndex].fullName;
         let correctFirstName = quizList[currentQuestionIndex].firstName;
+        let correctMiddleName = quizList[currentQuestionIndex].middleName;
         let correctLastName = quizList[currentQuestionIndex].lastName;
 
 
 
         //정답 확인
         let isCorrect = false;
-        if(answer === correctFullName || answer === correctFirstName || answer === correctLastName){
+        if(
+            answer === correctFullName ||
+            answer === correctFirstName ||
+            answer === correctLastName ||
+            answer === correctMiddleName ||
+            answer === correctFirstName + ' ' + correctMiddleName ||
+            answer === correctMiddleName  + ' ' + correctLastName
+        )
+        {
             isCorrect = true;
         }
-
-        // let isCorrect = answer === correctFullName;
 
         let resultMsg1;
         let resultMsg2;
