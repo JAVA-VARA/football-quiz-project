@@ -34,37 +34,71 @@ public class ResultService {
                 .correctAnswer(correctAnswers)
                 .teamId(teamId)
                 .build();
-        quizHistoryRepository.save(quizHistory);
-
+//        quizHistoryRepository.save(quizHistory);
     }
 
-    public RankingDto quizRankingByTeam(int userCorrectAnswers, Long teamId) {
+    public RankingDto quizRankingByTeam(int correctAnswer, Long teamId) {
+        List<QuizHistory> quizTotalParticipantsByTeam = quizHistoryRepository.getRanking(teamId);
+        int total = quizTotalParticipantsByTeam.size();
 
-        List<QuizHistory> quizTotalParticipantsByTeam = quizHistoryRepository.findByTeamId(teamId);
-        RankingDto rankingDto = new RankingDto();
-        int totalParticipants = quizTotalParticipantsByTeam.size();
-        rankingDto.setTotalParticipantsByTeam(totalParticipants);
+        int i =0;
+        int[] rankArray = new int[quizTotalParticipantsByTeam.size()];
+        for(QuizHistory quizHistory : quizTotalParticipantsByTeam){
+            rankArray[i] =  quizHistory.getCorrectAnswer();
+            i++;
+        }
 
-        // 1. 정렬: 내림차순으로 정렬
-        quizTotalParticipantsByTeam.sort((a, b) -> Integer.compare(b.getCorrectAnswer(), a.getCorrectAnswer()));
-
-        //2 랭킹 반환
-        // *T0-DO: 이진 탐색으로 변경해서 성능을 좋게 만들자.
-        int rank = 1;
-        for (QuizHistory participant : quizTotalParticipantsByTeam) {
-
-            if(quizTotalParticipantsByTeam.get(0).getCorrectAnswer() <= userCorrectAnswers){
-                rankingDto.setRank(rank);
-                return rankingDto;
-            }
-            if (participant.getCorrectAnswer() != userCorrectAnswers) {
-                rank += 1;
-
-            }else {
+        int rank = -1;
+        for(int j =0; j<rankArray.length; j++){
+            if(rankArray[j] == correctAnswer){
+                rank = j+1;
                 break;
             }
         }
+
+        RankingDto rankingDto = new RankingDto();
+        rankingDto.setTotalParticipantsByTeam(total);
+        rankingDto.setRank(rank);
+
         return rankingDto;
+
+
+//        List<QuizHistory> quizTotalParticipantsByTeam = quizHistoryRepository.findByTeamId(teamId);
+//
+//        //total
+//        int totalParticipants = quizTotalParticipantsByTeam.size();
+//        rankingDto.setTotalParticipantsByTeam(totalParticipants);
+
+        //랭킹
+        // 1. 정렬: 내림차순으로 정렬
+//        quizTotalParticipantsByTeam.sort((a, b) -> Integer.compare(b.getCorrectAnswer(), a.getCorrectAnswer()));
+//
+//        int[] ranks = new int[quizTotalParticipantsByTeam.size()];
+//
+//        for(int i : quizTotalParticipantsByTeam.)
+
+
+
+
+
+
+        //2 랭킹 반환
+        // *T0-DO: 이진 탐색으로 변경해서 성능을 좋게 만들자.
+//        int rank = 1;
+//        for (QuizHistory participant : quizTotalParticipantsByTeam) {
+//
+//            if(quizTotalParticipantsByTeam.get(0).getCorrectAnswer() <= userCorrectAnswers){
+//                rankingDto.setRank(rank);
+//                return rankingDto;
+//            }
+//            if (participant.getCorrectAnswer() != userCorrectAnswers) {
+//                rank += 1;
+//
+//            }else {
+//                break;
+//            }
+//        }
+//        return rankingDto;
     }
 }
 
