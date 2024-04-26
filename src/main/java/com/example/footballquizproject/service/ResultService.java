@@ -34,7 +34,7 @@ public class ResultService {
                 .correctAnswer(correctAnswers)
                 .teamId(teamId)
                 .build();
-//        quizHistoryRepository.save(quizHistory);
+        quizHistoryRepository.save(quizHistory);
     }
 
     public RankingDto quizRankingByTeam(int correctAnswer, Long teamId) {
