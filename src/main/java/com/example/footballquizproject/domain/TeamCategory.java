@@ -1,21 +1,20 @@
 package com.example.footballquizproject.domain;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TeamCategory {
-    @Id private String teamName;
+    @Id
+    private String teamName;
 
-    @Column private String teamEmblem;
+    @Column
+    private String teamEmblem;
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Players> playersList;
