@@ -45,12 +45,6 @@ public enum BundesLigaClubsSquadURL implements ClubsSquadURLProvider {
 
         return CssSelectorPlayersByLeague.PLAYERS_SELECTOR_DAUM_SPORT.getSelectPlayerName();
     }
-
-    @Override
-    public String getTeamCssSelector() {
-
-        return CssSelectorPlayersByLeague.PLAYERS_SELECTOR_DAUM_SPORT.getTeamName();
-    }
     @Override
     public String getBackNumberCssSelector() {
         return CssSelectorPlayersByLeague.PLAYERS_SELECTOR_DAUM_SPORT.getBackNumber();

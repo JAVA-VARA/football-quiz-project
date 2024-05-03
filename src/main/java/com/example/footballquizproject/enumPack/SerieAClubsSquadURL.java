@@ -48,12 +48,6 @@ public enum SerieAClubsSquadURL implements ClubsSquadURLProvider {
     }
 
     @Override
-    public String getTeamCssSelector() {
-
-        return CssSelectorPlayersByLeague.PLAYERS_SELECTOR_DAUM_SPORT.getTeamName();
-    }
-
-    @Override
     public String getBackNumberCssSelector() {
         return CssSelectorPlayersByLeague.PLAYERS_SELECTOR_DAUM_SPORT.getBackNumber();
     }
