@@ -32,11 +32,14 @@ public class TeamCategoryService {
             TeamCategoryDto teamCategoryDto = new TeamCategoryDto(teamCategory.getTeamId(), teamCategory.getTeamName(), teamCategory.getTeamEmblem());
             teamCategories.add(teamCategoryDto);
 
+            //TODO: 팀별로 참여 인원 로딩 시 시간이 너무 오래 걸림. 해결이 필요하다
             List<QuizHistory> quizHistories = quizHistoryRepository.getTotalParticipantsByTeam(teamCategory.getTeamId());
             teamCategoryDto.setGameParticipants(quizHistories.size());
         }
+
         return teamCategories;
     }
+
     public String getTeamName(Long teamId){
         TeamCategory teamCategory = teamCategoryRepository.findByTeamId(teamId);
         return teamCategory.getTeamName();

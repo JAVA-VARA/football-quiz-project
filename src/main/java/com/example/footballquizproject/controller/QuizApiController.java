@@ -60,7 +60,6 @@ public class QuizApiController {
         Long teamId = request.getTeamId();
         String team =teamCategoryService.getTeamName(teamId);
 
-
         resultService.saveQuizHistory(correctAnswers, teamId);
         String level = resultService.determineResult(correctAnswers);
         RankingDto rankingInfo = resultService.quizRankingByTeam(correctAnswers, teamId);

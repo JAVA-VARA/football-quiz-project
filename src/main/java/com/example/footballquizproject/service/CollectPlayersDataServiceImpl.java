@@ -17,7 +17,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CollectPlayersDataServiceImpl implements CollectPlayersDataService {
-
     private final PlayersRepository playersRepository;
     private final WebDriverUtil webDriverUtil;
     private final SavePlayersDataService savePlayersDataService;
@@ -29,27 +28,22 @@ public class CollectPlayersDataServiceImpl implements CollectPlayersDataService 
         webDriverUtil.scrollDriver(driver);
 
         List<WebElement> elementsPlayersImage = driver.findElements(By.cssSelector(squadURL.getImageCssSelector()));
-        List<WebElement>elementsPlayersName = driver.findElements(By.cssSelector(squadURL.getNameCssSelector()));
-
-//        List<WebElement> elementsTeam = driver.findElements(By.cssSelector(squadURL.getTeamCssSelector()));
-
+        List<WebElement> elementsPlayersName = driver.findElements(By.cssSelector(squadURL.getNameCssSelector()));
         List<WebElement> elementsSeason = driver.findElements(By.cssSelector(squadURL.getSeasonCssSelector()));
         List<WebElement> elementsPlayerBackNumber = driver.findElements(By.cssSelector(squadURL.getBackNumberCssSelector()));
 
         String season = elementsSeason.get(0).getText();
-
-//        String teamName = elementsTeam.get(0).getText();
-
         String teamName = squadURL.getTeam();
         TeamCategory team = teamCategoryRepository.findTeamCategoriesByTeamName(teamName);
 
-        List<Players> playersInfoList = savePlayersDataService.savePlayersData(elementsPlayersImage,elementsPlayersName,team, season, elementsPlayerBackNumber);
+        List<Players> playersInfoList = savePlayersDataService.savePlayersData(elementsPlayersImage, elementsPlayersName, team, season, elementsPlayerBackNumber);
 
         driver.close();
         driver.quit();
 
         playersRepository.saveAll(playersInfoList);
     }
+}
 
 //    @Override
 //    public void collectLaligaPlayersData(LaligaClubsSquadURL laligaClubsSquadURL) throws InterruptedException{
@@ -144,4 +138,4 @@ public class CollectPlayersDataServiceImpl implements CollectPlayersDataService 
 //
 //        playersRepository.saveAll(playersInfoList);
 //    }
-}
+

@@ -1,7 +1,8 @@
 INSERT INTO game_category(category_id,category_name, category_description, category_thumbnail, category_url ) values
 (1, '축구 선수 사진 보고 이름 맞추기(현역)', '축구 선수 사진을 보고 이름을 맞춰봐' , 'https://yt3.googleusercontent.com/YX4OsyDiIve5FRwgEIs1eFzn5PwDUc8vPsLRSWP4bWagBsVNRPEIdleAw8eMuac45aupDfEHkA=s900-c-k-c0x00ffffff-no-rj', '/who-are-you');
 
-INSERT INTO alias_category(alias, min_correct_answers, max_correct_answers) values
+
+INSERT INTO level_category(levels, min_correct_answers, max_correct_answers) values
 ('뉴비' , 0 , 5),
 ('패션' , 6 , 10),
 ('라이트팬',11 , 15),

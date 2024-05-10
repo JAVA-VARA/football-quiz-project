@@ -25,7 +25,6 @@ public enum BundesLigaClubsSquadURL implements ClubsSquadURLProvider {
     아인트라흐트_프랑크푸르트("아인트라흐트 프랑크푸르트", "https://sports.daum.net/team/bundesliga/1124/squad#0"),
     우니온_베를린("우니온 베를린", "https://sports.daum.net/team/bundesliga/600950/squad#0"),
     ;
-
     private final String team;
     private final String url;
 
@@ -36,15 +35,14 @@ public enum BundesLigaClubsSquadURL implements ClubsSquadURLProvider {
 
     @Override
     public String getImageCssSelector() {
-
         return CssSelectorPlayersByLeague.PLAYERS_SELECTOR_DAUM_SPORT.getSelectPlayerImage();
     }
 
     @Override
     public String getNameCssSelector() {
-
         return CssSelectorPlayersByLeague.PLAYERS_SELECTOR_DAUM_SPORT.getSelectPlayerName();
     }
+
     @Override
     public String getBackNumberCssSelector() {
         return CssSelectorPlayersByLeague.PLAYERS_SELECTOR_DAUM_SPORT.getBackNumber();
@@ -56,8 +54,8 @@ public enum BundesLigaClubsSquadURL implements ClubsSquadURLProvider {
     }
 
     @Override
-    public String getTeam(){
+    public String getTeam() {
         return this.team;
     }
-
 }
+

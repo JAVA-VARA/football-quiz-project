@@ -1,9 +1,9 @@
 package com.example.footballquizproject.service;
 
-import com.example.footballquizproject.domain.AliasCategory;
+import com.example.footballquizproject.domain.LevelCategory;
 import com.example.footballquizproject.domain.QuizHistory;
 import com.example.footballquizproject.dto.RankingDto;
-import com.example.footballquizproject.repository.AliasCategoryRepository;
+import com.example.footballquizproject.repository.LevelCategoryRepository;
 import com.example.footballquizproject.repository.QuizHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,16 +15,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ResultService {
 
-    private final AliasCategoryRepository aliasCategoryRepository;
+    private final LevelCategoryRepository levelCategoryRepository;
     private final QuizHistoryRepository quizHistoryRepository;
 
     public String determineResult(int correctAnswers) {
         // 정답 개수에 따라 결과를 반환
-        AliasCategory alias =
-                aliasCategoryRepository
+        LevelCategory level =
+                levelCategoryRepository
                         .findByMinCorrectAnswersLessThanEqualAndMaxCorrectAnswersGreaterThanEqual
                                 (correctAnswers, correctAnswers);
-        return alias.getAlias();
+        return level.getLevels();
     }
 
     @Transactional
@@ -37,6 +37,7 @@ public class ResultService {
         quizHistoryRepository.save(quizHistory);
     }
 
+    //TODO: 랭킹 반환 로직 => 현재는 괜찮지만 사용자가 많아질수록 BIG(O)가 너무 커진다. => Redis로 구현해보기
     public RankingDto quizRankingByTeam(int correctAnswer, Long teamId) {
         List<QuizHistory> quizTotalParticipantsByTeam = quizHistoryRepository.getRanking(teamId);
         int total = quizTotalParticipantsByTeam.size();
@@ -55,12 +56,14 @@ public class ResultService {
                 break;
             }
         }
-
         RankingDto rankingDto = new RankingDto();
         rankingDto.setTotalParticipantsByTeam(total);
         rankingDto.setRank(rank);
 
         return rankingDto;
+    }
+}
+
 
 
 //        List<QuizHistory> quizTotalParticipantsByTeam = quizHistoryRepository.findByTeamId(teamId);
@@ -69,8 +72,8 @@ public class ResultService {
 //        int totalParticipants = quizTotalParticipantsByTeam.size();
 //        rankingDto.setTotalParticipantsByTeam(totalParticipants);
 
-        //랭킹
-        // 1. 정렬: 내림차순으로 정렬
+//랭킹
+// 1. 정렬: 내림차순으로 정렬
 //        quizTotalParticipantsByTeam.sort((a, b) -> Integer.compare(b.getCorrectAnswer(), a.getCorrectAnswer()));
 //
 //        int[] ranks = new int[quizTotalParticipantsByTeam.size()];
@@ -82,8 +85,8 @@ public class ResultService {
 
 
 
-        //2 랭킹 반환
-        // *T0-DO: 이진 탐색으로 변경해서 성능을 좋게 만들자.
+//2 랭킹 반환
+// *T0-DO: 이진 탐색으로 변경해서 성능을 좋게 만들자.
 //        int rank = 1;
 //        for (QuizHistory participant : quizTotalParticipantsByTeam) {
 //
@@ -99,9 +102,6 @@ public class ResultService {
 //            }
 //        }
 //        return rankingDto;
-    }
-}
-
 //        //2 랭킹 찾기
 //        // 2. 이진 탐색을 사용하여 사용자의 점수가 몇 등인지 확인
 //        int left = 0;

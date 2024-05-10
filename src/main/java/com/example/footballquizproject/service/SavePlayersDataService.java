@@ -13,7 +13,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SavePlayersDataService {
 
-    List<Players> savePlayersData(List<WebElement> elementsPlayersImage, List<WebElement> elementsPlayersName, TeamCategory team, String season, List<WebElement> elementsPlayerBackNumber){
+    List<Players> savePlayersData(
+            List<WebElement> elementsPlayersImage,
+            List<WebElement> elementsPlayersName,
+            TeamCategory team, String season,
+            List<WebElement> elementsPlayerBackNumber){
 
         List<Players> playersInfoList = new ArrayList<>();
 
@@ -47,10 +51,6 @@ public class SavePlayersDataService {
                 lastName = fullName[2];
             }
 
-//            if(fullName.length > 1){
-//                firstName = fullName[0];
-//                lastName = String.join(" ", Arrays.copyOfRange(fullName, 1, fullName.length));
-//            }
 
             //등번호
             String backNumberString = elementsPlayerBackNumber.get(i).getText();
@@ -72,6 +72,9 @@ public class SavePlayersDataService {
         return playersInfoList;
     }
 }
+
+
+
 
 //    private TeamCategory getTeamInfo(List<WebElement> elements){
 //        String teamName = elements.get(0).getText();

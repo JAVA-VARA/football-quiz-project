@@ -44,7 +44,7 @@
         }
 
         .team-participants{
-            font-size: 9px;
+            font-size: 15px;
             font-weight: bold;
             color: brown;
         }
@@ -52,20 +52,46 @@
 </head>
 <body>
 
-<div class="team-container">
-    <div class="team-selection">팀 선택</div>
-    <div th:each="team : ${teamList}" class="team-item">
-        <form th:action="@{/quizzes/team-category/{teamId}(teamId=${team.getTeamId()})}" th:method="GET">
-            <input type="hidden" name="teamId" th:value="${team.getTeamId()}">
+<div class="team-item" th:each="team : ${teamList}">
+    <form th:action="@{/quizzes/team-category/{teamId}(teamId=${team.getTeamId()})}" th:method="GET">
+        <input type="hidden" name="teamId" th:value="${team.getTeamId()}">
 
-            <button type="submit" style="border: none; background: none; cursor: pointer;">
-                <img th:src="${team.getTeamEmblem()}" class="team-emblem" alt="지원하지 않는 파일">
-                <div class="team-name" th:text="${team.getTeamName()}"></div>
-            </button>
-            <div class="team-participants" th:text="|참여 인원: ${team.getGameParticipants()}|"></div>
-        </form>
-    </div>
+        <button type="submit" style="border: none; background: none; cursor: pointer;">
+            <img id="team-emblem-${team.getTeamId()}" th:src="${team.getTeamEmblem()}" class="team-emblem" alt="지원하지 않는 파일">
+            <div class="team-name" th:text="${team.getTeamName()}"></div>
+        </button>
+        <div class="team-participants" th:text="|참여 인원: ${team.getGameParticipants()}|"></div>
+    </form>
 </div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var teamList = /*[[${teamList}]]*/ [];
+
+    teamList.forEach(function(team) {
+        var emblem = document.getElementById('team-emblem-' + team.teamId);
+        var size = team.getGameParticipants() * 2; // 원하는 조정값으로 변경 가능
+        emblem.style.width = size + 'px';
+        emblem.style.height = size + 'px';
+    });
+    /*]]>*/
+</script>
+
+
+<!--<div class="team-container">-->
+<!--    <div class="team-selection">팀 선택</div>-->
+<!--    <div th:each="team : ${teamList}" class="team-item">-->
+<!--        <form th:action="@{/quizzes/team-category/{teamId}(teamId=${team.getTeamId()})}" th:method="GET">-->
+<!--            <input type="hidden" name="teamId" th:value="${team.getTeamId()}">-->
+
+<!--            <button type="submit" style="border: none; background: none; cursor: pointer;">-->
+<!--                <img th:src="${team.getTeamEmblem()}" class="team-emblem" alt="지원하지 않는 파일">-->
+<!--                <div class="team-name" th:text="${team.getTeamName()}"></div>-->
+<!--            </button>-->
+<!--            <div class="team-participants" th:text="|참여 인원: ${team.getGameParticipants()}|"></div>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</div>-->
 
 </body>
 </html>

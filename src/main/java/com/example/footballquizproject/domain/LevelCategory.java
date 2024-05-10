@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class AliasCategory {
+public class LevelCategory {
 
     @Id
-    private String alias;
+    private String levels;
 
     @Column
     private int minCorrectAnswers;
