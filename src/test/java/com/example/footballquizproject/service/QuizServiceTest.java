@@ -30,15 +30,15 @@ class QuizServiceTest {
 
     @Test
     @DisplayName("팀을 기준 랜덤으로 n명의 선수 사진 URL 과 이름을 가져온다.")
-    void testPick20PlayersByTeamName(){
+    void testPick10PlayersByTeamId(){
         //GIVEN
-        String teamName = "아틀레티코 마드리드";
+        Long teamId = 1L;
 
         //WHEN
-        List<Players> players = playersRepository.findRandomPlayersByTeamName(teamName);
+        List<Players> players = playersRepository.findRandomPlayersByTeamIdPick10(teamId);
 
         //THEN
-        assertEquals(players.size(), 5);
-        assertThat(players.get(0).getTeam().getTeamName()).isEqualTo(teamName);
+        assertEquals(players.size(), 10);
+        assertThat(players.get(0).getTeam().getTeamId()).isEqualTo(teamId);
     }
 }
