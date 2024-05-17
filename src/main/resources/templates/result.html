@@ -8,9 +8,8 @@
             font-family: Arial, sans-serif;
             background-color: #f2f2f2;
             margin: 0;
-            padding: 0;
             text-align: center;
-            padding-top: 50px;
+            padding: 50px 0 0;
         }
 
         .result-container {
@@ -29,6 +28,18 @@
             font-weight: bold;
             color: #4CAF50;
         }
+
+        .home-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+
     </style>
 </head>
 <body>
@@ -45,6 +56,12 @@
     <div>
         <span class="result" th:text="|당신은 ${team} ${level.getLevels()} 입니다|"></span>
     </div>
+
+    <form action="/quizzes/game-category/1" method="get">
+        <button type="submit" class="home-button">홈으로</button>
+    </form>
 </div>
+
+
 </body>
 </html>

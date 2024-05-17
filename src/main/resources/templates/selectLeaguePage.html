@@ -12,6 +12,16 @@
             text-align: center;
         }
 
+        .back-button {
+            padding: 10px;
+            position: absolute;
+            background-color: black;
+            color:white;
+            font-weight: bold;
+            font-size: 20px;
+            left: 50px;
+        }
+
         .league-container {
             margin-top: 50px;
         }
@@ -46,6 +56,7 @@
 <body>
 
 <div class="league-container">
+    <button class="back-button" onclick="window.history.back();">◀뒤로가기</button>
     <div class="league-selection">리그 선택</div>
     <div th:each="league : ${leagueList}" class="team-item">
         <form th:action="@{/quizzes/league-category/{leagueId}(leagueId=${league.getId()})}" th:method="GET">
