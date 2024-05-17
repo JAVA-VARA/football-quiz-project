@@ -16,7 +16,7 @@ import java.util.List;
 // GET /find-boards-by-userid-pick-top10
 // GET /users/:userId/boards?limit=10
 
-@Controller()
+@Controller
 @RequestMapping("/quizzes")
 @RequiredArgsConstructor
 public class QuizApiController {

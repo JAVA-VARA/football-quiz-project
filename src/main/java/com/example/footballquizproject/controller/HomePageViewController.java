@@ -20,7 +20,6 @@ public class HomePageViewController {
     public String showQuizCategory(Model model){
 
         //나중에 게임이 많아지면 게임 검색 기능 추가
-
         List<GameCategoryDto> gameCategories = gameCategoryService.getGameCategoryList();
         model.addAttribute("categories", gameCategories);
 
