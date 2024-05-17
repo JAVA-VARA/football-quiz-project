@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+//    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     compileOnly 'org.projectlombok:lombok'
@@ -44,12 +44,12 @@ dependencies {
 
 
     //web crawling
-    implementation 'org.jsoup:jsoup:1.15.3'
+//    implementation 'org.jsoup:jsoup:1.15.3'
 
     // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
     implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.19.1'
 
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+//    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
 
 

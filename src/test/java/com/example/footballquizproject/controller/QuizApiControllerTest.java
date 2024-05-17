@@ -10,6 +10,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,7 +117,7 @@ class QuizApiControllerTest {
 
     @Test
     @DisplayName("TEAM 기준으로 랜덤 문제 10개를 생성한다")
-    void showQuiz_ReturnsQuizPageWithQuizList() throws Exception{
+    void showQuiz_ReturnsQuizPageWithQuizList() {
 
         //given
         List<QuizDto> mockQuizList = new ArrayList<>();
@@ -134,13 +136,16 @@ class QuizApiControllerTest {
     }
 
 
-    @Test
-    @DisplayName("유저가 맞춘 정답 갯수를 기준으로 별칭을 반환한다_뉴비_0to3")
-    void showResult_0to3() throws  Exception{
+    @ParameterizedTest
+    @DisplayName("유저가 맞춘 정답 갯수를 기준으로 별칭을 반환한다")
+    @CsvSource({
+            "3, 뉴비",
+            "6, 패션",
+            "8, 라이트 팬",
+            "10, 그 자체"
+    })
+    void showResult(int correctAnswers, String level) throws Exception {
 
-        //given 유저가 맞춘 갯수 지정 / 갯수에 따른 별칭 지정
-        int correctAnswers = 3;
-        final String level = "뉴비";
         final String url = "/quizzes/result";
         QuizResultRequestDto request = new QuizResultRequestDto(correctAnswers,teamId);
         final String requestBody = objectMapper.writeValueAsString(request);
@@ -158,89 +163,7 @@ class QuizApiControllerTest {
                 .andExpect(model().attributeExists("correctAnswers"))
                 .andExpect(model().attribute("correctAnswers", correctAnswers))
                 .andExpect(model().attributeExists("level"))
-                .andExpect(model().attribute("level", level));
-    }
-
-    @Test
-    @DisplayName("유저가 맞춘 정답 갯수를 기준으로 별칭을 반환한다_패션_4to6")
-    void showResult_4to6() throws  Exception{
-
-        //given 유저가 맞춘 갯수 지정 / 갯수에 따른 별칭 지정
-        int correctAnswers = 6;
-        final String level = "패션";
-        final String url = "/quizzes/result";
-        QuizResultRequestDto request = new QuizResultRequestDto(correctAnswers,teamId);
-        final String requestBody = objectMapper.writeValueAsString(request);
-
-        //when 맞춘 갯수를 controller에 전달
-        ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.post(url)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody));
-
-        //then 반환한 별칭 == given에 지정한 별칭 일치하는지 확인
-        resultActions
-                .andExpect(status().isOk())
-                .andExpect(view().name("result"))
-                .andExpect(model().attributeExists("correctAnswers"))
-                .andExpect(model().attribute("correctAnswers", correctAnswers))
-                .andExpect(model().attributeExists("level"))
-                .andExpect(model().attribute("level", level));
-
-    }
-    @Test
-    @DisplayName("유저가 맞춘 정답 갯수를 기준으로 별칭을 반환한다_라이트 팬_7to9")
-    void showResult_7to9() throws  Exception{
-
-        //given 유저가 맞춘 갯수 지정 / 갯수에 따른 별칭 지정
-        int correctAnswers = 8;
-        final String level = "라이트 팬";
-        final String url = "/quizzes/result";
-        QuizResultRequestDto request = new QuizResultRequestDto(correctAnswers,teamId);
-        final String requestBody = objectMapper.writeValueAsString(request);
-
-        //when 맞춘 갯수를 controller에 전달
-        ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.post(url)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody));
-
-        //then 반환한 별칭 == given에 지정한 별칭 일치하는지 확인
-        resultActions
-                .andExpect(status().isOk())
-                .andExpect(view().name("result"))
-                .andExpect(model().attributeExists("correctAnswers"))
-                .andExpect(model().attribute("correctAnswers", correctAnswers))
-                .andExpect(model().attributeExists("level"))
-                .andExpect(model().attribute("level", level));
-    }
-
-    @Test
-    @DisplayName("유저가 맞춘 정답 갯수를 기준으로 별칭을 반환한다_썩은물_10")
-    void showResult_10() throws  Exception{
-
-        //given 유저가 맞춘 갯수 지정 / 갯수에 따른 별칭 지정
-        int correctAnswers = 10;
-        final String level = "그 자체";
-        final String url = "/quizzes/result";
-        QuizResultRequestDto request = new QuizResultRequestDto(correctAnswers,teamId);
-        final String requestBody = objectMapper.writeValueAsString(request);
-
-        //when 맞춘 갯수를 controller에 전달
-        ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.post(url)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody));
-
-        //then 반환한 별칭 == given에 지정한 별칭 일치하는지 확인
-        resultActions
-                .andExpect(status().isOk())
-                .andExpect(view().name("result"))
-                .andExpect(model().attributeExists("correctAnswers"))
-                .andExpect(model().attribute("correctAnswers", correctAnswers))
-                .andExpect(model().attributeExists("level"))
-                .andExpect(model().attribute("level", level));
-
+                .andExpect(model().attribute("level", Matchers.hasProperty("levels", Matchers.is(level))));
     }
 
 }
