@@ -18,13 +18,11 @@ public class ResultService {
     private final LevelCategoryRepository levelCategoryRepository;
     private final QuizHistoryRepository quizHistoryRepository;
 
-    public String determineResult(int correctAnswers) {
+    public LevelCategory determineResult(int correctAnswers) {
         // 정답 개수에 따라 결과를 반환
-        LevelCategory level =
-                levelCategoryRepository
+        return levelCategoryRepository
                         .findByMinCorrectAnswersLessThanEqualAndMaxCorrectAnswersGreaterThanEqual
                                 (correctAnswers, correctAnswers);
-        return level.getLevels();
     }
 
     @Transactional

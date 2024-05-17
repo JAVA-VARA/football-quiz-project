@@ -20,4 +20,7 @@ public class LevelCategory {
 
     @Column
     private int maxCorrectAnswers;
+
+    @Column
+    private String levelImage;
 }

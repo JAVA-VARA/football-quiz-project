@@ -1,5 +1,6 @@
 package com.example.footballquizproject.controller;
 
+import com.example.footballquizproject.domain.LevelCategory;
 import com.example.footballquizproject.dto.*;
 import com.example.footballquizproject.service.*;
 import lombok.RequiredArgsConstructor;
@@ -61,7 +62,8 @@ public class QuizApiController {
         String team =teamCategoryService.getTeamName(teamId);
 
         resultService.saveQuizHistory(correctAnswers, teamId);
-        String level = resultService.determineResult(correctAnswers);
+
+        LevelCategory level = resultService.determineResult(correctAnswers);
         RankingDto rankingInfo = resultService.quizRankingByTeam(correctAnswers, teamId);
 
         model.addAttribute("correctAnswers", correctAnswers);
