@@ -12,11 +12,12 @@ public class TeamCategoryDto {
     private Long teamId;
     private String teamName;
     private String teamEmblem;
-    private int gameParticipants;
+    private Long gameParticipants;
 
-    public TeamCategoryDto(Long teamId, String teamName, String teamEmblem){
+    public TeamCategoryDto(Long teamId, String teamName, String teamEmblem, Long orDefault) {
         this.teamEmblem = teamEmblem;
         this.teamName = teamName;
         this.teamId = teamId;
+        this.gameParticipants = orDefault;
     }
 }

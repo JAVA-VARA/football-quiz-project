@@ -1,7 +1,6 @@
 package com.example.footballquizproject.service;
 
 import com.example.footballquizproject.domain.LeagueCategory;
-import com.example.footballquizproject.domain.QuizHistory;
 import com.example.footballquizproject.domain.TeamCategory;
 import com.example.footballquizproject.dto.TeamCategoryDto;
 import com.example.footballquizproject.repository.LeagueCategoryRepository;
@@ -10,8 +9,9 @@ import com.example.footballquizproject.repository.TeamCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,22 +22,21 @@ public class TeamCategoryService {
     private final QuizHistoryRepository quizHistoryRepository;
 
     public List<TeamCategoryDto> getTeamCategoryListByLeague(Long leagueId) {
-
         LeagueCategory league = leagueCategoryRepository.findLeagueCategoryByLeagueId(leagueId);
         List<TeamCategory> teamCategoryList = teamCategoryRepository.findTeamCategoriesByLeague(league);
 
-        List<TeamCategoryDto> teamCategories = new ArrayList<>();
+        Map<Long, Long> participantsCountByTeams = quizHistoryRepository.getParticipantsCountByTeams(
+                        teamCategoryList.stream().map(TeamCategory::getTeamId).collect(Collectors.toList()))
+                .stream()
+                .collect(Collectors.toMap(result -> (Long) result[0], result -> (Long) result[1]));
 
-        for(TeamCategory teamCategory: teamCategoryList){
-            TeamCategoryDto teamCategoryDto = new TeamCategoryDto(teamCategory.getTeamId(), teamCategory.getTeamName(), teamCategory.getTeamEmblem());
-            teamCategories.add(teamCategoryDto);
-
-            //TODO: 팀별로 참여 인원 로딩 시 시간이 너무 오래 걸림. 해결이 필요하다
-            List<QuizHistory> quizHistories = quizHistoryRepository.getTotalParticipantsByTeam(teamCategory.getTeamId());
-            teamCategoryDto.setGameParticipants(quizHistories.size());
-        }
-
-        return teamCategories;
+        return teamCategoryList.stream()
+                .map(teamCategory -> new TeamCategoryDto(
+                        teamCategory.getTeamId(),
+                        teamCategory.getTeamName(),
+                        teamCategory.getTeamEmblem(),
+                        participantsCountByTeams.getOrDefault(teamCategory.getTeamId(), 0L)))
+                .collect(Collectors.toList());
     }
 
     public String getTeamName(Long teamId){
