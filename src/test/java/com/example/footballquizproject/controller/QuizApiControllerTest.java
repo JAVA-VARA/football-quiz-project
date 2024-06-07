@@ -137,7 +137,7 @@ class QuizApiControllerTest {
 
 
     @ParameterizedTest
-    @DisplayName("유저가 맞춘 정답 갯수를 기준으로 별칭을 반환한다")
+    @DisplayName("유저가 맞춘 정답 갯수를 기준으로 레벨을 반환한다")
     @CsvSource({
             "3, 뉴비",
             "6, 패션",

@@ -34,25 +34,32 @@ dependencies {
     //jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
+//    implementation 'mysql:mysql-connector-java'
+
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.31'
+
+
+    //redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+
+    //ReadFrom
+    // https://mvnrepository.com/artifact/io.lettuce/lettuce-core
+    implementation group: 'io.lettuce', name: 'lettuce-core', version: '6.3.2.RELEASE'
+
+
+
+
+
     //db
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'
 
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter', version: '1.2.8.RELEASE'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-storage', version: '1.2.8.RELEASE'
 
-
-
-    //web crawling
-//    implementation 'org.jsoup:jsoup:1.15.3'
-
-    // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
+    //selenium
     implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.19.1'
-
-//    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-
-
-
 
     //test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
