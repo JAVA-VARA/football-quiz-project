@@ -64,7 +64,7 @@ public class QuizApiController {
         resultService.saveQuizHistory(correctAnswers, teamId);
 
         LevelCategory level = resultService.determineResult(correctAnswers);
-        RankingDto rankingInfo = resultService.quizRankingByTeam(correctAnswers, teamId);
+        RankingDto rankingInfo = resultService.calculateRanking(correctAnswers, teamId);
 
         model.addAttribute("correctAnswers", correctAnswers);
         model.addAttribute("level", level);

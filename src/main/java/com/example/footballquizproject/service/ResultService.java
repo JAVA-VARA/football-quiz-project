@@ -22,40 +22,27 @@ public class ResultService {
     private final QuizHistoryRepository quizHistoryRepository;
     private final Cache cache;
 
-    public RankingDto quizRankingByTeam(int currentUserCorrectAnswer, Long teamId) {
+    public RankingDto calculateRanking(int currentUserCorrectAnswer, Long teamId) {
+        Map<Integer, Integer> userCountByCorrectAnswer = getUserCountByCorrectAnswerFromCache(teamId);
 
-        String cacheKey = "quizStat_" + teamId;
-        Map<Integer, Integer> userCountByCorrectAnswer;
-
-        if (cache.containsKey(cacheKey)) {
-            userCountByCorrectAnswer = (Map<Integer, Integer>) cache.get(cacheKey);
-
-        } else {
-            userCountByCorrectAnswer = new HashMap<>();
-            List<QuizHistory> quizTotalParticipantsByTeam = quizHistoryRepository.getRanking(teamId);
-            for (QuizHistory quizHistory : quizTotalParticipantsByTeam) {
-                int correctAnswer = quizHistory.getCorrectAnswer();
-                userCountByCorrectAnswer.put(correctAnswer, userCountByCorrectAnswer.getOrDefault(correctAnswer, 0) + 1);
-            }
-            cache.put(teamId, userCountByCorrectAnswer);
+        if(userCountByCorrectAnswer == null){
+            userCountByCorrectAnswer = saveUserCountByCorrectAnswerToCache(teamId);
         }
 
         //등수 계산
         int rank=0;
         int total=0;
         for (Integer key : userCountByCorrectAnswer.keySet()) {
-
             if(key > currentUserCorrectAnswer){
                 rank += userCountByCorrectAnswer.get(key);
             }
-
             if(key.equals(currentUserCorrectAnswer)){
                 userCountByCorrectAnswer.put(key, userCountByCorrectAnswer.get(key)+1);
             }
-
             total += userCountByCorrectAnswer.get(key);
         }
 
+        String cacheKey = "quizStat_" + teamId;
         cache.put(cacheKey, userCountByCorrectAnswer);
 
         RankingDto rankingDto = new RankingDto();
@@ -79,5 +66,32 @@ public class ResultService {
                 .teamId(teamId)
                 .build();
         quizHistoryRepository.save(quizHistory);
+    }
+
+    private Map<Integer, Integer> getUserCountByCorrectAnswerFromCache(Long teamId){
+        String cacheKey = "quizStat_" + teamId;
+        if(cache.containsKey(cacheKey)){
+            return (Map<Integer, Integer>) cache.get(cacheKey);
+        }
+        return null;
+    }
+
+    private Map<Integer, Integer> saveUserCountByCorrectAnswerToCache(Long teamId){
+
+        //DB에서 DATA 가져오기
+        List<QuizHistory> quizTotalParticipantsByTeam = quizHistoryRepository.getRanking(teamId);
+
+        //CACHE에 저장
+        String cacheKey = "quizStat_" + teamId;
+
+        Map<Integer, Integer> userCountByCorrectAnswer = new HashMap<>();
+        for (QuizHistory quizHistory : quizTotalParticipantsByTeam) {
+            int correctAnswer = quizHistory.getCorrectAnswer();
+            userCountByCorrectAnswer.put(correctAnswer, userCountByCorrectAnswer.getOrDefault(correctAnswer, 0) + 1);
+        }
+
+        cache.put(cacheKey, userCountByCorrectAnswer);
+
+        return userCountByCorrectAnswer;
     }
 }
