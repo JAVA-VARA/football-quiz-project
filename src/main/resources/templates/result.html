@@ -29,6 +29,12 @@
             color: #4CAF50;
         }
 
+        .result-image {
+            width: 200px;
+            height: 200px;
+            object-fit: cover; /* 이미지가 고정된 크기에 맞춰 자르기 */
+        }
+
         .home-button {
             margin-top: 20px;
             padding: 10px 20px;
@@ -53,6 +59,7 @@
     <div>
         <img id="resultImage" class="result-image" th:src="${level.getLevelImage()}" alt="result Image">
     </div>
+
     <div>
         <span class="result" th:text="|당신은 ${team} ${level.getLevels()} 입니다|"></span>
     </div>

@@ -6,11 +6,12 @@ import com.example.footballquizproject.dto.RankingDto;
 import com.example.footballquizproject.repository.LevelCategoryRepository;
 import com.example.footballquizproject.repository.QuizHistoryRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +19,9 @@ public class ResultService {
 
     private final LevelCategoryRepository levelCategoryRepository;
     private final QuizHistoryRepository quizHistoryRepository;
+
+    // 인메모리 캐시를 인스턴스 변수로 선언
+    private final Map<Long, Map<Integer, Integer>> quizStatCache = new HashMap<>();
 
     public LevelCategory determineResult(int correctAnswers) {
         return levelCategoryRepository
@@ -34,46 +38,50 @@ public class ResultService {
                 .build();
         quizHistoryRepository.save(quizHistory);
     }
-    @Cacheable(value = "ranking", key = "#teamId", cacheManager = "testCacheManager")
-    public RankingDto quizRankingByTeam(int correctAnswer, Long teamId) {
-        //맞춘갯수를 내림차순으로 가져온 list
-        List<QuizHistory> quizTotalParticipantsByTeam = quizHistoryRepository.getRanking(teamId);
-        int total = quizTotalParticipantsByTeam.size();
 
-        //이진검색
-        int rank = 0;
-        int pl = 0;
-        int pr = total - 1;
+    public RankingDto quizRankingByTeam(int currentUserCorrectAnswer, Long teamId) {
 
-        while (pl <= pr) {
-            int pc = (pl + pr) / 2;
-            int currentCorrectAnswer = quizTotalParticipantsByTeam.get(pc).getCorrectAnswer();
+        Map<Integer, Integer> userCountByCorrectAnswer = quizStatCache.getOrDefault(teamId, new HashMap<>());
 
-            if (correctAnswer == currentCorrectAnswer) {
-                rank = pc + 1; // 순위는 1부터 시작하므로 pc + 1로 설정
-                break;
-            } else if (correctAnswer > currentCorrectAnswer) {
-                pr = pc - 1;
-            } else {
-                pl = pc + 1;
+        //if: hash map에 teamId가 있으면 가져오기
+        if (userCountByCorrectAnswer.isEmpty()) {
+            List<QuizHistory> quizTotalParticipantsByTeam = quizHistoryRepository.getRanking(teamId);
+            for (QuizHistory quizHistory : quizTotalParticipantsByTeam) {
+                int correctAnswer = quizHistory.getCorrectAnswer();
+                userCountByCorrectAnswer.put(correctAnswer, userCountByCorrectAnswer.getOrDefault(correctAnswer, 0) + 1);
             }
+
+            quizStatCache.put(teamId, userCountByCorrectAnswer);
         }
 
-        if (pl > pr) {
-            rank = pl + 1; // 정확히 일치하는 답이 없는 경우 순위를 계산
+        //등수 계산
+        int rankInteger=0;
+        int totalInteger=0;
+        for (Map.Entry<Integer, Integer> entry : userCountByCorrectAnswer.entrySet()) {
+            int key = entry.getKey();
+            int value = entry.getValue();
+
+            if (key > currentUserCorrectAnswer) {
+                rankInteger += value;
+            }
+
+            if (key == currentUserCorrectAnswer) {
+                userCountByCorrectAnswer.put(key, value + 1);
+            }
+
+            totalInteger += value;
         }
 
+        quizStatCache.put(teamId, userCountByCorrectAnswer);
 
         RankingDto rankingDto = new RankingDto();
+
+        int rank = rankInteger;
+        int total = totalInteger;
+
         rankingDto.setTotalParticipantsByTeam(total);
         rankingDto.setRank(rank);
 
         return rankingDto;
     }
 }
-
-//        랭킹 선형 검색 => 업그레이드 해보자
-//    int rank = (int) quizTotalParticipantsByTeam.stream()
-//            .map(QuizHistory::getCorrectAnswer)
-//            .filter(answer -> answer >= correctAnswer)
-//            .count();
