@@ -1,5 +1,6 @@
 package com.example.footballquizproject.service;
 
+import com.example.footballquizproject.config.Cache;
 import com.example.footballquizproject.domain.LevelCategory;
 import com.example.footballquizproject.domain.QuizHistory;
 import com.example.footballquizproject.dto.RankingDto;
@@ -19,14 +20,55 @@ public class ResultService {
 
     private final LevelCategoryRepository levelCategoryRepository;
     private final QuizHistoryRepository quizHistoryRepository;
+    private final Cache cache;
 
-    // 인메모리 캐시를 인스턴스 변수로 선언
-    private final Map<Long, Map<Integer, Integer>> quizStatCache = new HashMap<>();
+    public RankingDto quizRankingByTeam(int currentUserCorrectAnswer, Long teamId) {
+
+        String cacheKey = "quizStat_" + teamId;
+        Map<Integer, Integer> userCountByCorrectAnswer;
+
+        if (cache.containsKey(cacheKey)) {
+            userCountByCorrectAnswer = (Map<Integer, Integer>) cache.get(cacheKey);
+
+        } else {
+            userCountByCorrectAnswer = new HashMap<>();
+            List<QuizHistory> quizTotalParticipantsByTeam = quizHistoryRepository.getRanking(teamId);
+            for (QuizHistory quizHistory : quizTotalParticipantsByTeam) {
+                int correctAnswer = quizHistory.getCorrectAnswer();
+                userCountByCorrectAnswer.put(correctAnswer, userCountByCorrectAnswer.getOrDefault(correctAnswer, 0) + 1);
+            }
+            cache.put(teamId, userCountByCorrectAnswer);
+        }
+
+        //등수 계산
+        int rank=0;
+        int total=0;
+        for (Integer key : userCountByCorrectAnswer.keySet()) {
+
+            if(key > currentUserCorrectAnswer){
+                rank += userCountByCorrectAnswer.get(key);
+            }
+
+            if(key.equals(currentUserCorrectAnswer)){
+                userCountByCorrectAnswer.put(key, userCountByCorrectAnswer.get(key)+1);
+            }
+
+            total += userCountByCorrectAnswer.get(key);
+        }
+
+        cache.put(cacheKey, userCountByCorrectAnswer);
+
+        RankingDto rankingDto = new RankingDto();
+        rankingDto.setTotalParticipantsByTeam(total);
+        rankingDto.setRank(rank);
+
+        return rankingDto;
+    }
 
     public LevelCategory determineResult(int correctAnswers) {
         return levelCategoryRepository
-                        .findByMinCorrectAnswersLessThanEqualAndMaxCorrectAnswersGreaterThanEqual
-                                (correctAnswers, correctAnswers);
+                .findByMinCorrectAnswersLessThanEqualAndMaxCorrectAnswersGreaterThanEqual
+                        (correctAnswers, correctAnswers);
     }
 
     @Transactional
@@ -37,51 +79,5 @@ public class ResultService {
                 .teamId(teamId)
                 .build();
         quizHistoryRepository.save(quizHistory);
-    }
-
-    public RankingDto quizRankingByTeam(int currentUserCorrectAnswer, Long teamId) {
-
-        Map<Integer, Integer> userCountByCorrectAnswer = quizStatCache.getOrDefault(teamId, new HashMap<>());
-
-        //if: hash map에 teamId가 있으면 가져오기
-        if (userCountByCorrectAnswer.isEmpty()) {
-            List<QuizHistory> quizTotalParticipantsByTeam = quizHistoryRepository.getRanking(teamId);
-            for (QuizHistory quizHistory : quizTotalParticipantsByTeam) {
-                int correctAnswer = quizHistory.getCorrectAnswer();
-                userCountByCorrectAnswer.put(correctAnswer, userCountByCorrectAnswer.getOrDefault(correctAnswer, 0) + 1);
-            }
-
-            quizStatCache.put(teamId, userCountByCorrectAnswer);
-        }
-
-        //등수 계산
-        int rankInteger=0;
-        int totalInteger=0;
-        for (Map.Entry<Integer, Integer> entry : userCountByCorrectAnswer.entrySet()) {
-            int key = entry.getKey();
-            int value = entry.getValue();
-
-            if (key > currentUserCorrectAnswer) {
-                rankInteger += value;
-            }
-
-            if (key == currentUserCorrectAnswer) {
-                userCountByCorrectAnswer.put(key, value + 1);
-            }
-
-            totalInteger += value;
-        }
-
-        quizStatCache.put(teamId, userCountByCorrectAnswer);
-
-        RankingDto rankingDto = new RankingDto();
-
-        int rank = rankInteger;
-        int total = totalInteger;
-
-        rankingDto.setTotalParticipantsByTeam(total);
-        rankingDto.setRank(rank);
-
-        return rankingDto;
     }
 }
