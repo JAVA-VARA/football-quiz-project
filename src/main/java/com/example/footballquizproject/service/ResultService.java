@@ -10,9 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,26 +30,23 @@ public class ResultService {
         }
 
         //등수 계산
-        int rank=0;
-        int total=0;
-        for (Integer key : userCountByCorrectAnswer.keySet()) {
+        final int[] rank = {0};
+        final int[] total = {0};
+
+        userCountByCorrectAnswer.forEach((key, value) -> {
             if(key > currentUserCorrectAnswer){
-                rank += userCountByCorrectAnswer.get(key);
+                rank[0] += value;
             }
-            if(key.equals(currentUserCorrectAnswer)){
-                userCountByCorrectAnswer.put(key, userCountByCorrectAnswer.get(key)+1);
-            }
-            total += userCountByCorrectAnswer.get(key);
-        }
+            total[0] += value;
+        });
+
+        //총점 계산
+        userCountByCorrectAnswer.merge(currentUserCorrectAnswer, 1, Integer::sum);
 
         String cacheKey = "quizStat_" + teamId;
         cache.put(cacheKey, userCountByCorrectAnswer);
 
-        RankingDto rankingDto = new RankingDto();
-        rankingDto.setTotalParticipantsByTeam(total);
-        rankingDto.setRank(rank);
-
-        return rankingDto;
+        return new RankingDto(rank[0], total[0]);
     }
 
     public LevelCategory determineResult(int correctAnswers) {
@@ -77,21 +74,18 @@ public class ResultService {
     }
 
     private Map<Integer, Integer> saveUserCountByCorrectAnswerToCache(Long teamId){
-
         //DB에서 DATA 가져오기
         List<QuizHistory> quizTotalParticipantsByTeam = quizHistoryRepository.getRanking(teamId);
-
         //CACHE에 저장
         String cacheKey = "quizStat_" + teamId;
-
-        Map<Integer, Integer> userCountByCorrectAnswer = new HashMap<>();
-        for (QuizHistory quizHistory : quizTotalParticipantsByTeam) {
-            int correctAnswer = quizHistory.getCorrectAnswer();
-            userCountByCorrectAnswer.put(correctAnswer, userCountByCorrectAnswer.getOrDefault(correctAnswer, 0) + 1);
-        }
+        Map<Integer, Integer> userCountByCorrectAnswer = quizTotalParticipantsByTeam.stream()
+                        .collect(Collectors.toMap(
+                                QuizHistory::getCorrectAnswer,
+                                qh -> 1,
+                                Integer::sum
+                        ));
 
         cache.put(cacheKey, userCountByCorrectAnswer);
-
         return userCountByCorrectAnswer;
     }
 }
