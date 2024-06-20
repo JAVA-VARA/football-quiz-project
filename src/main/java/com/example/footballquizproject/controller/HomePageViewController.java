@@ -15,7 +15,6 @@ public class HomePageViewController {
 
     private final GameCategoryService gameCategoryService;
 
-
     @GetMapping(value ={"/", "/quizzes"})
     public String showQuizCategory(Model model){
 

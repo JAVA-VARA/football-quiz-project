@@ -19,4 +19,7 @@ public interface PlayersRepository extends JpaRepository<Players, Long> {
 
     @Query(value = "SELECT * FROM players WHERE team_id = :teamId ORDER BY RAND() LIMIT 20", nativeQuery = true)
     List<Players> findRandomPlayersByTeamIdPick20(Long teamId);
+    @Query(value = "SELECT * FROM players WHERE team_id = :teamId", nativeQuery = true)
+    List<Players> findByTeamId(Long teamId);
+
 }
