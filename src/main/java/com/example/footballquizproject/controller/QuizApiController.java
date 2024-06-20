@@ -2,7 +2,10 @@ package com.example.footballquizproject.controller;
 
 import com.example.footballquizproject.domain.LevelCategory;
 import com.example.footballquizproject.dto.*;
-import com.example.footballquizproject.service.*;
+import com.example.footballquizproject.service.LeagueCategoryService;
+import com.example.footballquizproject.service.QuizService;
+import com.example.footballquizproject.service.ResultService;
+import com.example.footballquizproject.service.TeamCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,15 +46,16 @@ public class QuizApiController {
         return "selectTeamPage";
     }
 
-
     @GetMapping("/team-category/{teamId}")
-    public String showQuiz(@PathVariable("teamId")  Long teamId, Model model) {
+    public String createQuizSet(@PathVariable("teamId")  Long teamId, Model model) {
 
-        List<QuizDto> quizList = quizService.pick10PlayersByTeamId(teamId);
+        //몇문제 풀 것인지 선택할 수 있도록 할 예정(parameter로 받을 예정), 현재는 10문제 고정.
+        List<QuizDto> quizSet  = quizService.createQuizSet(teamId, 10);
 
-        model.addAttribute("quizListSet", quizList);
+        model.addAttribute("quizListSet", quizSet);
         model.addAttribute("teamId", teamId);
-        return "quiz";
+
+        return "new-quiz";
     }
 
     @PostMapping("/result")

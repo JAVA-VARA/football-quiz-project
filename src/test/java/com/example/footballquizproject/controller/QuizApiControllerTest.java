@@ -1,7 +1,6 @@
 package com.example.footballquizproject.controller;
 
 import com.example.footballquizproject.domain.LeagueCategory;
-import com.example.footballquizproject.dto.QuizDto;
 import com.example.footballquizproject.dto.QuizResultRequestDto;
 import com.example.footballquizproject.repository.LeagueCategoryRepository;
 import com.example.footballquizproject.repository.TeamCategoryRepository;
@@ -23,12 +22,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.ui.Model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -94,45 +87,66 @@ class QuizApiControllerTest {
 
     }
 
-    @Test
-    @DisplayName("TEAM 기준으로 랜덤 문제 10개를 생성한다")
-    void showQuizTest() throws Exception{
+//    @Test
+//    @DisplayName("TEAM 기준으로 랜덤 문제 10개를 생성한다")
+//    void showQuizTest() throws Exception{
+//
+//        //given
+//        final String url = "/quizzes/team-category/" + teamId;
+//
+//        //when
+//        ResultActions resultActions =
+//                mockMvc.perform(MockMvcRequestBuilders.get(url)
+//                );
+//
+//        //then
+//        resultActions
+//                .andExpect(status().isOk())
+//                .andExpect(model().attribute("teamId", 1L))
+//                .andExpect(model().attribute("quizListSet", Matchers.hasSize(10)))
+//        ;
+//    }
+//
+//
+//    @Test
+//    @DisplayName("TEAM 기준으로 랜덤 문제 10개를 생성한다")
+//    void showQuiz_ReturnsQuizPageWithQuizList() {
+//
+//        //given
+//        List<QuizDto> mockQuizList = new ArrayList<>();
+//        mockQuizList.add(new QuizDto("image1.jpg", "fullname1", "fistname1", "middlename1", "lastname1"));
+//        mockQuizList.add(new QuizDto("image2.jpg", "fullname2", "fistname2", "middlename2", "lastname2"));
+//
+//        when(quizService.pick10PlayersByTeamId(teamId)).thenReturn(mockQuizList);
+//
+//        // when
+//        String viewName = quizApiController.createQuizSet(teamId, model);
+//
+//        // then
+//        assertEquals("quiz", viewName);
+//        verify(model).addAttribute("quizListSet", mockQuizList);
+//
+//    }
 
+    @Test
+    @DisplayName("랜덤으로 문제를 생성한다.")
+    void givenTeamId_whenCreateQuizSet_thenReturnQuizPage() throws Exception {
         //given
-        final String url = "/quizzes/team-category/" + teamId;
+        Long teamId = 1L;
 
         //when
-        ResultActions resultActions =
-                mockMvc.perform(MockMvcRequestBuilders.get(url)
-                );
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get("/quizzes/team-category/{teamId}", teamId));
 
         //then
         resultActions
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("teamId", 1L))
-                .andExpect(model().attribute("quizListSet", Matchers.hasSize(10)))
-        ;
-    }
-
-
-    @Test
-    @DisplayName("TEAM 기준으로 랜덤 문제 10개를 생성한다")
-    void showQuiz_ReturnsQuizPageWithQuizList() {
-
-        //given
-        List<QuizDto> mockQuizList = new ArrayList<>();
-        mockQuizList.add(new QuizDto("image1.jpg", "fullname1", "fistname1", "middlename1", "lastname1"));
-        mockQuizList.add(new QuizDto("image2.jpg", "fullname2", "fistname2", "middlename2", "lastname2"));
-
-        when(quizService.pick10PlayersByTeamId(teamId)).thenReturn(mockQuizList);
-
-        // when
-        String viewName = quizApiController.showQuiz(teamId, model);
-
-        // then
-        assertEquals("quiz", viewName);
-        verify(model).addAttribute("quizListSet", mockQuizList);
-
+                .andExpect(view().name("new-quiz"))
+                .andExpect(model().attributeExists("quizListSet"))
+                .andExpect(model()
+                        .attribute("quizListSet", Matchers.hasSize(10)))
+                .andExpect(model().attributeExists("teamId"))
+                .andReturn();
     }
 
 
