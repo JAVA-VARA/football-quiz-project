@@ -1,5 +1,6 @@
 package com.example.footballquizproject.service;
 
+import com.example.footballquizproject.config.Cache;
 import com.example.footballquizproject.domain.Players;
 import com.example.footballquizproject.domain.QuizSet;
 import com.example.footballquizproject.domain.QuizSetPlayer;
@@ -8,6 +9,7 @@ import com.example.footballquizproject.repository.PlayersRepository;
 import com.example.footballquizproject.repository.QuizSetPlayersRepository;
 import com.example.footballquizproject.repository.QuizSetRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,16 +23,20 @@ public class QuizService {
     private final PlayersRepository playersRepository;
     private final QuizSetRepository quizSetRepository;
     private final QuizSetPlayersRepository quizSetPlayersRepository;
+    private final Cache cache;
 
-    //TODO:  teamId 기준 선수 목록 캐시에 저장 가능
     public List<QuizDto> createQuizSet(Long teamId, int numOfQuestions) {
 
         //유저가 선택한 팀에 속한 선수 조회
-        List<Players> players = playersRepository.findByTeamId(teamId);
+        List<Players> playersListByTeamId = getPlayersListFromCache(teamId);
 
-        //문제 수에 따라 선수 랜덤하게 선택
-        Collections.shuffle(players);
-        List<Players> selectedPlayers = players.stream()
+        if(playersListByTeamId == null){
+            playersListByTeamId = savePlayersListByTeamIdToCache(teamId);
+        }
+
+        //문제 수에 따라 선수 랜덤 선택
+        Collections.shuffle(playersListByTeamId);
+        List<Players> selectedPlayers = playersListByTeamId.stream()
                 .limit(numOfQuestions)
                 .toList();
 
@@ -43,7 +49,9 @@ public class QuizService {
 
         return quizDtos;
     }
+
     //선택한 선수를 퀴즈 세트에 삽입
+    @Async
     public void saveQuizSet(Long teamId, List<Players> selectedPlayers){
 
         QuizSet quizSet = new QuizSet();
@@ -63,6 +71,21 @@ public class QuizService {
         quizSetPlayersRepository.saveAll(quizSetPlayers);
     }
 
+    private List<Players> getPlayersListFromCache(Long teamId) {
+        String cacheKey = "playersList_" + teamId;
+        if(cache.containsKey(cacheKey)){
+            return (List<Players>) cache.get(cacheKey);
+        }
+        return null;
+    }
+    private List<Players> savePlayersListByTeamIdToCache(Long teamId) {
+        List<Players> players =  playersRepository.findByTeamId(teamId);
+        String cacheKey = "playersList_" + teamId;
+        cache.put(cacheKey, players);
+
+        return players;
+    }
+
     public List<QuizDto> pick10PlayersByTeamId(Long teamId){
         List<Players> players = playersRepository.findRandomPlayersByTeamIdPick10(teamId);
 
@@ -75,4 +98,5 @@ public class QuizService {
         }
         return quizSetOfPlayers;
     }
+
 }
