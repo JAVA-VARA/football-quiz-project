@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Set;
 
 public interface PlayersRepository extends JpaRepository<Players, Long> {
     @Query(value = "SELECT * FROM players WHERE team_name = :teamName ORDER BY RAND() LIMIT 5", nativeQuery = true)
@@ -17,6 +18,6 @@ public interface PlayersRepository extends JpaRepository<Players, Long> {
     @Query(value = "SELECT * FROM players WHERE team_id = :teamId ORDER BY RAND() LIMIT 20", nativeQuery = true)
     List<Players> findRandomPlayersByTeamIdPick20(Long teamId);
     @Query(value = "SELECT * FROM players WHERE team_id = :teamId", nativeQuery = true)
-    List<Players> findByTeamId(Long teamId);
+    Set<Players> findByTeamId(Long teamId);
 
 }

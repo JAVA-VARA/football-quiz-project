@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,12 +29,13 @@ public class QuizService {
     public List<QuizDto> createQuizSet(Long teamId, int numOfQuestions) {
 
         //유저가 선택한 팀에 속한 선수 조회
-        List<Players> playersListByTeamId = getPlayersListFromCache(teamId);
+        Set<Players> playersSetByTeamId = getPlayersListFromCache(teamId);
 
-        if(playersListByTeamId == null){
-            playersListByTeamId = savePlayersListByTeamIdToCache(teamId);
+        if(playersSetByTeamId == null){
+            playersSetByTeamId = savePlayersListByTeamIdToCache(teamId);
         }
 
+        List<Players> playersListByTeamId = playersSetByTeamId.stream().collect(Collectors.toList());
         //문제 수에 따라 선수 랜덤 선택
         Collections.shuffle(playersListByTeamId);
         List<Players> selectedPlayers = playersListByTeamId.stream()
@@ -71,15 +73,15 @@ public class QuizService {
         quizSetPlayersRepository.saveAll(quizSetPlayers);
     }
 
-    private List<Players> getPlayersListFromCache(Long teamId) {
+    private Set<Players> getPlayersListFromCache(Long teamId) {
         String cacheKey = "playersList_" + teamId;
         if(cache.containsKey(cacheKey)){
-            return (List<Players>) cache.get(cacheKey);
+            return (Set<Players>) cache.get(cacheKey);
         }
         return null;
     }
-    private List<Players> savePlayersListByTeamIdToCache(Long teamId) {
-        List<Players> players =  playersRepository.findByTeamId(teamId);
+    private Set<Players> savePlayersListByTeamIdToCache(Long teamId) {
+        Set<Players> players =  playersRepository.findByTeamId(teamId);
         String cacheKey = "playersList_" + teamId;
         cache.put(cacheKey, players);
 
@@ -98,5 +100,4 @@ public class QuizService {
         }
         return quizSetOfPlayers;
     }
-
 }
