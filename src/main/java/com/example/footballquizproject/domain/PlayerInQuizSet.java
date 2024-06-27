@@ -9,18 +9,18 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class QuizSetPlayer {
+public class PlayerInQuizSet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long playerInQuizSetId;
 
     @ManyToOne
-    @JoinColumn(name = "quiz_set_id", nullable = false)
+    @JoinColumn(name = "quiz_set_id")
     private QuizSet quizSet;
 
     @ManyToOne
-    @JoinColumn(name = "player_id", nullable = false)
+    @JoinColumn(name = "player_id")
     private Players player;
 
     @Column

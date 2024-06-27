@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,14 +20,25 @@ public class QuizSet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long quizSetId;
 
-    @Column
-    private Long teamId;
-
-    @OneToMany(mappedBy = "quizSet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<QuizSetPlayer> quizSetPlayers;
-
     @CreatedDate
     @Column
     private LocalDateTime createdAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private TeamCategory teamCategory;
+
+    @OneToMany(mappedBy = "quizSet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PlayerInQuizSet> playerInQuizSets;
+
+    public void addPlayerInQuizSet(PlayerInQuizSet playerInQuizSet) {
+
+        if(playerInQuizSets == null){
+            playerInQuizSets = new ArrayList<>();
+        }
+
+        playerInQuizSets.add(playerInQuizSet);
+
+    }
 
 }

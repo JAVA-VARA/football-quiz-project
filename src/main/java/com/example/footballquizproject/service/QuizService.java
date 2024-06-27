@@ -1,15 +1,16 @@
 package com.example.footballquizproject.service;
 
-import com.example.footballquizproject.config.Cache;
+import com.example.footballquizproject.config.PlayerSetCache;
+import com.example.footballquizproject.domain.PlayerInQuizSet;
 import com.example.footballquizproject.domain.Players;
 import com.example.footballquizproject.domain.QuizSet;
-import com.example.footballquizproject.domain.QuizSetPlayer;
+import com.example.footballquizproject.domain.TeamCategory;
 import com.example.footballquizproject.dto.QuizDto;
+import com.example.footballquizproject.repository.PlayerInQuizSetRepository;
 import com.example.footballquizproject.repository.PlayersRepository;
-import com.example.footballquizproject.repository.QuizSetPlayersRepository;
 import com.example.footballquizproject.repository.QuizSetRepository;
+import com.example.footballquizproject.repository.TeamCategoryRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,63 +24,54 @@ import java.util.stream.Collectors;
 public class QuizService {
     private final PlayersRepository playersRepository;
     private final QuizSetRepository quizSetRepository;
-    private final QuizSetPlayersRepository quizSetPlayersRepository;
-    private final Cache cache;
+    private final PlayerInQuizSetRepository playerInQuizSetRepository;
+    private final TeamCategoryRepository teamCategoryRepository;
+    private final PlayerSetCache cache;
 
     public List<QuizDto> createQuizSet(Long teamId, int numOfQuestions) {
 
         //유저가 선택한 팀에 속한 선수 조회
         Set<Players> playersSetByTeamId = getPlayersListFromCache(teamId);
-
         if(playersSetByTeamId == null){
             playersSetByTeamId = savePlayersListByTeamIdToCache(teamId);
         }
+        // 문제 수에 따라 선수 랜덤 선택
+        List<Players> selectedPlayers = selectRandomPlayers(playersSetByTeamId, numOfQuestions);
 
-        List<Players> playersListByTeamId = playersSetByTeamId.stream().collect(Collectors.toList());
-        //문제 수에 따라 선수 랜덤 선택
-        Collections.shuffle(playersListByTeamId);
-        List<Players> selectedPlayers = playersListByTeamId.stream()
-                .limit(numOfQuestions)
-                .toList();
+        Long quizSetId = saveQuizSet(teamId, selectedPlayers);
 
-        //선택한 선수의 정보를 DTO로 변환
-        List<QuizDto> quizDtos = selectedPlayers.stream().map(
-                player -> new QuizDto(player.getImageUrl(), player.getFullName(), player.getFirstName(), player.getMiddleName(), player.getLastName()))
-                .collect(Collectors.toList());
+        // 선택한 선수의 정보를 DTO로 변환
+        return convertToQuizDtos(quizSetId, selectedPlayers);
 
-        saveQuizSet(teamId, selectedPlayers);
-
-        return quizDtos;
     }
 
-    //선택한 선수를 퀴즈 세트에 삽입
-    @Async
-    public void saveQuizSet(Long teamId, List<Players> selectedPlayers){
-
+    // 선택한 선수를 퀴즈 세트에 삽입
+    public Long saveQuizSet(Long teamId, List<Players> selectedPlayers) {
+        TeamCategory team = teamCategoryRepository.findByTeamId(teamId);
         QuizSet quizSet = new QuizSet();
-        quizSet.setTeamId(teamId);
+        quizSet.setTeamCategory(team);
         quizSetRepository.save(quizSet);
 
-        List<QuizSetPlayer> quizSetPlayers = selectedPlayers.stream()
-                .map(player -> {
-                    QuizSetPlayer quizSetPlayer = new QuizSetPlayer();
-                    quizSetPlayer.setQuizSet(quizSet);
-                    quizSetPlayer.setPlayer(player);
-                    quizSetPlayer.setOrderIndex(selectedPlayers.indexOf(player) + 1);
-                    return quizSetPlayer;
-                })
-                .toList();
+        List<PlayerInQuizSet> quizSetPlayers = new ArrayList<>();
+        for (int i = 0; i < selectedPlayers.size(); i++) {
+            PlayerInQuizSet quizSetPlayer = createPlayerInQuizSet(quizSet, selectedPlayers.get(i), i + 1);
+            quizSetPlayers.add(quizSetPlayer);
+            quizSet.addPlayerInQuizSet(quizSetPlayer);
+        }
 
-        quizSetPlayersRepository.saveAll(quizSetPlayers);
+        playerInQuizSetRepository.saveAll(quizSetPlayers);
+
+        return quizSet.getQuizSetId();
     }
 
     private Set<Players> getPlayersListFromCache(Long teamId) {
         String cacheKey = "playersList_" + teamId;
         if(cache.containsKey(cacheKey)){
-            return (Set<Players>) cache.get(cacheKey);
+            return cache.get(cacheKey);
         }
         return null;
     }
+
     private Set<Players> savePlayersListByTeamIdToCache(Long teamId) {
         Set<Players> players =  playersRepository.findByTeamId(teamId);
         String cacheKey = "playersList_" + teamId;
@@ -88,16 +80,26 @@ public class QuizService {
         return players;
     }
 
-    public List<QuizDto> pick10PlayersByTeamId(Long teamId){
-        List<Players> players = playersRepository.findRandomPlayersByTeamIdPick10(teamId);
+    private List<QuizDto> convertToQuizDtos(Long quizSetId, List<Players> selectedPlayers) {
+        return selectedPlayers.stream()
+                .map(players ->
+                        new QuizDto(quizSetId, players.getImageUrl(), players.getFullName(), players.getFirstName(), players.getMiddleName(), players.getLastName()))
+                .collect(Collectors.toList());
+    }
 
-        //dto에 필요한 정보만 저장 후 controller로 전달
-        List<QuizDto> quizSetOfPlayers = new ArrayList<>();
+    private List<Players> selectRandomPlayers(Set<Players> playersSetByTeamId, int numOfQuestions) {
+        List<Players> playersListByTeamId = new ArrayList<>(playersSetByTeamId);
+        Collections.shuffle(playersListByTeamId);
+        return playersListByTeamId.stream()
+                .limit(numOfQuestions)
+                .toList();
+    }
 
-        for(Players player : players){
-            QuizDto playersDto = new QuizDto(player.getImageUrl(), player.getFullName(), player.getFirstName(), player.getMiddleName(), player.getLastName());
-            quizSetOfPlayers.add(playersDto);
-        }
-        return quizSetOfPlayers;
+    private PlayerInQuizSet createPlayerInQuizSet(QuizSet quizSet, Players player, int orderIndex) {
+        PlayerInQuizSet quizSetPlayer = new PlayerInQuizSet();
+        quizSetPlayer.setQuizSet(quizSet);
+        quizSetPlayer.setPlayer(player);
+        quizSetPlayer.setOrderIndex(orderIndex);
+        return quizSetPlayer;
     }
 }

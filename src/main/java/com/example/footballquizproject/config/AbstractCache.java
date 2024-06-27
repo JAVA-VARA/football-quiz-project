@@ -1,16 +1,16 @@
 package com.example.footballquizproject.config;
 
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.Map;
 
-@Component
-public class Cache {
-    HashMap<Object, Object> cache = new HashMap<>();
+public abstract class AbstractCache<K, V> {
+
+    protected Map<K, V> cache = new HashMap<>();
     int maxCacheSize = 1000;
 
-    public void put(Object key, Object value) {
+    public void put(K key, V value) {
 
         if (cache.size() >= maxCacheSize) {
             this.pop();
@@ -19,11 +19,11 @@ public class Cache {
         cache.put(key, value);
     }
 
-    public Object get(Object key) {
+    public V get(K key) {
         return cache.get(key);
     }
 
-    public boolean containsKey(Object key) {
+    public boolean containsKey(K key) {
         return cache.containsKey(key);
     }
 

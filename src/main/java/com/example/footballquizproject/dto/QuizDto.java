@@ -9,6 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class QuizDto {
 
+    private Long quizId;
     private String question;
     private String fullName;
     private String firstName;
