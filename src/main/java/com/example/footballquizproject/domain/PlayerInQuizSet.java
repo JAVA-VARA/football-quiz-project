@@ -16,7 +16,7 @@ public class PlayerInQuizSet {
     private Long playerInQuizSetId;
 
     @ManyToOne
-    @JoinColumn(name = "quiz_set_id")
+    @JoinColumn(name = "quiz_id")
     private QuizSet quizSet;
 
     @ManyToOne

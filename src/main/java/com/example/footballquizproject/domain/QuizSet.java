@@ -18,7 +18,7 @@ public class QuizSet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long quizSetId;
+    private Long quizId;
 
     @CreatedDate
     @Column
@@ -30,6 +30,11 @@ public class QuizSet {
 
     @OneToMany(mappedBy = "quizSet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PlayerInQuizSet> playerInQuizSets;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "history_id")
+    private NewQuizHistory newQuizHistory;
+
 
     public void addPlayerInQuizSet(PlayerInQuizSet playerInQuizSet) {
 

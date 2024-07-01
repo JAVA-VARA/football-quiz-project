@@ -110,15 +110,15 @@ class QuizServiceTests {
 
         doAnswer(invocation -> {
             QuizSet quizSet = invocation.getArgument(0);
-            quizSet.setQuizSetId(1L); // Simulate ID generation
+            quizSet.setQuizId(1L); // Simulate ID generation
             return null;
         }).when(quizSetRepository).save(any(QuizSet.class));
 
         //when
-        Long quizSetId = quizService.saveQuizSet(teamId, playersList);
+        Long quizId = quizService.saveQuizSet(teamId, playersList);
 
         //then
-        assertNotNull(quizSetId);
+        assertNotNull(quizId);
         verify(teamCategoryRepository, times(1)).findByTeamId(teamId);
         verify(quizSetRepository, times(1)).save(any(QuizSet.class));
         verify(playerInQuizSetRepository, times(1)).saveAll(anyList());

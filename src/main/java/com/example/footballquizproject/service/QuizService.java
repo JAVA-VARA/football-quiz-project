@@ -38,10 +38,10 @@ public class QuizService {
         // 문제 수에 따라 선수 랜덤 선택
         List<Players> selectedPlayers = selectRandomPlayers(playersSetByTeamId, numOfQuestions);
 
-        Long quizSetId = saveQuizSet(teamId, selectedPlayers);
+        Long quizId = saveQuizSet(teamId, selectedPlayers);
 
         // 선택한 선수의 정보를 DTO로 변환
-        return convertToQuizDtos(quizSetId, selectedPlayers);
+        return convertToQuizDtos(quizId, selectedPlayers);
 
     }
 
@@ -61,7 +61,7 @@ public class QuizService {
 
         playerInQuizSetRepository.saveAll(quizSetPlayers);
 
-        return quizSet.getQuizSetId();
+        return quizSet.getQuizId();
     }
 
     private Set<Players> getPlayersListFromCache(Long teamId) {
@@ -80,10 +80,10 @@ public class QuizService {
         return players;
     }
 
-    private List<QuizDto> convertToQuizDtos(Long quizSetId, List<Players> selectedPlayers) {
+    private List<QuizDto> convertToQuizDtos(Long quizId, List<Players> selectedPlayers) {
         return selectedPlayers.stream()
                 .map(players ->
-                        new QuizDto(quizSetId, players.getImageUrl(), players.getFullName(), players.getFirstName(), players.getMiddleName(), players.getLastName()))
+                        new QuizDto(quizId, players.getImageUrl(), players.getFullName(), players.getFirstName(), players.getMiddleName(), players.getLastName()))
                 .collect(Collectors.toList());
     }
 
