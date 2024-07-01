@@ -16,4 +16,8 @@ public interface NewQuizHistoryRepository extends JpaRepository<NewQuizHistory, 
             "GROUP BY qh.history_id ",
             nativeQuery = true)
     List<Object[]> findQuizHistoryWithCorrectAnswerCounts(@Param("teamId") Long teamId);
+
+    @Query (value =
+            "SELECT team_id, COUNT(team_id) FROM new_quiz_history WHERE team_id = :teamId",nativeQuery = true)
+    List<Object[]> findNewQuizHistoriesByTeamId(@Param("teamId") Long teamId);
 }

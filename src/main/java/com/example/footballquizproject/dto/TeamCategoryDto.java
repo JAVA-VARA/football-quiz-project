@@ -1,5 +1,6 @@
 package com.example.footballquizproject.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,10 +15,11 @@ public class TeamCategoryDto {
     private String teamEmblem;
     private Long gameParticipants;
 
-    public TeamCategoryDto(Long teamId, String teamName, String teamEmblem, Long orDefault) {
-        this.teamEmblem = teamEmblem;
-        this.teamName = teamName;
+    @Builder
+    public TeamCategoryDto(Long teamId, String teamName, String teamEmblem, Long numberOfParticipants) {
         this.teamId = teamId;
-        this.gameParticipants = orDefault;
+        this.teamName = teamName;
+        this.teamEmblem = teamEmblem;
+        this.gameParticipants = numberOfParticipants;
     }
 }
