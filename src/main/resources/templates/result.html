@@ -51,17 +51,17 @@
 <body>
 <div class="result-container">
 
-    <div>정답: <span class="result" th:text="${correctAnswers}"></span> 개</div>
+    <div>정답: <span class="result" th:text="${result.getCorrectAnswers()}"></span> 개</div>
     <div>
-        <span class="result" th:text="|${ranking.getTotalParticipantsByTeam()} 명 중 ${ranking.getRank()} 등|"></span>
+        <span class="result" th:text="|${result.getTotalParticipantsByTeam()} 명 중 ${result.getRanking()} 등|"></span>
     </div>
 
     <div>
-        <img id="resultImage" class="result-image" th:src="${level.getLevelImage()}" alt="result Image">
+        <img id="resultImage" class="result-image" th:src="${result.getLevel().getLevelImage()}" alt="result Image">
     </div>
 
     <div>
-        <span class="result" th:text="|당신은 ${team} ${level.getLevels()} 입니다|"></span>
+        <span class="result" th:text="|당신은 ${result.getTeamName()} ${result.getLevel().getLevels()} 입니다|"></span>
     </div>
 
     <form action="/quizzes/game-category/1" method="get">

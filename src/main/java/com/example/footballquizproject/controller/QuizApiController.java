@@ -1,6 +1,5 @@
 package com.example.footballquizproject.controller;
 
-import com.example.footballquizproject.domain.LevelCategory;
 import com.example.footballquizproject.dto.*;
 import com.example.footballquizproject.service.LeagueCategoryService;
 import com.example.footballquizproject.service.QuizService;
@@ -52,8 +51,13 @@ public class QuizApiController {
         //몇문제 풀 것인지 선택할 수 있도록 할 예정(parameter로 받을 예정), 현재는 10문제 고정.
         List<QuizDto> quizSet  = quizService.createQuizSet(teamId, 10);
 
+        QuizDto quizDto = quizSet.get(0);
+        Long quizId = quizDto.getQuizId();
+
         model.addAttribute("quizListSet", quizSet);
         model.addAttribute("teamId", teamId);
+        model.addAttribute("quizId", quizId);
+        model.addAttribute("categoryId", 1L);
 
         return "new-quiz";
     }
@@ -61,19 +65,10 @@ public class QuizApiController {
     @PostMapping("/result")
     public String showResult(@RequestBody QuizResultRequestDto request, Model model) {
 
-        int correctAnswers = request.getCorrectAnswers();
-        Long teamId = request.getTeamId();
-        String team =teamCategoryService.getTeamName(teamId);
+        resultService.saveResult(request);
 
-        resultService.saveQuizHistory(correctAnswers, teamId);
-
-        LevelCategory level = resultService.determineResult(correctAnswers);
-        RankingDto rankingInfo = resultService.calculateRanking(correctAnswers, teamId);
-
-        model.addAttribute("correctAnswers", correctAnswers);
-        model.addAttribute("level", level);
-        model.addAttribute("team", team);
-        model.addAttribute("ranking", rankingInfo);
+        RankingDto rankingDto =  resultService.showResult(request);
+        model.addAttribute("result", rankingDto);
 
         return "result";
     }

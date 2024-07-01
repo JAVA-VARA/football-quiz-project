@@ -1,6 +1,7 @@
 package com.example.footballquizproject.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,4 +28,12 @@ public class QuizAnswer {
     @ManyToOne
     @JoinColumn(name = "history_id")
     private NewQuizHistory quizHistory;
+
+    @Builder
+    public QuizAnswer(String correctAnswer, String userAnswer, boolean isCorrect) {
+        this.correctAnswer = correctAnswer;
+        this.userAnswer = userAnswer;
+        this.isCorrect = isCorrect;
+    }
+
 }

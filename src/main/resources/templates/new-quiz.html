@@ -1,310 +1,308 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>축구 선수 이름 맞추기</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8">
+    <title>축구 선수 이름 맞추기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
 
-    .quiz-container {
-      text-align: center;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
+        .quiz-container {
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .question-number {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
+        .question-number {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
 
-    .quiz-image {
-      width: 500px;
-      /*max-width: 100%;*/
-      height: auto;
-      border-radius: 5px;
-      margin-bottom: 20px;
-    }
+        .quiz-image {
+            width: 500px;
+            /*max-width: 100%;*/
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
 
-    .answer-input {
-      width: 80%;
-      padding: 10px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 30px;
-    }
+        .answer-input {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 30px;
+        }
 
 
+        .submit-btn,
+        .next-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
 
-    .submit-btn,
-    .next-btn {
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-    }
+        .result1 {
+            color: red;
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
 
-    .result1 {
-      color: red;
-      font-size: 30px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
+        .result2 {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
 
-    .result2 {
-      font-size: 30px;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
+        .next-btn {
+            display: none;
+        }
 
-    .next-btn {
-      display: none;
-    }
+        .query-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
 
-    .query-popup {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: white;
-      padding: 20px;
-      border: 1px solid #ccc;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
-    }
+        .query-popup textarea {
+            width: 95%;
+            height: 100px;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
 
-    .query-popup textarea {
-      width: 95%;
-      height: 100px;
-      margin-bottom: 20px;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 16px;
-    }
+        .query-popup .close-btn {
+            background-color: red;
+        }
 
-    .query-popup .close-btn {
-      background-color: red;
-    }
+        .send-query-btn {
+            background-color: #010c06;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
 
-    .send-query-btn{
-      background-color: #010c06;
-      color: #ffffff;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 15px;
-
-      position: absolute;
-      top: 40px;
-      right: 40px;
-    }
-  </style>
+            position: absolute;
+            top: 40px;
+            right: 40px;
+        }
+    </style>
 </head>
 <body>
 
 <div class="quiz-container">
 
-  <button class="send-query-btn" onclick="showQueryPopup()">수정 요청</button>
+    <button class="send-query-btn" onclick="showQueryPopup()">수정 요청</button>
 
-  <div class="question-number">문제 <span id="questionNumber"></span></div>
-  <img id="quizImage" class="quiz-image" src="" alt="Quiz Image">
-  <div>
-    <label for="answerInput"></label><input id="answerInput" class="answer-input" type="text">
-  </div>
+    <div class="question-number">문제 <span id="questionNumber"></span></div>
+    <img id="quizImage" class="quiz-image" src="" alt="Quiz Image">
+    <div>
+        <label for="answerInput"></label><input id="answerInput" class="answer-input" type="text">
+    </div>
 
-  <div>
-    <button id="submitBtn" class="submit-btn" onclick="checkAnswer()">제출</button>
-  </div>
-  <div id="result1" class="result1"></div>
-  <div id="result2" class="result2"></div>
+    <div>
+        <button id="submitBtn" class="submit-btn" onclick="checkAnswer()">제출</button>
+    </div>
+    <div id="result1" class="result1"></div>
+    <div id="result2" class="result2"></div>
 
-  <div>
-    <button id="nextBtn" class="next-btn" onclick="nextQuestion()">다음</button>
-  </div>
+    <div>
+        <button id="nextBtn" class="next-btn" onclick="nextQuestion()">다음</button>
+    </div>
 
 </div>
 
 <div class="query-popup" id="queryPopup">
-  <label for="queryMessage">
-    <textarea id="queryMessage" placeholder="관리자에게 보낼 메시지를 입력하세요.&#13;&#10(최대 100자)"></textarea>
-  </label>
-  <button class="submit-btn" onclick="sendQuery()">전송</button>
-  <button class="submit-btn close-btn" onclick="hideQueryPopup()">닫기</button>
+    <label for="queryMessage">
+        <textarea id="queryMessage" placeholder="관리자에게 보낼 메시지를 입력하세요.&#13;&#10(최대 100자)"></textarea>
+    </label>
+    <button class="submit-btn" onclick="sendQuery()">전송</button>
+    <button class="submit-btn close-btn" onclick="hideQueryPopup()">닫기</button>
 </div>
 
 
-
 <script th:inline="javascript">
-  /*<![CDATA[*/
-  var currentQuestionIndex = 0;
-  let countCorrectAnswer = 0;
-  var quizList = /*[[${quizListSet}]]*/ null;
-  var teamId = /*[[${teamId}]]*/  null;
+    /*<![CDATA[*/
+    let currentQuestionIndex = 0;
+    let countCorrectAnswer = 0;
+    let quizList = /*[[${quizListSet}]]*/ null;
+    let teamId = /*[[${teamId}]]*/  null;
+    let quizId = /*[[${quizId}]]*/  null;
+    let categoryId = /*[[${categoryId}]]*/  null;
 
-  function displayQuestion() {
-    document.getElementById("questionNumber").textContent = currentQuestionIndex + 1;
-    document.getElementById("quizImage").src = quizList[currentQuestionIndex].question;
+    // 사용자 답변, 정답, 정답 여부 배열 초기화
+    let userAnswers = [];
+    let correctAnswers = [];
+    let isCorrectAnswers = [];
 
-  }
+    function displayQuestion() {
+        document.getElementById("questionNumber").textContent = currentQuestionIndex + 1;
+        document.getElementById("quizImage").src = quizList[currentQuestionIndex].question;
+    }
 
-  function checkAnswer() {
+    function checkAnswer() {
 
-    let answer = document.getElementById("answerInput").value;
+        let answer = document.getElementById("answerInput").value;
 
-    let correctFullName = quizList[currentQuestionIndex].fullName;
-    let correctFirstName = quizList[currentQuestionIndex].firstName;
-    let correctMiddleName = quizList[currentQuestionIndex].middleName;
-    let correctLastName = quizList[currentQuestionIndex].lastName;
+        let correctFullName = quizList[currentQuestionIndex].fullName;
+        let correctFirstName = quizList[currentQuestionIndex].firstName;
+        let correctMiddleName = quizList[currentQuestionIndex].middleName;
+        let correctLastName = quizList[currentQuestionIndex].lastName;
 
 
-
-    //정답 확인
-    let isCorrect = false;
-    if(
+        //정답 확인
+        let isCorrect = false;
+        if (
             answer === correctFullName ||
             answer === correctFirstName ||
             answer === correctLastName ||
             answer === correctMiddleName ||
             answer === correctFirstName + ' ' + correctMiddleName ||
-            answer === correctMiddleName  + ' ' + correctLastName
-    )
-    {
-      isCorrect = true;
+            answer === correctMiddleName + ' ' + correctLastName
+        ) {
+            isCorrect = true;
+        }
+
+        // 사용자 답변, 정답, 정답 여부 배열에 추가
+        userAnswers[currentQuestionIndex] = answer;
+        correctAnswers[currentQuestionIndex] = correctFullName;
+        isCorrectAnswers[currentQuestionIndex] = isCorrect;
+
+        let resultMsg1;
+        let resultMsg2;
+        if (isCorrect) {
+            countCorrectAnswer++;
+            resultMsg1 = "정답";
+        } else {
+            resultMsg1 = "오답"
+            resultMsg2 = correctFullName;
+
+        }
+
+        document.getElementById("result1").textContent = resultMsg1;
+        document.getElementById("result2").textContent = resultMsg2;
+        document.getElementById("submitBtn").style.display = "none"; // submit 버튼 숨기기
+        document.getElementById("nextBtn").style.display = "block"; // next 버튼 보이기
     }
 
-    let resultMsg1;
-    let resultMsg2;
-    if (isCorrect) {
-      countCorrectAnswer++;
-      resultMsg1 = "정답";
-    } else {
-      resultMsg1 ="오답"
-      resultMsg2 = correctFullName;
+    function nextQuestion() {
+        //다음문제로 넘어가기
+        if (currentQuestionIndex < quizList.length - 1) {
+            currentQuestionIndex++;
 
+            displayQuestion();
+            document.getElementById("result1").textContent = ""; // 결과 메시지 초기화
+            document.getElementById("result2").textContent = ""; // 결과 메시지 초기화
+            document.getElementById("answerInput").value = ""; // 입력 필드 초기화
+
+            document.getElementById("submitBtn").style.display = "block"; // submit 버튼 보이기
+            document.getElementById("nextBtn").style.display = "none"; // next 버튼 숨기기
+
+        } else {
+            sendQuizResult();
+        }
     }
 
-    document.getElementById("result1").textContent = resultMsg1;
-    document.getElementById("result2").textContent = resultMsg2;
-    document.getElementById("submitBtn").style.display = "none"; // submit 버튼 숨기기
-    document.getElementById("nextBtn").style.display = "block"; // next 버튼 보이기
-  }
-
-  function nextQuestion() {
-    //다음문제로 넘어가기
-    if (currentQuestionIndex < quizList.length - 1) {
-      currentQuestionIndex++;
-
-      displayQuestion();
-      document.getElementById("result1").textContent = ""; // 결과 메시지 초기화
-      document.getElementById("result2").textContent = ""; // 결과 메시지 초기화
-      document.getElementById("answerInput").value = ""; // 입력 필드 초기화
-
-      document.getElementById("submitBtn").style.display = "block"; // submit 버튼 보이기
-      document.getElementById("nextBtn").style.display = "none"; // next 버튼 숨기기
-
-    } else {
-      sendQuizResult(countCorrectAnswer, teamId);
-    }
-  }
-
-  function sendQuizResult(correctAnswers, teamId) {
-    fetch('/quizzes/result', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        correctAnswers: correctAnswers,
-        teamId: teamId
-
-      }),
-    })
-
+    function sendQuizResult() {
+        fetch('/quizzes/result', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                teamId: teamId,
+                quizId: quizId,
+                countCorrectAnswers: countCorrectAnswer,
+                userAnswers: userAnswers,
+                correctAnswers: correctAnswers,
+                isCorrectAnswers: isCorrectAnswers,
+                categoryId: categoryId
+            }),
+        })
             .then(response => {
-              if (!response.ok) {
-                throw new Error('Network response was not ok');
-              }
-              return response.text(); // 결과 페이지 HTML 내용을 받음
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text(); // 결과 페이지 HTML 내용을 받음
             })
             .then(html => {
-              // 결과 페이지를 현재 창에 렌더링
-              document.body.innerHTML = html;
+                // 결과 페이지를 현재 창에 렌더링
+                document.body.innerHTML = html;
             })
             .catch(error => {
-              console.error('There was a problem with the fetch operation:', error);
+                console.error('There was a problem with the fetch operation:', error);
             });
+    }
 
+    function showQueryPopup() {
+        document.getElementById("queryPopup").style.display = "block";
+    }
 
-  }
+    function hideQueryPopup() {
+        document.getElementById("queryPopup").style.display = "none";
+    }
 
-  function showQueryPopup() {
-    document.getElementById("queryPopup").style.display = "block";
-  }
-
-  function hideQueryPopup() {
-    document.getElementById("queryPopup").style.display = "none";
-  }
-
-  function sendQuery() {
-    const queryMessage = document.getElementById("queryMessage").value;
-    fetch('/admin/send-query', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        teamId: teamId,
-        playerName: quizList[currentQuestionIndex].fullName,
-        message: queryMessage
-      }),
-    })
+    function sendQuery() {
+        const queryMessage = document.getElementById("queryMessage").value;
+        fetch('/admin/send-query', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                teamId: teamId,
+                playerName: quizList[currentQuestionIndex].fullName,
+                message: queryMessage
+            }),
+        })
             .then(response => {
-              if (!response.ok) {
-                throw new Error('Network response was not ok');
-              }
-              alert('메시지가 성공적으로 전송되었습니다.');
-              hideQueryPopup();
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                alert('메시지가 성공적으로 전송되었습니다.');
+                hideQueryPopup();
             })
             .catch(error => {
-              console.error('There was a problem with the fetch operation:', error);
-              alert('메시지 전송에 실패했습니다.');
+                console.error('There was a problem with the fetch operation:', error);
+                alert('메시지 전송에 실패했습니다.');
             });
-  }
+    }
 
-
-
-
-  // 페이지 로드 시 첫번째 문제 표시
-  window.onload = function () {
-    displayQuestion();
-  };
-
-
-
-
-
-
-  /*]]>*/
+    // 페이지 로드 시 첫번째 문제 표시
+    window.onload = function () {
+        displayQuestion();
+    };
+    /*]]>*/
 </script>
-<!--<script src="/static/submit.js"></script>-->
 </body>
 </html>
