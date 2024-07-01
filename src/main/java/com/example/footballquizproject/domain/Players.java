@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -14,9 +16,6 @@ public class Players {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
-    String imageUrl;
 
     @Column(nullable = false)
     String fullName;
@@ -36,6 +35,9 @@ public class Players {
     @Column
     String season;
 
+    @Column(nullable = false)
+    String imageUrl;
+
     @ManyToOne
     @JoinColumn(name = "team_id")
     private TeamCategory team;
@@ -50,5 +52,18 @@ public class Players {
         this.season = season;
         this.backNumber = backNumber;
         this.team = team;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Players players = (Players) o;
+        return Objects.equals(fullName, players.fullName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fullName);
     }
 }
