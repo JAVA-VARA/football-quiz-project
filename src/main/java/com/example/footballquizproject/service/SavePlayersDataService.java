@@ -7,154 +7,91 @@ import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 
 @Service
 @RequiredArgsConstructor
 public class SavePlayersDataService {
+    private final Set<String> processedPlayers = new HashSet<>();
 
-    List<Players> savePlayersData(
+    public List<Players> savePlayersData(
             List<WebElement> elementsPlayersImage,
             List<WebElement> elementsPlayersName,
-            TeamCategory team, String season,
-            List<WebElement> elementsPlayerBackNumber){
+            List<WebElement> elementsSeason,
+            List<WebElement> elementsPlayerBackNumber,
+            TeamCategory team) {
 
         List<Players> playersInfoList = new ArrayList<>();
+        for (int i = 0; i < elementsPlayersImage.size(); i++) {
 
+            try {
+                String playerImage = elementsPlayersImage.get(i).getAttribute("src");
+                String playerFullName = elementsPlayersName.get(i).getText();
+                String backNumberString = elementsPlayerBackNumber.get(i).getText();
+                String season = elementsSeason.get(0).getText();
 
-        for(int i=0; i < elementsPlayersImage.size(); i++){
-            //사진
-            String playerImage = elementsPlayersImage.get(i).getAttribute("src");
-            if(playerImage.equals("https://t1.daumcdn.net/media/img-section/sports13/player/noimage/square_m.png")){
-                continue;
+                Players player = createPlayer(playerImage, playerFullName, backNumberString, team, season);
+                playersInfoList.add(player);
+
+            } catch (IllegalArgumentException e) {
+                System.err.println("Error crawling players data: " + e.getMessage());
             }
-
-            //이름
-            String playerFullName = elementsPlayersName.get(i).getText();
-            String[] fullName = playerFullName.split(" ");
-            String firstName = "none";
-            String middleName = "none";
-            String lastName ="none";
-
-            if(fullName.length == 1){
-                continue;
-            }
-
-            if(fullName.length == 2){
-                firstName = fullName[0];
-                lastName = fullName[1];
-            }
-
-            if(fullName.length == 3){
-                firstName = fullName[0];
-                middleName = fullName[1];
-                lastName = fullName[2];
-            }
-
-
-            //등번호
-            String backNumberString = elementsPlayerBackNumber.get(i).getText();
-            String backNumber = backNumberString.replace("No.", "");
-
-            Players player = Players.builder()
-                    .imageUrl(playerImage)
-                    .fullName(playerFullName)
-                    .firstName(firstName)
-                    .middleName(middleName)
-                    .lastName(lastName)
-                    .team(team)
-                    .season(season)
-                    .backNumber(backNumber)
-                    .build();
-
-            playersInfoList.add(player);
         }
         return playersInfoList;
     }
+
+    private Players createPlayer(String playerImage, String playerFullName, String backNumberString,
+                                 TeamCategory team, String season) {
+
+        //daum sport에서 없는 선수 이미지 url 표시 형식
+        if (playerImage.equals("https://t1.daumcdn.net/media/img-section/sports13/player/noimage/square_m.png")) {
+            throw new IllegalArgumentException(team.getTeamName() + "의" + playerFullName + "선수는 사진이 없습니다.");
+        }
+
+        //누락된 정보 검사
+        if (playerImage.isEmpty() || playerFullName.isEmpty() || team == null || season.isEmpty() || backNumberString.isEmpty()) {
+            throw new IllegalArgumentException("누락된 선수 정보가 있습니다 : playerImage=" + playerImage
+                    + ", playerFullName=" + playerFullName + ", team=" + team + ", season=" + season + ", backNumber=" + backNumberString);
+        }
+
+        //중복된 이미지 검사
+        if (processedPlayers.contains(playerImage)) {
+            throw new IllegalArgumentException("중복된 이미지입니다. " + playerFullName + ":" + playerImage);
+        }
+        processedPlayers.add(playerImage);
+
+        //이름
+        String[] fullName = playerFullName.split(" ");
+        String firstName = "none";
+        String middleName = "none";
+        String lastName = "none";
+
+        if (fullName.length == 2) {
+            firstName = fullName[0];
+            lastName = fullName[1];
+        }
+
+        if (fullName.length == 3) {
+            firstName = fullName[0];
+            middleName = fullName[1];
+            lastName = fullName[2];
+        }
+
+        //등번호
+        String backNumber = backNumberString.replace("No.", "");
+
+        return Players.builder()
+                .imageUrl(playerImage)
+                .fullName(playerFullName)
+                .firstName(firstName)
+                .middleName(middleName)
+                .lastName(lastName)
+                .team(team)
+                .season(season)
+                .backNumber(backNumber)
+                .build();
+    }
 }
-
-
-
-
-//    private TeamCategory getTeamInfo(List<WebElement> elements){
-//        String teamName = elements.get(0).getText();
-//        return teamCategoryRepository.findTeamCategoriesByTeamName(teamName);
-//    }
-
-
-
-
-//    private void save(List<WebElement> elementsPlayersImage, List<WebElement> elementsPlayersName, TeamCategory team, List<Players> playersInfoList) {
-//        for(int i =0; i < elementsPlayersImage.size(); i++){
-//
-//            String playerImage = elementsPlayersImage.get(i).getAttribute("src");
-//            String playerName = elementsPlayersName.get(i).getText();
-//
-//            Players player = Players.builder()
-//                    .imageUrl(playerImage) // 이미지 링크
-//                    .name(playerName)// 이름
-//                    .team(team)
-//                    .build();
-//
-//            playersInfoList.add(player);
-//
-//        }
-//    }
-//    public List<Players> saveLaligaPlayersData(List<WebElement> elementsPlayersImage, List<WebElement> elementsPlayersName, List<WebElement> elementsTeamName) {
-//
-//        TeamCategory team = getTeamInfo(elementsTeamName);
-//
-//        List<Players> playersInfoList = new ArrayList<>();
-//
-//        for(int i =0; i < elementsPlayersImage.size(); i++){
-//
-//            String playerImage = elementsPlayersImage.get(i).getAttribute("src");
-//            String playerName = elementsPlayersName.get(i).getAttribute("title");
-//
-//            Players player = Players.builder()
-//                    .imageUrl(playerImage) // 이미지 링크
-//                    .name(playerName)// 이름
-//                    .team(team)
-//                    .build();
-//
-//            playersInfoList.add(player);
-//
-//        }
-//        return playersInfoList;
-//
-//    }
-
-
-
-
-//    public List<Players> saveLaligaPlayersData(List<WebElement> elementsGoalKeepersImage, List<WebElement> elementsGoalKeepersName, List<WebElement> elementsPlayersImage, List<WebElement> elementsPlayersName, List<WebElement> elementsTeamName) {
-//        TeamCategory team = getTeamInfo(elementsTeamName);
-//        List<Players> playersInfoList = new ArrayList<>();
-//
-//        save(elementsPlayersImage, elementsPlayersName, team, playersInfoList);
-//        save(elementsGoalKeepersImage, elementsGoalKeepersName, team, playersInfoList);
-//
-//        return playersInfoList;
-//    }
-
-
-
-//        for (WebElement element : elementsPlayers) {
-//
-//            String playerImage = element.getAttribute("src");
-//
-//            if(playerImage.contains("Photo-Missing")){
-//                continue;
-//            }
-//
-//
-//            String playerName = element.getAttribute("alt");
-//
-//            Players player = Players.builder()
-//                    .imageUrl(playerImage) // 이미지 링크
-//                    .name(playerName)// 이름
-//                    .team(team)
-//                    .build();
-//
-//            playersInfoList.add(player);
-//        }
