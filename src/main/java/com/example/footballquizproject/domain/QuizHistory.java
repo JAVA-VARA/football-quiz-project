@@ -34,6 +34,4 @@ public class QuizHistory {
         this.correctAnswer = correctAnswer;
         this.teamId = teamId;
     }
-
-
 }
