@@ -15,8 +15,12 @@ public class QueryService {
     @Transactional
     public void save(QueryDto queryDto) {
 
-        QuizQuery quizQuery = new QuizQuery(queryDto.getTeamId(), queryDto.getPlayerName(), queryDto.getMessage());
-        quizQueryRepository.save(quizQuery);
-
+        try {
+            QuizQuery quizQuery = new QuizQuery(queryDto.getTeamId(), queryDto.getPlayerName(), queryDto.getMessage());
+            quizQueryRepository.save(quizQuery);
+        }
+        catch (IllegalArgumentException e) {
+            System.err.println("누락된 쿼리가 발생");
+        }
     }
 }

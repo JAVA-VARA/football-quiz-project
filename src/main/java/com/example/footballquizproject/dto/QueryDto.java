@@ -1,12 +1,21 @@
 package com.example.footballquizproject.dto;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@AllArgsConstructor
+@NoArgsConstructor
 public class QueryDto {
     private Long teamId;
     private String playerName;
     private String message;
+
+    @Builder
+    public QueryDto (Long teamId, String playerName, String message){
+        this.teamId = teamId;
+        this.playerName = playerName;
+        this.message = message;
+
+    }
 }
