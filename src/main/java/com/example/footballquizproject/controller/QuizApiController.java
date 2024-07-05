@@ -1,10 +1,7 @@
 package com.example.footballquizproject.controller;
 
 import com.example.footballquizproject.dto.*;
-import com.example.footballquizproject.service.LeagueCategoryService;
-import com.example.footballquizproject.service.QuizService;
-import com.example.footballquizproject.service.ResultService;
-import com.example.footballquizproject.service.TeamCategoryService;
+import com.example.footballquizproject.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +23,8 @@ public class QuizApiController {
     private final LeagueCategoryService leagueCategoryService;
     private final TeamCategoryService teamCategoryService;
     private final QuizService quizService;
-    private final ResultService resultService;
+    private final QuizHistoryService quizHistoryService;
+    private final RankingService rankingService;
 
     @GetMapping("/game-category/1")
     public String getLeagueList(Model model) {
@@ -63,13 +61,14 @@ public class QuizApiController {
     }
 
     @PostMapping("/result")
-    public String showResult(@RequestBody QuizResultRequestDto request, Model model) {
+    public String saveResult(@RequestBody QuizResultRequestDto request, Model model) {
+        quizHistoryService.saveResult(request);
 
-        resultService.saveResult(request);
-
-        RankingDto rankingDto =  resultService.showResult(request);
+        RankingDto rankingDto =  rankingService.getRanking(request);
         model.addAttribute("result", rankingDto);
 
         return "result";
     }
+
+
 }
