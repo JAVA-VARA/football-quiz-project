@@ -1,15 +1,11 @@
 package com.example.footballquizproject.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Setter
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 public class QuizResultRequestDto {
     private Long quizId;
@@ -20,4 +16,18 @@ public class QuizResultRequestDto {
     private List<String> userAnswers;
     private List<String> correctAnswers;
     private List<Boolean> isCorrectAnswers;
+
+    @Builder
+    public QuizResultRequestDto(
+            Long quizId, Long categoryId, Long teamId, int countCorrectAnswers,
+            List<String> userAnswers, List<String> correctAnswers, List<Boolean> isCorrectAnswers){
+
+        this.quizId = quizId;
+        this.categoryId = categoryId;
+        this.teamId = teamId;
+        this.countCorrectAnswers = countCorrectAnswers;
+        this.userAnswers = userAnswers;
+        this.correctAnswers = correctAnswers;
+        this.isCorrectAnswers = isCorrectAnswers;
+    }
 }
